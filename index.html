@@ -123,6 +123,13 @@
   .io-item { font-size: 11.5px; color: #BBBBBB; display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
   .io-item::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: #555; flex-shrink: 0; margin-top: 5px; }
 
+  .player-list { display: flex; flex-direction: column; gap: 10px; }
+  .player-card { display: flex; align-items: flex-start; gap: 10px; }
+  .player-icon { width: 30px; height: 30px; border-radius: 8px; background: #222; border: 1px solid #333; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .player-info { flex: 1; padding-top: 1px; }
+  .player-name { font-size: 11.5px; font-weight: 600; color: #DDDDDD; line-height: 1.3; }
+  .player-note { font-size: 10.5px; color: #777; line-height: 1.4; margin-top: 1px; }
+
   .callout { padding: 10px 12px; border-radius: 6px; font-size: 11px; font-style: italic; color: #AAA; line-height: 1.55; margin-top: 12px; }
   .callout.pre { background: rgba(255,255,255,0.04); border-left: 2px solid #444; }
   .callout.commercial { background: rgba(200,146,42,0.1); border-left: 2px solid #C8922A; }
@@ -258,7 +265,20 @@
           </div>
           <div class="panel-col io-col">
             <div class="io-title">Key players</div>
-            <div class="io-items"><div class="io-item">Partners</div><div class="io-item">C Level</div><div class="io-item">Senior Members of Solutions Team</div></div>
+            <div class="player-list">
+            <div class="player-card">
+              <div class="player-icon" style="color:#888"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/></svg></div>
+              <div class="player-info"><div class="player-name">Partners</div><div class="player-note">Open doors and make warm introductions</div></div>
+            </div>
+            <div class="player-card">
+              <div class="player-icon" style="color:#AAAAAA"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/><path d="M11 2l1 1-1 1" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.6"/></svg></div>
+              <div class="player-info"><div class="player-name">C Level</div><div class="player-note">Lend authority and signal seriousness</div></div>
+            </div>
+            <div class="player-card">
+              <div class="player-icon" style="color:#515FFC"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="9" width="12" height="5" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.9"/><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M6 9V7M10 9V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/></svg></div>
+              <div class="player-info"><div class="player-name">Senior Solutions Team</div><div class="player-note">Shape the narrative and qualify the fit</div></div>
+            </div>
+            </div><div class="io-item">C Level</div><div class="io-item">Senior Members of Solutions Team</div></div>
           </div>
           <div class="panel-col gate-col">
             <div class="io-title">Key inputs</div>
@@ -304,7 +324,20 @@
           </div>
           <div class="panel-col io-col">
             <div class="io-title">Key players</div>
-            <div class="io-items"><div class="io-item">Champion — present and engaged throughout</div><div class="io-item">Subject matter expert on their side (data, systems)</div><div class="io-item">Conquer Solutions lead running the session</div></div>
+            <div class="player-list">
+            <div class="player-card">
+              <div class="player-icon" style="color:#888"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/><path d="M6 3.5l1.5 1.5L10 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7" fill="none"/></svg></div>
+              <div class="player-info"><div class="player-name">Champion (client)</div><div class="player-note">Present, engaged, bridging to internal stakeholders</div></div>
+            </div>
+            <div class="player-card">
+              <div class="player-icon" style="color:#AAAAAA"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/><circle cx="8" cy="5" r="1.2" fill="#0D0D0D" opacity="0.5"/></svg></div>
+              <div class="player-info"><div class="player-name">Subject Matter Expert</div><div class="player-note">Provides data, systems and process context</div></div>
+            </div>
+            <div class="player-card">
+              <div class="player-icon" style="color:#515FFC"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="9" width="12" height="5" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.9"/><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M6 9V7M10 9V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/></svg></div>
+              <div class="player-info"><div class="player-name">Conquer Solutions Lead</div><div class="player-note">Runs the session and captures direction</div></div>
+            </div>
+            </div><div class="io-item">Subject matter expert on their side (data, systems)</div><div class="io-item">Conquer Solutions lead running the session</div></div>
           </div>
           <div class="panel-col gate-col">
             <div class="io-title">Key inputs</div>
@@ -350,7 +383,20 @@
           </div>
           <div class="panel-col io-col">
             <div class="io-title">Key players</div>
-            <div class="io-items"><div class="io-item">Actual end users — people who would directly benefit from the system</div><div class="io-item">Champion at the client side</div><div class="io-item">Conquer Solutions Team</div></div>
+            <div class="player-list">
+            <div class="player-card">
+              <div class="player-icon" style="color:#888"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="5.5" cy="5" r="2.5" fill="currentColor" opacity="0.7"/><circle cx="10.5" cy="5" r="2.5" fill="currentColor" opacity="0.9"/><path d="M1 14c0-2.761 2.015-4.5 4.5-4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7"/><path d="M6 14c0-2.761 2.015-4.5 4.5-4.5s4.5 1.739 4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/></svg></div>
+              <div class="player-info"><div class="player-name">End Users</div><div class="player-note">People who'd directly benefit — give live feedback</div></div>
+            </div>
+            <div class="player-card">
+              <div class="player-icon" style="color:#AAAAAA"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/><path d="M6 3.5l1.5 1.5L10 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7" fill="none"/></svg></div>
+              <div class="player-info"><div class="player-name">Champion (client)</div><div class="player-note">Facilitates access and champions internally</div></div>
+            </div>
+            <div class="player-card">
+              <div class="player-icon" style="color:#515FFC"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="9" width="12" height="5" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.9"/><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M6 9V7M10 9V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/></svg></div>
+              <div class="player-info"><div class="player-name">Conquer Solutions Team</div><div class="player-note">Builds and presents the clickable POC</div></div>
+            </div>
+            </div><div class="io-item">Champion at the client side</div><div class="io-item">Conquer Solutions Team</div></div>
           </div>
           <div class="panel-col gate-col">
             <div class="io-title">Key inputs</div>
@@ -396,7 +442,20 @@
           </div>
           <div class="panel-col io-col">
             <div class="io-title">Key players</div>
-            <div class="io-items"><div class="io-item">Decision-maker — must be present for the demo</div><div class="io-item">Champion — facilitating and providing context</div><div class="io-item">Conquer Solutions Team running the session</div></div>
+            <div class="player-list">
+            <div class="player-card">
+              <div class="player-icon" style="color:#888"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/><path d="M8 8v2M7 10h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/></svg></div>
+              <div class="player-info"><div class="player-name">Decision-Maker</div><div class="player-note">Must be present — this is built for them</div></div>
+            </div>
+            <div class="player-card">
+              <div class="player-icon" style="color:#AAAAAA"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/><path d="M6 3.5l1.5 1.5L10 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7" fill="none"/></svg></div>
+              <div class="player-info"><div class="player-name">Champion (client)</div><div class="player-note">Brings decision-maker in and provides context</div></div>
+            </div>
+            <div class="player-card">
+              <div class="player-icon" style="color:#515FFC"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="9" width="12" height="5" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.9"/><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M6 9V7M10 9V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/></svg></div>
+              <div class="player-info"><div class="player-name">Conquer Solutions Team</div><div class="player-note">Runs the demo and captures finer requirements</div></div>
+            </div>
+            </div><div class="io-item">Champion — facilitating and providing context</div><div class="io-item">Conquer Solutions Team running the session</div></div>
           </div>
           <div class="panel-col gate-col">
             <div class="io-title">Key inputs</div>
@@ -442,7 +501,20 @@
           </div>
           <div class="panel-col io-col">
             <div class="io-title">Key players</div>
-            <div class="io-items"><div class="io-item">Solutions</div><div class="io-item">Commercial</div><div class="io-item">Decision-maker at client</div></div>
+            <div class="player-list">
+            <div class="player-card">
+              <div class="player-icon" style="color:#515FFC"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="9" width="12" height="5" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="none" opacity="0.9"/><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M6 9V7M10 9V7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/></svg></div>
+              <div class="player-info"><div class="player-name">Solutions</div><div class="player-note">Authors the technical and delivery sections</div></div>
+            </div>
+            <div class="player-card">
+              <div class="player-icon" style="color:#888"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/><path d="M7 4h1.5a.5.5 0 010 1H8a.5.5 0 000 1h.5a.5.5 0 010 1H7" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.7"/><path d="M8 3v1M8 7v1" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.7"/></svg></div>
+              <div class="player-info"><div class="player-name">Commercial</div><div class="player-note">Owns pricing, commercials and proposal structure</div></div>
+            </div>
+            <div class="player-card">
+              <div class="player-icon" style="color:#AAAAAA"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/><path d="M8 8v2M7 10h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/></svg></div>
+              <div class="player-info"><div class="player-name">Decision-Maker (client)</div><div class="player-note">Receives and acknowledges the proposal</div></div>
+            </div>
+            </div><div class="io-item">Commercial</div><div class="io-item">Decision-maker at client</div></div>
           </div>
           <div class="panel-col gate-col">
             <div class="io-title">Key inputs</div>
@@ -486,7 +558,20 @@
           </div>
           <div class="panel-col io-col">
             <div class="io-title">Key players</div>
-            <div class="io-items"><div class="io-item">Procurement lead at client</div><div class="io-item">Legal / security contacts on their side</div><div class="io-item">Champion — unblocking and escalating</div></div>
+            <div class="player-list">
+            <div class="player-card">
+              <div class="player-icon" style="color:#888"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/><path d="M6 9l1.5 1.5L11 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7" fill="none"/></svg></div>
+              <div class="player-info"><div class="player-name">Procurement Lead (client)</div><div class="player-note">Manages the vendor onboarding process</div></div>
+            </div>
+            <div class="player-card">
+              <div class="player-icon" style="color:#AAAAAA"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/><path d="M6 10h4M7 12h2" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.6"/></svg></div>
+              <div class="player-info"><div class="player-name">Legal / Security (client)</div><div class="player-note">Clears compliance, security and supplier checks</div></div>
+            </div>
+            <div class="player-card">
+              <div class="player-icon" style="color:#515FFC"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/><path d="M6 3.5l1.5 1.5L10 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7" fill="none"/></svg></div>
+              <div class="player-info"><div class="player-name">Champion (client)</div><div class="player-note">Unblocks, escalates and keeps momentum</div></div>
+            </div>
+            </div><div class="io-item">Legal / security contacts on their side</div><div class="io-item">Champion — unblocking and escalating</div></div>
           </div>
           <div class="panel-col gate-col">
             <div class="io-title">Key inputs</div>
@@ -530,7 +615,20 @@
           </div>
           <div class="panel-col io-col">
             <div class="io-title">Key players</div>
-            <div class="io-items"><div class="io-item">Signatory — authorised to sign</div><div class="io-item">Champion — ensuring smooth handover</div><div class="io-item">Conquer delivery lead taking ownership</div></div>
+            <div class="player-list">
+            <div class="player-card">
+              <div class="player-icon" style="color:#888"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/><path d="M6 11c1-1 2-1.5 4-1" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.7" fill="none"/></svg></div>
+              <div class="player-info"><div class="player-name">Signatory (client)</div><div class="player-note">Authorised to sign — the final gatekeeper</div></div>
+            </div>
+            <div class="player-card">
+              <div class="player-icon" style="color:#AAAAAA"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/><path d="M6 3.5l1.5 1.5L10 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7" fill="none"/></svg></div>
+              <div class="player-info"><div class="player-name">Champion (client)</div><div class="player-note">Ensures smooth handover to delivery</div></div>
+            </div>
+            <div class="player-card">
+              <div class="player-icon" style="color:#515FFC"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" fill="currentColor" opacity="0.9"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.9"/><path d="M5 11l2 2 4-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.7" fill="none"/></svg></div>
+              <div class="player-info"><div class="player-name">Conquer Delivery Lead</div><div class="player-note">Takes ownership as the account moves to build</div></div>
+            </div>
+            </div><div class="io-item">Champion — ensuring smooth handover</div><div class="io-item">Conquer delivery lead taking ownership</div></div>
           </div>
           <div class="panel-col gate-col">
             <div class="io-title">Key inputs</div>
