@@ -136,6 +136,21 @@
   .callout.commercial { background: rgba(200,146,42,0.1); border-left: 2px solid #C8922A; }
   .callout.booking { background: rgba(81,95,252,0.08); border-left: 2px solid #515FFC; color: #8892FF; margin-top: 8px; }
 
+  /* Retro bar */
+  .retro-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #2A2A2A; border-top: 1px solid #2A2A2A; }
+  .retro-col { padding: 16px 20px; }
+  .retro-col.working { background: rgba(51,160,90,0.06); }
+  .retro-col.change  { background: rgba(212,150,12,0.06); }
+  .retro-col.motion  { background: rgba(81,95,252,0.06); }
+  .retro-label { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .retro-col.working .retro-label { color: #33A05A; }
+  .retro-col.change  .retro-label { color: #D4960C; }
+  .retro-col.motion  .retro-label { color: #515FFC; }
+  .retro-icon { font-style: normal; }
+  .retro-items { display: flex; flex-direction: column; gap: 6px; }
+  .retro-item { font-size: 11px; color: #AAAAAA; line-height: 1.5; padding-left: 10px; position: relative; }
+  .retro-item::before { content: ''; position: absolute; left: 0; top: 7px; width: 3px; height: 3px; border-radius: 50%; background: #444; }
+
   .legend { margin-top: 28px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding-top: 18px; border-top: 1px solid #2A2A2A; }
   .leg-sep { width: 1px; height: 12px; background: #3A3A3A; }
   .leg-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: #888; }
@@ -288,6 +303,104 @@
             <div class="io-items"><div class="io-item">AI Solutions Services Catalogue (per vertical)</div><div class="io-item">Intro Document Templates</div><div class="io-item">Conquer Authoritative Content (e.g. board presentations)</div><div class="io-item">Social Media Content</div><div class="io-item">Partner / Advisor led content</div></div>
             <div class="io-title" style="margin-top:18px">Key outputs</div>
             <div class="io-items"><div class="io-item">Transcript</div><div class="io-item">Account Intelligence Document</div></div>
+          </div>
+        </div>
+        <div class="retro-bar">
+          <div class="retro-col working">
+            <div class="retro-label"><span class="retro-icon">&#10003;</span> What's working</div>
+            <div class="retro-items"><div class="retro-item">Strong volume of intros coming in</div><div class="retro-item">Referral and partner network generating leads</div><div class="retro-item">Clear output defined — door opened to Discovery</div></div>
+          </div>
+          <div class="retro-col change">
+            <div class="retro-label"><span class="retro-icon">&#8594;</span> What needs to change</div>
+            <div class="retro-items"><div class="retro-item">Handover to Discovery needs to be smoother</div><div class="retro-item">Not always clear who owns the follow-up</div><div class="retro-item">AI readiness signal not always captured consistently</div></div>
+          </div>
+          <div class="retro-col motion">
+            <div class="retro-label"><span class="retro-icon">&#9654;</span> Already in motion</div>
+            <div class="retro-items"><div class="retro-item">Account Intelligence Document template in use</div><div class="retro-item">Partner briefing materials in development</div><div class="retro-item">Services Catalogue being built per vertical</div></div>
+          </div>
+        </div>
+        <div class="retro-bar">
+          <div class="retro-col working">
+            <div class="retro-label"><span class="retro-icon">&#10003;</span> What's working</div>
+            <div class="retro-items"><div class="retro-item">Good volume of Discovery sessions running</div><div class="retro-item">Whiteboard site template (Bolaji) working well</div><div class="retro-item">Clear output: POC Direction defined</div></div>
+          </div>
+          <div class="retro-col change">
+            <div class="retro-label"><span class="retro-icon">&#8594;</span> What needs to change</div>
+            <div class="retro-items"><div class="retro-item">Team unprepared when sessions land at short notice</div><div class="retro-item">Schedule not in our control — volume backs us up</div><div class="retro-item">Follow-ups rushed or missed under pressure</div></div>
+          </div>
+          <div class="retro-col motion">
+            <div class="retro-label"><span class="retro-icon">&#9654;</span> Already in motion</div>
+            <div class="retro-items"><div class="retro-item">Team calendar live — book via calendar.app.google ↗</div><div class="retro-item">NDA process being standardised post-session</div><div class="retro-item">POC Direction doc template in place</div></div>
+          </div>
+        </div>
+        <div class="retro-bar">
+          <div class="retro-col working">
+            <div class="retro-label"><span class="retro-icon">&#10003;</span> What's working</div>
+            <div class="retro-items"><div class="retro-item">POC quality is consistently strong</div><div class="retro-item">Bolaji's SOP proven — non-technical staff can run it</div><div class="retro-item">Clickable format resonates well with clients</div></div>
+          </div>
+          <div class="retro-col change">
+            <div class="retro-label"><span class="retro-icon">&#8594;</span> What needs to change</div>
+            <div class="retro-items"><div class="retro-item">Follow-up after POC delivery too inconsistent</div><div class="retro-item">Schedule pressure means refinement loops get skipped</div><div class="retro-item">Feedback capture not always structured</div></div>
+          </div>
+          <div class="retro-col motion">
+            <div class="retro-label"><span class="retro-icon">&#9654;</span> Already in motion</div>
+            <div class="retro-items"><div class="retro-item">SOP now documented and shared across team</div><div class="retro-item">Team calendar booking in place for sessions</div><div class="retro-item">Example POCs available as reference (Figma sites)</div></div>
+          </div>
+        </div>
+        <div class="retro-bar">
+          <div class="retro-col working">
+            <div class="retro-label"><span class="retro-icon">&#10003;</span> What's working</div>
+            <div class="retro-items"><div class="retro-item">POC demo format landing well with decision-makers</div><div class="retro-item">Finer requirements emerging clearly from live sessions</div><div class="retro-item">Path to proposal feels more structured once we're here</div></div>
+          </div>
+          <div class="retro-col change">
+            <div class="retro-label"><span class="retro-icon">&#8594;</span> What needs to change</div>
+            <div class="retro-items"><div class="retro-item">Too much prep and doc effort before the session</div><div class="retro-item">Decision-maker not always present — sessions lose value</div><div class="retro-item">Takes too long to convert to a proposal after</div></div>
+          </div>
+          <div class="retro-col motion">
+            <div class="retro-label"><span class="retro-icon">&#9654;</span> Already in motion</div>
+            <div class="retro-items"><div class="retro-item">Confirmed POC + requirements doc as standard output</div><div class="retro-item">Team calendar ensures right people are booked in</div><div class="retro-item">Pilot delivery plan template being developed</div></div>
+          </div>
+        </div>
+        <div class="retro-bar">
+          <div class="retro-col working">
+            <div class="retro-label"><span class="retro-icon">&#10003;</span> What's working</div>
+            <div class="retro-items"><div class="retro-item">When proposals go out they are commercially credible</div><div class="retro-item">Solutions and Commercial alignment improving</div><div class="retro-item">Client acknowledgement rate is reasonable once sent</div></div>
+          </div>
+          <div class="retro-col change">
+            <div class="retro-label"><span class="retro-icon">&#8594;</span> What needs to change</div>
+            <div class="retro-items"><div class="retro-item">Capacity severely constrained by pre-commercial load</div><div class="retro-item">No SOP for proposals yet — inconsistency across deals</div><div class="retro-item">Too much busy work eating into proposal time</div></div>
+          </div>
+          <div class="retro-col motion">
+            <div class="retro-label"><span class="retro-icon">&#9654;</span> Already in motion</div>
+            <div class="retro-items"><div class="retro-item">Proposal SOP in progress</div><div class="retro-item">Exploring ways to free up capacity from earlier stages</div><div class="retro-item">Commercial and Solutions working closer together</div></div>
+          </div>
+        </div>
+        <div class="retro-bar">
+          <div class="retro-col working">
+            <div class="retro-label"><span class="retro-icon">&#10003;</span> What's working</div>
+            <div class="retro-items"><div class="retro-item">Champion escalation has unblocked deals before</div><div class="retro-item">Conquer compliance docs generally ready</div><div class="retro-item">Client relationships strong enough to navigate delays</div></div>
+          </div>
+          <div class="retro-col change">
+            <div class="retro-label"><span class="retro-icon">&#8594;</span> What needs to change</div>
+            <div class="retro-items"><div class="retro-item">Vendor onboarding process not defined or standard</div><div class="retro-item">No clear owner on our side during procurement</div><div class="retro-item">Timelines unpredictable — deals stall silently</div></div>
+          </div>
+          <div class="retro-col motion">
+            <div class="retro-label"><span class="retro-icon">&#9654;</span> Already in motion</div>
+            <div class="retro-items"><div class="retro-item">Procurement checklist being drafted</div><div class="retro-item">Champion engagement model being formalised</div><div class="retro-item">Exploring earlier procurement touchpoints in Stage 5</div></div>
+          </div>
+        </div>
+        <div class="retro-bar">
+          <div class="retro-col working">
+            <div class="retro-label"><span class="retro-icon">&#10003;</span> What's working</div>
+            <div class="retro-items"><div class="retro-item">When we get here the output is decisive — signed contract</div><div class="retro-item">Definition is clear and self-explanatory</div><div class="retro-item">Client relationships are strong at this point</div></div>
+          </div>
+          <div class="retro-col change">
+            <div class="retro-label"><span class="retro-icon">&#8594;</span> What needs to change</div>
+            <div class="retro-items"><div class="retro-item">Too few accounts reaching this stage currently</div><div class="retro-item">Steps from signed contract to delivery kick-off undefined</div><div class="retro-item">Handover to delivery team not yet standardised</div></div>
+          </div>
+          <div class="retro-col motion">
+            <div class="retro-label"><span class="retro-icon">&#9654;</span> Already in motion</div>
+            <div class="retro-items"><div class="retro-item">Delivery kick-off checklist in development</div><div class="retro-item">Tracking conversion rates from Stage 5 onwards</div><div class="retro-item">North star metric: volume and speed to contract</div></div>
           </div>
         </div>
       </div>
