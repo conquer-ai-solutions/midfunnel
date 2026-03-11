@@ -69,25 +69,13 @@
   .c-red { background: #E0392B; } .c-amber { background: #D4960C; } .c-green { background: #33A05A; } .c-off { background: #303030; }
   .commercial-card .c-off { background: #2C2310; }
 
-  .dot-tooltip {
-    display: none;
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 0;
-    background: #232323;
-    border: 1px solid #383838;
-    border-radius: 8px;
-    padding: 10px 12px;
-    width: 168px;
-    z-index: 100;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-  }
+  .dot-tooltip { display: none; position: absolute; bottom: calc(100% + 8px); left: 0; background: #232323; border: 1px solid #383838; border-radius: 8px; padding: 10px 12px; width: 168px; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
   .dot-group:hover .dot-tooltip { display: block; }
   .tt-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
   .tt-row:last-child { margin-bottom: 0; }
   .tt-dots { display: flex; gap: 3px; }
   .tt-dot { width: 6px; height: 6px; border-radius: 50%; background: #303030; }
-  .tt-label { font-size: 10px; color: #999; font-family: 'Geist', sans-serif; }
+  .tt-label { font-size: 10px; color: #999; }
   .tt-divider { border: none; border-top: 1px solid #2E2E2E; margin: 8px 0; }
   .tt-legend { display: flex; gap: 10px; margin-top: 2px; }
   .tt-leg { display: flex; align-items: center; gap: 4px; font-size: 9px; color: #666; }
@@ -108,7 +96,18 @@
   .panel-wrap { grid-column: 1 / -1; display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.42s cubic-bezier(0.4,0,0.2,1); }
   .panel-wrap.open { grid-template-rows: 1fr; }
   .panel-inner { overflow: hidden; }
-  .panel { border: 1px solid #2A2A2A; border-radius: 12px; overflow: hidden; display: grid; grid-template-columns: 180px 1fr 200px 200px; margin-top: 10px; }
+  .panel-shell { border: 1px solid #2A2A2A; border-radius: 12px; overflow: hidden; margin-top: 10px; }
+
+  /* RAG BAR */
+  .rag-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #2A2A2A; border-bottom: 1px solid #2A2A2A; }
+  .rag-pill { display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px; }
+  .rag-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .rag-pill-content { flex: 1; }
+  .rag-metric { font-size: 10px; font-weight: 700; color: #CCCCCC; letter-spacing: 0.03em; margin-bottom: 3px; }
+  .rag-status { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-left: 5px; }
+  .rag-reason { font-size: 11px; color: #888; line-height: 1.45; }
+
+  .panel { display: grid; grid-template-columns: 180px 1fr 200px 200px; }
 
   .panel-accent { padding: 28px 22px; display: flex; flex-direction: column; position: relative; overflow: hidden; }
   .panel-accent::after { content: attr(data-n); position: absolute; bottom: -16px; right: -8px; font-size: 88px; font-weight: 800; color: rgba(255,255,255,0.12); line-height: 1; pointer-events: none; letter-spacing: -0.04em; }
@@ -175,8 +174,7 @@
       <div class="card-body">
         <div class="stage-num">01</div>
         <div class="stage-name">Intro</div>
-        <div class="dot-group"><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div></div>
-      <div class="dot-tooltip">
+        <div class="dot-group"><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-tooltip">
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Performance</div></div>
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Definition</div></div>
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Effort / Output</div></div>
@@ -188,6 +186,7 @@
           </div>
         </div>
         </div>
+      </div>
       <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
     </div>
     <div class="stage s2" onclick="toggle(2)">
@@ -195,8 +194,7 @@
       <div class="card-body">
         <div class="stage-num">02</div>
         <div class="stage-name">Discovery</div>
-        <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
-      <div class="dot-tooltip">
+        <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-tooltip">
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Performance</div></div>
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Definition</div></div>
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Effort / Output</div></div>
@@ -208,6 +206,7 @@
           </div>
         </div>
         </div>
+      </div>
       <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
     </div>
     <div class="stage s3" onclick="toggle(3)">
@@ -215,8 +214,7 @@
       <div class="card-body">
         <div class="stage-num">03</div>
         <div class="stage-name">POC Initial</div>
-        <div class="dot-group"><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div></div>
-      <div class="dot-tooltip">
+        <div class="dot-group"><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-tooltip">
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Performance</div></div>
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Definition</div></div>
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Effort / Output</div></div>
@@ -228,6 +226,7 @@
           </div>
         </div>
         </div>
+      </div>
       <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
     </div>
     <div class="stage s4" onclick="toggle(4)">
@@ -235,8 +234,7 @@
       <div class="card-body">
         <div class="stage-num">04</div>
         <div class="stage-name">POC Alignment</div>
-        <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
-      <div class="dot-tooltip">
+        <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-tooltip">
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Performance</div></div>
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Definition</div></div>
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Effort / Output</div></div>
@@ -248,6 +246,7 @@
           </div>
         </div>
         </div>
+      </div>
       <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
     </div>
     <div class="stage s5 commercial-card" onclick="toggle(5)">
@@ -255,8 +254,7 @@
       <div class="card-body">
         <div class="stage-num">05</div>
         <div class="stage-name">Proposal</div>
-        <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
-      <div class="dot-tooltip">
+        <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-tooltip">
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Performance</div></div>
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Definition</div></div>
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Effort / Output</div></div>
@@ -268,6 +266,7 @@
           </div>
         </div>
         </div>
+      </div>
       <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
     </div>
     <div class="stage s6 commercial-card" onclick="toggle(6)">
@@ -275,8 +274,7 @@
       <div class="card-body">
         <div class="stage-num">06</div>
         <div class="stage-name">Procurement</div>
-        <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
-      <div class="dot-tooltip">
+        <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-tooltip">
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Performance</div></div>
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Definition</div></div>
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Effort / Output</div></div>
@@ -288,6 +286,7 @@
           </div>
         </div>
         </div>
+      </div>
       <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
     </div>
     <div class="stage s7 commercial-card" onclick="toggle(7)">
@@ -295,8 +294,7 @@
       <div class="card-body">
         <div class="stage-num">07</div>
         <div class="stage-name">Contract Signed</div>
-        <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div></div>
-      <div class="dot-tooltip">
+        <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-tooltip">
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Performance</div></div>
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Definition</div></div>
           <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Effort / Output</div></div>
@@ -308,168 +306,326 @@
           </div>
         </div>
         </div>
+      </div>
       <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
     </div>
     
-    <div class="panel-wrap" id="pw-1"><div class="panel-inner"><div class="panel">
-      <div class="panel-accent" style="background:#CC2200" data-n="01">
-        <div class="pa-eyebrow">Stage 01</div>
-        <div class="pa-name">Intro</div>
-        <div class="pa-output"><div class="pa-output-label">Output</div><div class="pa-output-value">&#10003; Scoped POC brief + champion name</div></div>
+    <div class="panel-wrap" id="pw-1"><div class="panel-inner">
+      <div class="panel-shell">
+        <div class="rag-bar"><div class="rag-pill" style="background:rgba(212,150,12,0.15);border:1px solid rgba(212,150,12,0.4)">
+          <div class="rag-dot" style="background:#D4960C"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Performance <span class="rag-status" style="color:#D4960C">At risk</span></div>
+            <div class="rag-reason">Qualifying is inconsistent — no standard approach</div>
+          </div>
+        </div><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
+          <div class="rag-dot" style="background:#E0392B"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Definition <span class="rag-status" style="color:#E0392B">Broken</span></div>
+            <div class="rag-reason">No shared definition of what a good intro looks like</div>
+          </div>
+        </div><div class="rag-pill" style="background:rgba(51,160,90,0.15);border:1px solid rgba(51,160,90,0.4)">
+          <div class="rag-dot" style="background:#33A05A"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Effort/Output <span class="rag-status" style="color:#33A05A">Good</span></div>
+            <div class="rag-reason">Low effort entry point, good volume</div>
+          </div>
+        </div></div>
+        <div class="panel">
+          <div class="panel-accent" style="background:#CC2200" data-n="01">
+            <div class="pa-eyebrow">Stage 01</div>
+            <div class="pa-name">Intro</div>
+            <div class="pa-output"><div class="pa-output-label">Output</div><div class="pa-output-value">&#10003; Scoped POC brief + champion name</div></div>
+          </div>
+          <div class="panel-col">
+            <div class="col-label">What success looks like</div>
+            <div class="success-text">A qualified account with a named champion and a clear problem we can build a POC for. We know enough to scope something.</div>
+            <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Real problem confirmed — not exploratory curiosity</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Champion identified with name and role</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Enough detail to scope a POC</div></div></div>
+            <div class="callout pre">If we can't answer all three, the account stays at Stage 1.</div>
+          </div>
+          <div class="panel-col io-col">
+            <div class="io-title">Key players</div>
+            <div class="io-items"><div class="io-item">Champion — the person who will push this internally when we're not in the room</div><div class="io-item">Senior contact with visibility of the real problem</div><div class="io-item">Conquer AE managing qualification</div></div>
+          </div>
+          <div class="panel-col gate-col">
+            <div class="io-title">Key inputs</div>
+            <div class="io-items"><div class="io-item">Referral, outbound lead, or warm intro</div><div class="io-item">Named contact with relevant seniority</div><div class="io-item">Basic context on their business / problem area</div></div>
+          </div>
+        </div>
       </div>
-      <div class="panel-col">
-        <div class="col-label">What success looks like</div>
-        <div class="success-text">A qualified account with a named champion and a clear problem we can build a POC for. We know enough to scope something.</div>
-        <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Real problem confirmed — not exploratory curiosity</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Champion identified with name and role</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Enough detail to scope a POC</div></div></div>
-        <div class="callout pre">If we can't answer all three, the account stays at Stage 1.</div>
+    </div></div>
+    <div class="panel-wrap" id="pw-2"><div class="panel-inner">
+      <div class="panel-shell">
+        <div class="rag-bar"><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
+          <div class="rag-dot" style="background:#E0392B"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Performance <span class="rag-status" style="color:#E0392B">Broken</span></div>
+            <div class="rag-reason">Sessions often run long, prep is skipped, output is weak</div>
+          </div>
+        </div><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
+          <div class="rag-dot" style="background:#E0392B"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Definition <span class="rag-status" style="color:#E0392B">Broken</span></div>
+            <div class="rag-reason">No standard session structure or expected output format</div>
+          </div>
+        </div><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
+          <div class="rag-dot" style="background:#E0392B"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Effort/Output <span class="rag-status" style="color:#E0392B">Broken</span></div>
+            <div class="rag-reason">High effort per session, POC briefs often incomplete</div>
+          </div>
+        </div></div>
+        <div class="panel">
+          <div class="panel-accent" style="background:#E05010" data-n="02">
+            <div class="pa-eyebrow">Stage 02</div>
+            <div class="pa-name">Discovery</div>
+            <div class="pa-output"><div class="pa-output-label">Output</div><div class="pa-output-value">&#10003; POC scope doc + agreed 2-week build</div></div>
+          </div>
+          <div class="panel-col">
+            <div class="col-label">What success looks like</div>
+            <div class="success-text">A fully scoped POC brief with agreed definition of success. Client has committed to a 2-week build at Conquer's risk.</div>
+            <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">POC is fully scoped and definable</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Client wants to see it built</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">No blockers to a 2-week delivery</div></div></div>
+            <div class="callout pre">Hard cap: max 2 of these sessions per person per day.</div>
+          </div>
+          <div class="panel-col io-col">
+            <div class="io-title">Key players</div>
+            <div class="io-items"><div class="io-item">Champion — present and engaged throughout</div><div class="io-item">Subject matter expert on their side (data, systems)</div><div class="io-item">Conquer Solutions lead running the session</div></div>
+          </div>
+          <div class="panel-col gate-col">
+            <div class="io-title">Key inputs</div>
+            <div class="io-items"><div class="io-item">Qualified account from Stage 1</div><div class="io-item">Champion available for 60–90 mins</div><div class="io-item">Access to relevant data / system context</div></div>
+          </div>
+        </div>
       </div>
-      <div class="panel-col io-col">
-        <div class="io-title">Key players</div>
-        <div class="io-items"><div class="io-item">Champion — the person who will push this internally when we're not in the room</div><div class="io-item">Senior contact with visibility of the real problem</div><div class="io-item">Conquer AE managing qualification</div></div>
+    </div></div>
+    <div class="panel-wrap" id="pw-3"><div class="panel-inner">
+      <div class="panel-shell">
+        <div class="rag-bar"><div class="rag-pill" style="background:rgba(212,150,12,0.15);border:1px solid rgba(212,150,12,0.4)">
+          <div class="rag-dot" style="background:#D4960C"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Performance <span class="rag-status" style="color:#D4960C">At risk</span></div>
+            <div class="rag-reason">POC quality is solid but client engagement is variable</div>
+          </div>
+        </div><div class="rag-pill" style="background:rgba(212,150,12,0.15);border:1px solid rgba(212,150,12,0.4)">
+          <div class="rag-dot" style="background:#D4960C"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Definition <span class="rag-status" style="color:#D4960C">At risk</span></div>
+            <div class="rag-reason">Build scope agreed but success criteria not always locked</div>
+          </div>
+        </div><div class="rag-pill" style="background:rgba(212,150,12,0.15);border:1px solid rgba(212,150,12,0.4)">
+          <div class="rag-dot" style="background:#D4960C"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Effort/Output <span class="rag-status" style="color:#D4960C">At risk</span></div>
+            <div class="rag-reason">Build effort is high — ROI depends on engagement after</div>
+          </div>
+        </div></div>
+        <div class="panel">
+          <div class="panel-accent" style="background:#D4880C" data-n="03">
+            <div class="pa-eyebrow">Stage 03</div>
+            <div class="pa-name">POC Initial</div>
+            <div class="pa-output"><div class="pa-output-label">Output</div><div class="pa-output-value">&#10003; Live POC + client engagement signal</div></div>
+          </div>
+          <div class="panel-col">
+            <div class="col-label">What success looks like</div>
+            <div class="success-text">A working POC delivered within 2 weeks. Client has engaged with it meaningfully, shared it internally, and shown commercial intent.</div>
+            <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Client has engaged with the POC meaningfully</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Commercial intent is clear</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Budget holder is now in the conversation</div></div></div>
+            <div class="callout pre">Already working where applied. Needs to become standard, not occasional.</div>
+          </div>
+          <div class="panel-col io-col">
+            <div class="io-title">Key players</div>
+            <div class="io-items"><div class="io-item">Budget holder — now in the conversation</div><div class="io-item">Champion — driving internal sharing</div><div class="io-item">Conquer build team delivering the POC</div></div>
+          </div>
+          <div class="panel-col gate-col">
+            <div class="io-title">Key inputs</div>
+            <div class="io-items"><div class="io-item">Agreed POC scope from Stage 2</div><div class="io-item">Access to relevant data or sandbox environment</div><div class="io-item">Named contact for feedback loop</div></div>
+          </div>
+        </div>
       </div>
-      <div class="panel-col gate-col">
-        <div class="io-title">Key inputs</div>
-        <div class="io-items"><div class="io-item">Referral, outbound lead, or warm intro</div><div class="io-item">Named contact with relevant seniority</div><div class="io-item">Basic context on their business / problem area</div></div>
+    </div></div>
+    <div class="panel-wrap" id="pw-4"><div class="panel-inner">
+      <div class="panel-shell">
+        <div class="rag-bar"><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
+          <div class="rag-dot" style="background:#E0392B"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Performance <span class="rag-status" style="color:#E0392B">Broken</span></div>
+            <div class="rag-reason">Alignment docs often stall — no champion ownership</div>
+          </div>
+        </div><div class="rag-pill" style="background:rgba(212,150,12,0.15);border:1px solid rgba(212,150,12,0.4)">
+          <div class="rag-dot" style="background:#D4960C"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Definition <span class="rag-status" style="color:#D4960C">At risk</span></div>
+            <div class="rag-reason">Template exists but sign-off process is undefined</div>
+          </div>
+        </div><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
+          <div class="rag-dot" style="background:#E0392B"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Effort/Output <span class="rag-status" style="color:#E0392B">Broken</span></div>
+            <div class="rag-reason">Effort is high and conversion to proposal is poor</div>
+          </div>
+        </div></div>
+        <div class="panel">
+          <div class="panel-accent" style="background:#C8B020" data-n="04">
+            <div class="pa-eyebrow">Stage 04</div>
+            <div class="pa-name">POC Alignment</div>
+            <div class="pa-output"><div class="pa-output-label">Output</div><div class="pa-output-value">&#10003; Alignment doc agreed by client</div></div>
+          </div>
+          <div class="panel-col">
+            <div class="col-label">What success looks like</div>
+            <div class="success-text">A written alignment doc reviewed and agreed by the decision-maker. Shared language established before any commercial ask.</div>
+            <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Alignment doc reviewed and agreed</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Decision-maker has seen and confirmed</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">No material disagreement on scope</div></div></div>
+            <div class="callout pre">Only accounts that passed Stage 3 reach this stage.</div>
+          </div>
+          <div class="panel-col io-col">
+            <div class="io-title">Key players</div>
+            <div class="io-items"><div class="io-item">Decision-maker — must review and confirm</div><div class="io-item">Champion — circulating internally</div><div class="io-item">Conquer AE authoring and managing sign-off</div></div>
+          </div>
+          <div class="panel-col gate-col">
+            <div class="io-title">Key inputs</div>
+            <div class="io-items"><div class="io-item">Engaged client who has seen the POC</div><div class="io-item">Champion able to circulate internally</div><div class="io-item">Clear definition of the solution scope</div></div>
+          </div>
+        </div>
       </div>
-    </div></div></div>
-    <div class="panel-wrap" id="pw-2"><div class="panel-inner"><div class="panel">
-      <div class="panel-accent" style="background:#E05010" data-n="02">
-        <div class="pa-eyebrow">Stage 02</div>
-        <div class="pa-name">Discovery</div>
-        <div class="pa-output"><div class="pa-output-label">Output</div><div class="pa-output-value">&#10003; POC scope doc + agreed 2-week build</div></div>
+    </div></div>
+    <div class="panel-wrap" id="pw-5"><div class="panel-inner">
+      <div class="panel-shell">
+        <div class="rag-bar"><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
+          <div class="rag-dot" style="background:#E0392B"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Performance <span class="rag-status" style="color:#E0392B">Broken</span></div>
+            <div class="rag-reason">Proposals are sent but rarely actively managed after</div>
+          </div>
+        </div><div class="rag-pill" style="background:rgba(212,150,12,0.15);border:1px solid rgba(212,150,12,0.4)">
+          <div class="rag-dot" style="background:#D4960C"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Definition <span class="rag-status" style="color:#D4960C">At risk</span></div>
+            <div class="rag-reason">Proposal structure is inconsistent across deals</div>
+          </div>
+        </div><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
+          <div class="rag-dot" style="background:#E0392B"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Effort/Output <span class="rag-status" style="color:#E0392B">Broken</span></div>
+            <div class="rag-reason">High effort to produce, low conversion without follow-up</div>
+          </div>
+        </div></div>
+        <div class="panel">
+          <div class="panel-accent" style="background:#88B830" data-n="05">
+            <div class="pa-eyebrow">Stage 05</div>
+            <div class="pa-name">Proposal</div>
+            <div class="pa-output"><div class="pa-output-label">Output</div><div class="pa-output-value">&#10003; Proposal submitted + under review</div></div>
+          </div>
+          <div class="panel-col">
+            <div class="col-label">What success looks like</div>
+            <div class="success-text">A commercial proposal in active review with the decision-maker. Scope, price, and timeline agreed in principle.</div>
+            <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Proposal received by decision-maker</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">No blocking objections on scope or price</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Procurement process initiated</div></div></div>
+            <div class="callout commercial">Don't move to procurement until the proposal is actively in review — not just sent.</div>
+          </div>
+          <div class="panel-col io-col">
+            <div class="io-title">Key players</div>
+            <div class="io-items"><div class="io-item">Decision-maker — receiving the proposal</div><div class="io-item">Budget holder — confirming commercial parameters</div><div class="io-item">Conquer AE owning the commercial conversation</div></div>
+          </div>
+          <div class="panel-col gate-col">
+            <div class="io-title">Key inputs</div>
+            <div class="io-items"><div class="io-item">Agreed alignment doc from Stage 4</div><div class="io-item">Budget holder confirmed and engaged</div><div class="io-item">Commercial parameters understood</div></div>
+          </div>
+        </div>
       </div>
-      <div class="panel-col">
-        <div class="col-label">What success looks like</div>
-        <div class="success-text">A fully scoped POC brief with agreed definition of success. Client has committed to a 2-week build at Conquer's risk.</div>
-        <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">POC is fully scoped and definable</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Client wants to see it built</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">No blockers to a 2-week delivery</div></div></div>
-        <div class="callout pre">Hard cap: max 2 of these sessions per person per day.</div>
+    </div></div>
+    <div class="panel-wrap" id="pw-6"><div class="panel-inner">
+      <div class="panel-shell">
+        <div class="rag-bar"><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
+          <div class="rag-dot" style="background:#E0392B"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Performance <span class="rag-status" style="color:#E0392B">Broken</span></div>
+            <div class="rag-reason">Deals frequently stall here with no clear owner</div>
+          </div>
+        </div><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
+          <div class="rag-dot" style="background:#E0392B"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Definition <span class="rag-status" style="color:#E0392B">Broken</span></div>
+            <div class="rag-reason">No standard process for managing procurement on our side</div>
+          </div>
+        </div><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
+          <div class="rag-dot" style="background:#E0392B"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Effort/Output <span class="rag-status" style="color:#E0392B">Broken</span></div>
+            <div class="rag-reason">Long timelines, high admin burden, unpredictable outcomes</div>
+          </div>
+        </div></div>
+        <div class="panel">
+          <div class="panel-accent" style="background:#40A840" data-n="06">
+            <div class="pa-eyebrow">Stage 06</div>
+            <div class="pa-name">Procurement</div>
+            <div class="pa-output"><div class="pa-output-label">Output</div><div class="pa-output-value">&#10003; Procurement approved · contract ready</div></div>
+          </div>
+          <div class="panel-col">
+            <div class="col-label">What success looks like</div>
+            <div class="success-text">Procurement cleared. All legal, security, and supplier checks complete. Contract drafted and ready for signature.</div>
+            <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Procurement process completed</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Legal and security sign-off received</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Contract ready for signature</div></div></div>
+            <div class="callout commercial">This stage is often where deals stall. Champion ownership is critical.</div>
+          </div>
+          <div class="panel-col io-col">
+            <div class="io-title">Key players</div>
+            <div class="io-items"><div class="io-item">Procurement lead — managing internal process</div><div class="io-item">Legal / security contacts on their side</div><div class="io-item">Champion — unblocking and escalating where needed</div></div>
+          </div>
+          <div class="panel-col gate-col">
+            <div class="io-title">Key inputs</div>
+            <div class="io-items"><div class="io-item">Accepted proposal from Stage 5</div><div class="io-item">Procurement or legal contact identified</div><div class="io-item">Conquer compliance documentation ready</div></div>
+          </div>
+        </div>
       </div>
-      <div class="panel-col io-col">
-        <div class="io-title">Key players</div>
-        <div class="io-items"><div class="io-item">Champion — present and engaged throughout</div><div class="io-item">Subject matter expert on their side (data, systems)</div><div class="io-item">Conquer Solutions lead running the session</div></div>
+    </div></div>
+    <div class="panel-wrap" id="pw-7"><div class="panel-inner">
+      <div class="panel-shell">
+        <div class="rag-bar"><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
+          <div class="rag-dot" style="background:#E0392B"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Performance <span class="rag-status" style="color:#E0392B">Broken</span></div>
+            <div class="rag-reason">Too few accounts reaching this stage currently</div>
+          </div>
+        </div><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
+          <div class="rag-dot" style="background:#E0392B"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Definition <span class="rag-status" style="color:#E0392B">Broken</span></div>
+            <div class="rag-reason">Handover to delivery is not yet standardised</div>
+          </div>
+        </div><div class="rag-pill" style="background:rgba(51,160,90,0.15);border:1px solid rgba(51,160,90,0.4)">
+          <div class="rag-dot" style="background:#33A05A"></div>
+          <div class="rag-pill-content">
+            <div class="rag-metric">Effort/Output <span class="rag-status" style="color:#33A05A">Good</span></div>
+            <div class="rag-reason">When we get here, the output is clear and decisive</div>
+          </div>
+        </div></div>
+        <div class="panel">
+          <div class="panel-accent" style="background:#1A9A50" data-n="07">
+            <div class="pa-eyebrow">Stage 07</div>
+            <div class="pa-name">Contract Signed</div>
+            <div class="pa-output"><div class="pa-output-label">Output</div><div class="pa-output-value">&#10003; Signed contract · delivery begins</div></div>
+          </div>
+          <div class="panel-col">
+            <div class="col-label">What success looks like</div>
+            <div class="success-text">Signed contract from both parties. Kick-off meeting booked. Account transitions from pipeline to active delivery.</div>
+            <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Contract signed by both parties</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Commercial terms agreed</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Delivery kick-off scheduled</div></div></div>
+            <div class="callout commercial">North star metric: how many accounts are we getting here, and how fast.</div>
+          </div>
+          <div class="panel-col io-col">
+            <div class="io-title">Key players</div>
+            <div class="io-items"><div class="io-item">Signatory — authorised to sign</div><div class="io-item">Champion — ensuring smooth handover</div><div class="io-item">Conquer delivery lead taking ownership</div></div>
+          </div>
+          <div class="panel-col gate-col">
+            <div class="io-title">Key inputs</div>
+            <div class="io-items"><div class="io-item">Procurement-cleared contract from Stage 6</div><div class="io-item">Signatory confirmed and available</div><div class="io-item">Delivery team briefed and ready</div></div>
+          </div>
+        </div>
       </div>
-      <div class="panel-col gate-col">
-        <div class="io-title">Key inputs</div>
-        <div class="io-items"><div class="io-item">Qualified account from Stage 1</div><div class="io-item">Champion available for 60–90 mins</div><div class="io-item">Access to relevant data / system context</div></div>
-      </div>
-    </div></div></div>
-    <div class="panel-wrap" id="pw-3"><div class="panel-inner"><div class="panel">
-      <div class="panel-accent" style="background:#D4880C" data-n="03">
-        <div class="pa-eyebrow">Stage 03</div>
-        <div class="pa-name">POC Initial</div>
-        <div class="pa-output"><div class="pa-output-label">Output</div><div class="pa-output-value">&#10003; Live POC + client engagement signal</div></div>
-      </div>
-      <div class="panel-col">
-        <div class="col-label">What success looks like</div>
-        <div class="success-text">A working POC delivered within 2 weeks. Client has engaged with it meaningfully, shared it internally, and shown commercial intent.</div>
-        <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Client has engaged with the POC meaningfully</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Commercial intent is clear</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Budget holder is now in the conversation</div></div></div>
-        <div class="callout pre">Already working where applied. Needs to become standard, not occasional.</div>
-      </div>
-      <div class="panel-col io-col">
-        <div class="io-title">Key players</div>
-        <div class="io-items"><div class="io-item">Budget holder — now in the conversation</div><div class="io-item">Champion — driving internal sharing</div><div class="io-item">Conquer build team delivering the POC</div></div>
-      </div>
-      <div class="panel-col gate-col">
-        <div class="io-title">Key inputs</div>
-        <div class="io-items"><div class="io-item">Agreed POC scope from Stage 2</div><div class="io-item">Access to relevant data or sandbox environment</div><div class="io-item">Named contact for feedback loop</div></div>
-      </div>
-    </div></div></div>
-    <div class="panel-wrap" id="pw-4"><div class="panel-inner"><div class="panel">
-      <div class="panel-accent" style="background:#C8B020" data-n="04">
-        <div class="pa-eyebrow">Stage 04</div>
-        <div class="pa-name">POC Alignment</div>
-        <div class="pa-output"><div class="pa-output-label">Output</div><div class="pa-output-value">&#10003; Alignment doc agreed by client</div></div>
-      </div>
-      <div class="panel-col">
-        <div class="col-label">What success looks like</div>
-        <div class="success-text">A written alignment doc reviewed and agreed by the decision-maker. Shared language established before any commercial ask.</div>
-        <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Alignment doc reviewed and agreed</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Decision-maker has seen and confirmed</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">No material disagreement on scope</div></div></div>
-        <div class="callout pre">Only accounts that passed Stage 3 reach this stage.</div>
-      </div>
-      <div class="panel-col io-col">
-        <div class="io-title">Key players</div>
-        <div class="io-items"><div class="io-item">Decision-maker — must review and confirm</div><div class="io-item">Champion — circulating internally</div><div class="io-item">Conquer AE authoring and managing sign-off</div></div>
-      </div>
-      <div class="panel-col gate-col">
-        <div class="io-title">Key inputs</div>
-        <div class="io-items"><div class="io-item">Engaged client who has seen the POC</div><div class="io-item">Champion able to circulate internally</div><div class="io-item">Clear definition of the solution scope</div></div>
-      </div>
-    </div></div></div>
-    <div class="panel-wrap" id="pw-5"><div class="panel-inner"><div class="panel">
-      <div class="panel-accent" style="background:#88B830" data-n="05">
-        <div class="pa-eyebrow">Stage 05</div>
-        <div class="pa-name">Proposal</div>
-        <div class="pa-output"><div class="pa-output-label">Output</div><div class="pa-output-value">&#10003; Proposal submitted + under review</div></div>
-      </div>
-      <div class="panel-col">
-        <div class="col-label">What success looks like</div>
-        <div class="success-text">A commercial proposal in active review with the decision-maker. Scope, price, and timeline agreed in principle.</div>
-        <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Proposal received by decision-maker</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">No blocking objections on scope or price</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Procurement process initiated</div></div></div>
-        <div class="callout commercial">Don't move to procurement until the proposal is actively in review — not just sent.</div>
-      </div>
-      <div class="panel-col io-col">
-        <div class="io-title">Key players</div>
-        <div class="io-items"><div class="io-item">Decision-maker — receiving the proposal</div><div class="io-item">Budget holder — confirming commercial parameters</div><div class="io-item">Conquer AE owning the commercial conversation</div></div>
-      </div>
-      <div class="panel-col gate-col">
-        <div class="io-title">Key inputs</div>
-        <div class="io-items"><div class="io-item">Agreed alignment doc from Stage 4</div><div class="io-item">Budget holder confirmed and engaged</div><div class="io-item">Commercial parameters understood</div></div>
-      </div>
-    </div></div></div>
-    <div class="panel-wrap" id="pw-6"><div class="panel-inner"><div class="panel">
-      <div class="panel-accent" style="background:#40A840" data-n="06">
-        <div class="pa-eyebrow">Stage 06</div>
-        <div class="pa-name">Procurement</div>
-        <div class="pa-output"><div class="pa-output-label">Output</div><div class="pa-output-value">&#10003; Procurement approved · contract ready</div></div>
-      </div>
-      <div class="panel-col">
-        <div class="col-label">What success looks like</div>
-        <div class="success-text">Procurement cleared. All legal, security, and supplier checks complete. Contract drafted and ready for signature.</div>
-        <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Procurement process completed</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Legal and security sign-off received</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Contract ready for signature</div></div></div>
-        <div class="callout commercial">This stage is often where deals stall. Champion ownership is critical.</div>
-      </div>
-      <div class="panel-col io-col">
-        <div class="io-title">Key players</div>
-        <div class="io-items"><div class="io-item">Procurement lead — managing internal process</div><div class="io-item">Legal / security contacts on their side</div><div class="io-item">Champion — unblocking and escalating where needed</div></div>
-      </div>
-      <div class="panel-col gate-col">
-        <div class="io-title">Key inputs</div>
-        <div class="io-items"><div class="io-item">Accepted proposal from Stage 5</div><div class="io-item">Procurement or legal contact identified</div><div class="io-item">Conquer compliance documentation ready</div></div>
-      </div>
-    </div></div></div>
-    <div class="panel-wrap" id="pw-7"><div class="panel-inner"><div class="panel">
-      <div class="panel-accent" style="background:#1A9A50" data-n="07">
-        <div class="pa-eyebrow">Stage 07</div>
-        <div class="pa-name">Contract Signed</div>
-        <div class="pa-output"><div class="pa-output-label">Output</div><div class="pa-output-value">&#10003; Signed contract · delivery begins</div></div>
-      </div>
-      <div class="panel-col">
-        <div class="col-label">What success looks like</div>
-        <div class="success-text">Signed contract from both parties. Kick-off meeting booked. Account transitions from pipeline to active delivery.</div>
-        <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Contract signed by both parties</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Commercial terms agreed</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Delivery kick-off scheduled</div></div></div>
-        <div class="callout commercial">North star metric: how many accounts are we getting here, and how fast.</div>
-      </div>
-      <div class="panel-col io-col">
-        <div class="io-title">Key players</div>
-        <div class="io-items"><div class="io-item">Signatory — authorised to sign</div><div class="io-item">Champion — ensuring smooth handover</div><div class="io-item">Conquer delivery lead taking ownership</div></div>
-      </div>
-      <div class="panel-col gate-col">
-        <div class="io-title">Key inputs</div>
-        <div class="io-items"><div class="io-item">Procurement-cleared contract from Stage 6</div><div class="io-item">Signatory confirmed and available</div><div class="io-item">Delivery team briefed and ready</div></div>
-      </div>
-    </div></div></div>
+    </div></div>
   </div>
 
   <div class="legend">
-    <div class="leg-item"><div class="leg-dot" style="background:#2D7D46"></div> Good</div>
-    <div class="leg-item"><div class="leg-dot" style="background:#B8860B"></div> Needs work</div>
-    <div class="leg-item"><div class="leg-dot" style="background:#C0392B"></div> Broken</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#33A05A"></div> Good</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#D4960C"></div> At risk</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#E0392B"></div> Broken</div>
     <div class="leg-sep"></div>
-    <div class="leg-item">&#8599; Performance</div>
-    <div class="leg-item">&#8801; Definition</div>
-    <div class="leg-item">&#9889; Effort/Output</div>
-    <div class="leg-sep"></div>
-    <div class="leg-item"><div class="leg-dot" style="background:#C8922A"></div> Commercial territory</div>
+    <div class="leg-item">Performance &middot; Definition &middot; Effort/Output</div>
     <div class="leg-date">Conquer AI &middot; March 2026</div>
   </div>
 </div>
