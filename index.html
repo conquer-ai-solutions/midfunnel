@@ -63,11 +63,35 @@
   .commercial-card .stage-num { color: #2E2510; }
   .stage-name { font-size: 13px; font-weight: 700; color: #FFFFFF; line-height: 1.25; letter-spacing: -0.01em; }
 
-  .dot-group { display: flex; flex-direction: column; gap: 4px; margin-top: auto; padding-top: 12px; }
+  .dot-group { display: flex; flex-direction: column; gap: 4px; margin-top: auto; padding-top: 12px; position: relative; cursor: default; }
   .dot-row { display: flex; align-items: center; gap: 5px; }
   .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .c-red { background: #E0392B; } .c-amber { background: #D4960C; } .c-green { background: #33A05A; } .c-off { background: #303030; }
   .commercial-card .c-off { background: #2C2310; }
+
+  .dot-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    background: #232323;
+    border: 1px solid #383838;
+    border-radius: 8px;
+    padding: 10px 12px;
+    width: 168px;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .dot-group:hover .dot-tooltip { display: block; }
+  .tt-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .tt-row:last-child { margin-bottom: 0; }
+  .tt-dots { display: flex; gap: 3px; }
+  .tt-dot { width: 6px; height: 6px; border-radius: 50%; background: #303030; }
+  .tt-label { font-size: 10px; color: #999; font-family: 'Geist', sans-serif; }
+  .tt-divider { border: none; border-top: 1px solid #2E2E2E; margin: 8px 0; }
+  .tt-legend { display: flex; gap: 10px; margin-top: 2px; }
+  .tt-leg { display: flex; align-items: center; gap: 4px; font-size: 9px; color: #666; }
+  .tt-leg-dot { width: 6px; height: 6px; border-radius: 50%; }
 
   .stage-hint { padding: 8px 16px; border-top: 1px solid #2A2A2A; font-size: 10px; color: #555; display: flex; align-items: center; gap: 4px; transition: color 0.2s; }
   .stage:hover .stage-hint { color: #888; }
@@ -152,7 +176,18 @@
         <div class="stage-num">01</div>
         <div class="stage-name">Intro</div>
         <div class="dot-group"><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div></div>
-      </div>
+      <div class="dot-tooltip">
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Performance</div></div>
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Definition</div></div>
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Effort / Output</div></div>
+          <hr class="tt-divider">
+          <div class="tt-legend">
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#33A05A"></div>Good</div>
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#D4960C"></div>At risk</div>
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#E0392B"></div>Broken</div>
+          </div>
+        </div>
+        </div>
       <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
     </div>
     <div class="stage s2" onclick="toggle(2)">
@@ -161,7 +196,18 @@
         <div class="stage-num">02</div>
         <div class="stage-name">Discovery</div>
         <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
-      </div>
+      <div class="dot-tooltip">
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Performance</div></div>
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Definition</div></div>
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Effort / Output</div></div>
+          <hr class="tt-divider">
+          <div class="tt-legend">
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#33A05A"></div>Good</div>
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#D4960C"></div>At risk</div>
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#E0392B"></div>Broken</div>
+          </div>
+        </div>
+        </div>
       <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
     </div>
     <div class="stage s3" onclick="toggle(3)">
@@ -170,7 +216,18 @@
         <div class="stage-num">03</div>
         <div class="stage-name">POC Initial</div>
         <div class="dot-group"><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div></div>
-      </div>
+      <div class="dot-tooltip">
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Performance</div></div>
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Definition</div></div>
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Effort / Output</div></div>
+          <hr class="tt-divider">
+          <div class="tt-legend">
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#33A05A"></div>Good</div>
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#D4960C"></div>At risk</div>
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#E0392B"></div>Broken</div>
+          </div>
+        </div>
+        </div>
       <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
     </div>
     <div class="stage s4" onclick="toggle(4)">
@@ -179,7 +236,18 @@
         <div class="stage-num">04</div>
         <div class="stage-name">POC Alignment</div>
         <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
-      </div>
+      <div class="dot-tooltip">
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Performance</div></div>
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Definition</div></div>
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Effort / Output</div></div>
+          <hr class="tt-divider">
+          <div class="tt-legend">
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#33A05A"></div>Good</div>
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#D4960C"></div>At risk</div>
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#E0392B"></div>Broken</div>
+          </div>
+        </div>
+        </div>
       <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
     </div>
     <div class="stage s5 commercial-card" onclick="toggle(5)">
@@ -188,7 +256,18 @@
         <div class="stage-num">05</div>
         <div class="stage-name">Proposal</div>
         <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
-      </div>
+      <div class="dot-tooltip">
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Performance</div></div>
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Definition</div></div>
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Effort / Output</div></div>
+          <hr class="tt-divider">
+          <div class="tt-legend">
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#33A05A"></div>Good</div>
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#D4960C"></div>At risk</div>
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#E0392B"></div>Broken</div>
+          </div>
+        </div>
+        </div>
       <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
     </div>
     <div class="stage s6 commercial-card" onclick="toggle(6)">
@@ -197,7 +276,18 @@
         <div class="stage-num">06</div>
         <div class="stage-name">Procurement</div>
         <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
-      </div>
+      <div class="dot-tooltip">
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Performance</div></div>
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Definition</div></div>
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Effort / Output</div></div>
+          <hr class="tt-divider">
+          <div class="tt-legend">
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#33A05A"></div>Good</div>
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#D4960C"></div>At risk</div>
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#E0392B"></div>Broken</div>
+          </div>
+        </div>
+        </div>
       <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
     </div>
     <div class="stage s7 commercial-card" onclick="toggle(7)">
@@ -206,7 +296,18 @@
         <div class="stage-num">07</div>
         <div class="stage-name">Contract Signed</div>
         <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div></div>
-      </div>
+      <div class="dot-tooltip">
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Performance</div></div>
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Definition</div></div>
+          <div class="tt-row"><div class="tt-dots"><div class="tt-dot"></div><div class="tt-dot"></div><div class="tt-dot"></div></div><div class="tt-label">Effort / Output</div></div>
+          <hr class="tt-divider">
+          <div class="tt-legend">
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#33A05A"></div>Good</div>
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#D4960C"></div>At risk</div>
+            <div class="tt-leg"><div class="tt-leg-dot" style="background:#E0392B"></div>Broken</div>
+          </div>
+        </div>
+        </div>
       <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
     </div>
     
