@@ -33,7 +33,6 @@
   .zone-sub { font-size: 10px; font-weight: 400; }
   .zone-label.pre .zone-sub { color: #666; }
   .zone-label.commercial .zone-sub { color: #666; }
-  .advisor-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #515FFC; background: rgba(81,95,252,0.12); border: 1px solid rgba(81,95,252,0.3); padding: 5px 10px; border-radius: 6px; }
   .zone-duration { font-size: 10px; font-weight: 500; color: #555; margin-left: auto; white-space: nowrap; }
 
   .track { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; align-items: stretch; }
@@ -161,6 +160,11 @@
   .view-toggle a.active { background: rgba(81,95,252,0.15); color: #515FFC; border: 1px solid rgba(81,95,252,0.35); pointer-events: none; }
   .view-toggle a.inactive { color: #555; border: 1px solid #2A2A2A; }
   .view-toggle a.inactive:hover { color: #999; border-color: #444; }
+  .view-toggle { display: flex; align-items: center; gap: 8px; }
+  .view-toggle a { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; border-radius: 6px; text-decoration: none; transition: all 0.2s; }
+  .view-toggle a.active { background: rgba(81,95,252,0.15); color: #515FFC; border: 1px solid rgba(81,95,252,0.35); pointer-events: none; }
+  .view-toggle a.inactive { color: #555; border: 1px solid #2A2A2A; }
+  .view-toggle a.inactive:hover { color: #999; border-color: #444; }
 </style>
 </head>
 <body>
@@ -194,68 +198,62 @@
       <div class="card-body">
         <div class="stage-num">01</div>
         <div class="stage-name">Intro</div>
-        <div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
+        
       </div>
-      
     </div>
     <div class="stage s2" onclick="toggle(2)">
       <div class="stripe"></div>
       <div class="card-body">
         <div class="stage-num">02</div>
         <div class="stage-name">Discovery</div><div class="stage-sub">Pre Whiteboard</div>
-        <div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
+        
       </div>
-      
     </div>
     <div class="stage s3" onclick="toggle(3)">
       <div class="stripe"></div>
       <div class="card-body">
         <div class="stage-num">03</div>
         <div class="stage-name">POC Initial</div><div class="stage-sub">Whiteboard</div>
-        <div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
+        
       </div>
-      
     </div>
     <div class="stage s4" onclick="toggle(4)">
       <div class="stripe"></div>
       <div class="card-body">
         <div class="stage-num">04</div>
         <div class="stage-name">POC Alignment</div><div class="stage-sub">Whiteboard</div>
-        <div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
+        
       </div>
-      
     </div>
     <div class="stage s5 commercial-card" onclick="toggle(5)">
       <div class="stripe"></div>
       <div class="card-body">
         <div class="stage-num">05</div>
         <div class="stage-name">Proposal</div>
-        <div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
+        
       </div>
-      
     </div>
     <div class="stage s6 commercial-card" onclick="toggle(6)">
       <div class="stripe"></div>
       <div class="card-body">
         <div class="stage-num">06</div>
         <div class="stage-name">Procurement</div>
-        <div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
+        
       </div>
-      
     </div>
     <div class="stage s7 commercial-card" onclick="toggle(7)">
       <div class="stripe"></div>
       <div class="card-body">
         <div class="stage-num">07</div>
         <div class="stage-name">Contract Signed</div>
-        <div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
+        
       </div>
-      
     </div>
     
     <div class="panel-wrap" id="pw-1"><div class="panel-inner">
       <div class="panel-shell">
-                <div class="panel">
+        
+        <div class="panel">
           <div class="panel-accent" style="background:#CC2200" data-n="01">
             <div class="pa-eyebrow">Stage 01</div>
             <div class="pa-name">Intro</div>
@@ -298,11 +296,13 @@
         
         
         
+        
       </div>
     </div></div>
     <div class="panel-wrap" id="pw-2"><div class="panel-inner">
       <div class="panel-shell">
-                <div class="panel">
+        
+        <div class="panel">
           <div class="panel-accent" style="background:#E05010" data-n="02">
             <div class="pa-eyebrow">Stage 02</div>
             <div class="pa-name">Discovery</div>
@@ -338,11 +338,13 @@
             <div class="io-items"><div class="io-item">POC Direction document</div><div class="io-item">Follow-up contacts list</div><div class="io-item">NDA sent</div></div>
           </div>
         </div>
+        
       </div>
     </div></div>
     <div class="panel-wrap" id="pw-3"><div class="panel-inner">
       <div class="panel-shell">
-                <div class="panel">
+        
+        <div class="panel">
           <div class="panel-accent" style="background:#D4880C" data-n="03">
             <div class="pa-eyebrow">Stage 03</div>
             <div class="pa-name">POC Initial</div>
@@ -378,11 +380,13 @@
             <div class="io-items"><div class="io-item"><a href="https://race-safe-58458546.figma.site" target="_blank" style="color:#888;text-decoration:none;">race-safe.figma.site ↗</a></div><div class="io-item"><a href="https://dijon-disco-68516268.figma.site" target="_blank" style="color:#888;text-decoration:none;">dijon-disco.figma.site ↗</a></div><div class="io-item"><a href="https://pages-liquid-81349749.figma.site" target="_blank" style="color:#888;text-decoration:none;">pages-liquid.figma.site ↗</a></div></div>
           </div>
         </div>
+        
       </div>
     </div></div>
     <div class="panel-wrap" id="pw-4"><div class="panel-inner">
       <div class="panel-shell">
-                <div class="panel">
+        
+        <div class="panel">
           <div class="panel-accent" style="background:#C8B020" data-n="04">
             <div class="pa-eyebrow">Stage 04</div>
             <div class="pa-name">POC Alignment</div>
@@ -418,11 +422,13 @@
             <div class="io-items"><div class="io-item">Confirmed POC</div><div class="io-item">Finer requirements doc</div><div class="io-item">Pilot delivery plan and estimates started</div></div>
           </div>
         </div>
+        
       </div>
     </div></div>
     <div class="panel-wrap" id="pw-5"><div class="panel-inner">
       <div class="panel-shell">
-                <div class="panel">
+        
+        <div class="panel">
           <div class="panel-accent" style="background:#88B830" data-n="05">
             <div class="pa-eyebrow">Stage 05</div>
             <div class="pa-name">Proposal</div>
@@ -456,11 +462,13 @@
             <div class="io-items"><div class="io-item">Confirmed POC and finer requirements from Stage 4</div><div class="io-item">Pilot delivery plan and estimates</div><div class="io-item">Commercial parameters understood</div></div>
           </div>
         </div>
+        
       </div>
     </div></div>
     <div class="panel-wrap" id="pw-6"><div class="panel-inner">
       <div class="panel-shell">
-                <div class="panel">
+        
+        <div class="panel">
           <div class="panel-accent" style="background:#40A840" data-n="06">
             <div class="pa-eyebrow">Stage 06</div>
             <div class="pa-name">Procurement</div>
@@ -494,11 +502,13 @@
             <div class="io-items"><div class="io-item">Acknowledged proposal from Stage 5</div><div class="io-item">Procurement contact identified</div><div class="io-item">Conquer compliance documentation ready</div></div>
           </div>
         </div>
+        
       </div>
     </div></div>
     <div class="panel-wrap" id="pw-7"><div class="panel-inner">
       <div class="panel-shell">
-                <div class="panel">
+        
+        <div class="panel">
           <div class="panel-accent" style="background:#1A9A50" data-n="07">
             <div class="pa-eyebrow">Stage 07</div>
             <div class="pa-name">Contract Signed</div>
@@ -532,6 +542,7 @@
             <div class="io-items"><div class="io-item">Procurement-cleared contract from Stage 6</div><div class="io-item">Signatory confirmed and available</div><div class="io-item">Delivery team briefed and ready</div></div>
           </div>
         </div>
+        
       </div>
     </div></div>
   </div>
