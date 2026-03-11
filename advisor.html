@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Conquer AI — Mid-Funnel Process</title>
+<title>Conquer AI — Mid-Funnel Process · Advisor View</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -33,6 +33,7 @@
   .zone-sub { font-size: 10px; font-weight: 400; }
   .zone-label.pre .zone-sub { color: #666; }
   .zone-label.commercial .zone-sub { color: #666; }
+  .advisor-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #515FFC; background: rgba(81,95,252,0.12); border: 1px solid rgba(81,95,252,0.3); padding: 5px 10px; border-radius: 6px; }
   .zone-duration { font-size: 10px; font-weight: 500; color: #555; margin-left: auto; white-space: nowrap; }
 
   .track { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; align-items: stretch; }
@@ -193,87 +194,68 @@
       <div class="card-body">
         <div class="stage-num">01</div>
         <div class="stage-name">Intro</div>
-        <div class="dot-group"><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
+        <div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
       </div>
-      <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
+      
     </div>
     <div class="stage s2" onclick="toggle(2)">
       <div class="stripe"></div>
       <div class="card-body">
         <div class="stage-num">02</div>
         <div class="stage-name">Discovery</div><div class="stage-sub">Pre Whiteboard</div>
-        <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
+        <div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
       </div>
-      <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
+      
     </div>
     <div class="stage s3" onclick="toggle(3)">
       <div class="stripe"></div>
       <div class="card-body">
         <div class="stage-num">03</div>
         <div class="stage-name">POC Initial</div><div class="stage-sub">Whiteboard</div>
-        <div class="dot-group"><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
+        <div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
       </div>
-      <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
+      
     </div>
     <div class="stage s4" onclick="toggle(4)">
       <div class="stripe"></div>
       <div class="card-body">
         <div class="stage-num">04</div>
         <div class="stage-name">POC Alignment</div><div class="stage-sub">Whiteboard</div>
-        <div class="dot-group"><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
+        <div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
       </div>
-      <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
+      
     </div>
     <div class="stage s5 commercial-card" onclick="toggle(5)">
       <div class="stripe"></div>
       <div class="card-body">
         <div class="stage-num">05</div>
         <div class="stage-name">Proposal</div>
-        <div class="dot-group"><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
+        <div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-amber"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
       </div>
-      <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
+      
     </div>
     <div class="stage s6 commercial-card" onclick="toggle(6)">
       <div class="stripe"></div>
       <div class="card-body">
         <div class="stage-num">06</div>
         <div class="stage-name">Procurement</div>
-        <div class="dot-group"><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
+        <div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
       </div>
-      <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
+      
     </div>
     <div class="stage s7 commercial-card" onclick="toggle(7)">
       <div class="stripe"></div>
       <div class="card-body">
         <div class="stage-num">07</div>
         <div class="stage-name">Contract Signed</div>
-        <div class="dot-group"><div class="dot-row"><div class="dot c-amber"></div><div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
+        <div class="dot c-off"></div><div class="dot c-off"></div></div><div class="dot-row"><div class="dot c-green"></div><div class="dot c-green"></div><div class="dot c-green"></div></div><div class="dot-row"><div class="dot c-red"></div><div class="dot c-off"></div><div class="dot c-off"></div></div></div>
       </div>
-      <div class="stage-hint"><i class="chevron">&#8250;</i> expand</div>
+      
     </div>
     
     <div class="panel-wrap" id="pw-1"><div class="panel-inner">
       <div class="panel-shell">
-        <div class="rag-bar"><div class="rag-pill" style="background:rgba(51,160,90,0.15);border:1px solid rgba(51,160,90,0.4)">
-          <div class="rag-dot" style="background:#33A05A"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Performance <span class="rag-status" style="color:#33A05A">Good</span></div>
-            <div class="rag-reason">Strong volume of intros coming in consistently</div>
-          </div>
-        </div><div class="rag-pill" style="background:rgba(51,160,90,0.15);border:1px solid rgba(51,160,90,0.4)">
-          <div class="rag-dot" style="background:#33A05A"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Definition <span class="rag-status" style="color:#33A05A">Good</span></div>
-            <div class="rag-reason">Clear definition of what a successful intro looks like</div>
-          </div>
-        </div><div class="rag-pill" style="background:rgba(212,150,12,0.15);border:1px solid rgba(212,150,12,0.4)">
-          <div class="rag-dot" style="background:#D4960C"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Effort/Output <span class="rag-status" style="color:#D4960C">At risk</span></div>
-            <div class="rag-reason">Handover to Discovery could be smoother — drop-off at transition</div>
-          </div>
-        </div></div>
-        <div class="panel">
+                <div class="panel">
           <div class="panel-accent" style="background:#CC2200" data-n="01">
             <div class="pa-eyebrow">Stage 01</div>
             <div class="pa-name">Intro</div>
@@ -309,20 +291,6 @@
             <div class="io-items"><div class="io-item">Transcript</div><div class="io-item">Account Intelligence Document</div></div>
           </div>
         </div>
-        <div class="retro-bar">
-          <div class="retro-col working">
-            <div class="retro-label"><span class="retro-icon">&#10003;</span> What's working</div>
-            <div class="retro-items"><div class="retro-item">Strong volume of intros coming in</div><div class="retro-item">Referral and partner network generating leads</div><div class="retro-item">Clear output defined — door opened to Discovery</div></div>
-          </div>
-          <div class="retro-col change">
-            <div class="retro-label"><span class="retro-icon">&#8594;</span> What needs to change</div>
-            <div class="retro-items"><div class="retro-item">Handover to Discovery needs to be smoother</div><div class="retro-item">Not always clear who owns the follow-up</div><div class="retro-item">AI readiness signal not always captured consistently</div></div>
-          </div>
-          <div class="retro-col motion">
-            <div class="retro-label"><span class="retro-icon">&#9654;</span> Already in motion</div>
-            <div class="retro-items"><div class="retro-item">Account Intelligence Document template in use</div><div class="retro-item">Partner briefing materials in development</div><div class="retro-item">Services Catalogue being built per vertical</div></div>
-          </div>
-        </div>
         
         
         
@@ -334,26 +302,7 @@
     </div></div>
     <div class="panel-wrap" id="pw-2"><div class="panel-inner">
       <div class="panel-shell">
-        <div class="rag-bar"><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
-          <div class="rag-dot" style="background:#E0392B"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Performance <span class="rag-status" style="color:#E0392B">Broken</span></div>
-            <div class="rag-reason">Good volume but under-prepared when sessions land at short notice</div>
-          </div>
-        </div><div class="rag-pill" style="background:rgba(51,160,90,0.15);border:1px solid rgba(51,160,90,0.4)">
-          <div class="rag-dot" style="background:#33A05A"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Definition <span class="rag-status" style="color:#33A05A">Good</span></div>
-            <div class="rag-reason">Whiteboard site template works well — clear structure and expected output</div>
-          </div>
-        </div><div class="rag-pill" style="background:rgba(212,150,12,0.15);border:1px solid rgba(212,150,12,0.4)">
-          <div class="rag-dot" style="background:#D4960C"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Effort/Output <span class="rag-status" style="color:#D4960C">At risk</span></div>
-            <div class="rag-reason">Volume and schedule pressure means follow-ups are often rushed or missed</div>
-          </div>
-        </div></div>
-        <div class="panel">
+                <div class="panel">
           <div class="panel-accent" style="background:#E05010" data-n="02">
             <div class="pa-eyebrow">Stage 02</div>
             <div class="pa-name">Discovery</div>
@@ -364,7 +313,6 @@
             <div class="success-text">Clear direction on which problem space to focus on, right contacts identified, and high-level process understood. Next session booked.</div>
             <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Problem space agreed and focused</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Right follow-up contacts confirmed</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Whiteboard (POC Initial) session booked</div></div></div>
             <div class="callout pre">NDA to be sent after this session so relevant information can be shared beforehand.</div>
-            <div class="callout booking">&#128197; Book via team calendar &mdash; <a href="https://calendar.app.google/qqYGLRGDRmh5Mn1v5" target="_blank" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">calendar.app.google ↗</a> &mdash; ensures availability and avoids double booking</div>
           </div>
           <div class="panel-col io-col">
             <div class="io-title">Key players</div>
@@ -390,44 +338,11 @@
             <div class="io-items"><div class="io-item">POC Direction document</div><div class="io-item">Follow-up contacts list</div><div class="io-item">NDA sent</div></div>
           </div>
         </div>
-        <div class="retro-bar">
-          <div class="retro-col working">
-            <div class="retro-label"><span class="retro-icon">&#10003;</span> What's working</div>
-            <div class="retro-items"><div class="retro-item">Good volume of Discovery sessions running</div><div class="retro-item">Whiteboard site template (Bolaji) working well</div><div class="retro-item">Clear output: POC Direction defined</div></div>
-          </div>
-          <div class="retro-col change">
-            <div class="retro-label"><span class="retro-icon">&#8594;</span> What needs to change</div>
-            <div class="retro-items"><div class="retro-item">Team unprepared when sessions land at short notice</div><div class="retro-item">Schedule not in our control — volume backs us up</div><div class="retro-item">Follow-ups rushed or missed under pressure</div></div>
-          </div>
-          <div class="retro-col motion">
-            <div class="retro-label"><span class="retro-icon">&#9654;</span> Already in motion</div>
-            <div class="retro-items"><div class="retro-item">Team calendar live — book via calendar.app.google ↗</div><div class="retro-item">NDA process being standardised post-session</div><div class="retro-item">POC Direction doc template in place</div></div>
-          </div>
-        </div>
       </div>
     </div></div>
     <div class="panel-wrap" id="pw-3"><div class="panel-inner">
       <div class="panel-shell">
-        <div class="rag-bar"><div class="rag-pill" style="background:rgba(51,160,90,0.15);border:1px solid rgba(51,160,90,0.4)">
-          <div class="rag-dot" style="background:#33A05A"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Performance <span class="rag-status" style="color:#33A05A">Good</span></div>
-            <div class="rag-reason">POCs are being delivered consistently and to a good standard</div>
-          </div>
-        </div><div class="rag-pill" style="background:rgba(51,160,90,0.15);border:1px solid rgba(51,160,90,0.4)">
-          <div class="rag-dot" style="background:#33A05A"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Definition <span class="rag-status" style="color:#33A05A">Good</span></div>
-            <div class="rag-reason">Bolaji's SOP is proven — materials can be produced without technical expertise</div>
-          </div>
-        </div><div class="rag-pill" style="background:rgba(212,150,12,0.15);border:1px solid rgba(212,150,12,0.4)">
-          <div class="rag-dot" style="background:#D4960C"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Effort/Output <span class="rag-status" style="color:#D4960C">At risk</span></div>
-            <div class="rag-reason">Volume and schedule pressure means follow-ups are often rushed or missed</div>
-          </div>
-        </div></div>
-        <div class="panel">
+                <div class="panel">
           <div class="panel-accent" style="background:#D4880C" data-n="03">
             <div class="pa-eyebrow">Stage 03</div>
             <div class="pa-name">POC Initial</div>
@@ -438,7 +353,6 @@
             <div class="success-text">A set of clickable screens with simulated data that brings the ideas from Intro and Discovery to life. Delivered within a week. Used to gather live feedback and refine direction.</div>
             <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">POC delivered within one week</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Live feedback gathered from actual users</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Champion has seen it and is aligned on next step</div></div></div>
             <div class="callout pre">Technical oversight needed on product thinking and architecture patterns — but the SOP means materials can be produced without needing to be technical.</div>
-            <div class="callout booking">&#128197; Book via team calendar &mdash; <a href="https://calendar.app.google/qqYGLRGDRmh5Mn1v5" target="_blank" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">calendar.app.google ↗</a> &mdash; ensures availability and avoids double booking</div>
           </div>
           <div class="panel-col io-col">
             <div class="io-title">Key players</div>
@@ -464,44 +378,11 @@
             <div class="io-items"><div class="io-item"><a href="https://race-safe-58458546.figma.site" target="_blank" style="color:#888;text-decoration:none;">race-safe.figma.site ↗</a></div><div class="io-item"><a href="https://dijon-disco-68516268.figma.site" target="_blank" style="color:#888;text-decoration:none;">dijon-disco.figma.site ↗</a></div><div class="io-item"><a href="https://pages-liquid-81349749.figma.site" target="_blank" style="color:#888;text-decoration:none;">pages-liquid.figma.site ↗</a></div></div>
           </div>
         </div>
-        <div class="retro-bar">
-          <div class="retro-col working">
-            <div class="retro-label"><span class="retro-icon">&#10003;</span> What's working</div>
-            <div class="retro-items"><div class="retro-item">POC quality is consistently strong</div><div class="retro-item">Bolaji's SOP proven — materials produced without needing to be technical</div><div class="retro-item">Clickable format resonates well with clients</div></div>
-          </div>
-          <div class="retro-col change">
-            <div class="retro-label"><span class="retro-icon">&#8594;</span> What needs to change</div>
-            <div class="retro-items"><div class="retro-item">Follow-up after POC delivery too inconsistent</div><div class="retro-item">Schedule pressure means refinement loops get skipped</div><div class="retro-item">Feedback capture not always structured</div></div>
-          </div>
-          <div class="retro-col motion">
-            <div class="retro-label"><span class="retro-icon">&#9654;</span> Already in motion</div>
-            <div class="retro-items"><div class="retro-item">SOP now documented and shared across team</div><div class="retro-item">Team calendar booking in place for sessions</div><div class="retro-item">Example POCs available as reference (Figma sites)</div></div>
-          </div>
-        </div>
       </div>
     </div></div>
     <div class="panel-wrap" id="pw-4"><div class="panel-inner">
       <div class="panel-shell">
-        <div class="rag-bar"><div class="rag-pill" style="background:rgba(212,150,12,0.15);border:1px solid rgba(212,150,12,0.4)">
-          <div class="rag-dot" style="background:#D4960C"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Performance <span class="rag-status" style="color:#D4960C">At risk</span></div>
-            <div class="rag-reason">Lots of effort required for docs and prep — resource intensive</div>
-          </div>
-        </div><div class="rag-pill" style="background:rgba(212,150,12,0.15);border:1px solid rgba(212,150,12,0.4)">
-          <div class="rag-dot" style="background:#D4960C"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Definition <span class="rag-status" style="color:#D4960C">At risk</span></div>
-            <div class="rag-reason">Template exists but sign-off process is undefined</div>
-          </div>
-        </div><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
-          <div class="rag-dot" style="background:#E0392B"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Effort/Output <span class="rag-status" style="color:#E0392B">Broken</span></div>
-            <div class="rag-reason">Effort is high and conversion to proposal is poor</div>
-          </div>
-        </div></div>
-        <div class="panel">
+                <div class="panel">
           <div class="panel-accent" style="background:#C8B020" data-n="04">
             <div class="pa-eyebrow">Stage 04</div>
             <div class="pa-name">POC Alignment</div>
@@ -512,7 +393,6 @@
             <div class="success-text">POC demo'd live. Client feedback captured to narrow down finer requirements. Enough info gathered to refine the proposal and move toward a concrete product definition, pilot delivery plan, and estimates.</div>
             <div class="gates" style="margin-top:16px"><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">POC demoed live with client present</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Finer requirements captured from session</div></div><div class="gi"><div class="gi-tick">&#10003;</div><div class="gi-text">Enough to proceed to proposal and pilot scoping</div></div></div>
             <div class="callout pre">This stage unlocks the info needed to move from concept to a concrete commercial ask.</div>
-            <div class="callout booking">&#128197; Book via team calendar &mdash; <a href="https://calendar.app.google/qqYGLRGDRmh5Mn1v5" target="_blank" style="color:inherit;text-decoration:underline;text-underline-offset:3px;">calendar.app.google ↗</a> &mdash; ensures availability and avoids double booking</div>
           </div>
           <div class="panel-col io-col">
             <div class="io-title">Key players</div>
@@ -538,44 +418,11 @@
             <div class="io-items"><div class="io-item">Confirmed POC</div><div class="io-item">Finer requirements doc</div><div class="io-item">Pilot delivery plan and estimates started</div></div>
           </div>
         </div>
-        <div class="retro-bar">
-          <div class="retro-col working">
-            <div class="retro-label"><span class="retro-icon">&#10003;</span> What's working</div>
-            <div class="retro-items"><div class="retro-item">POC demo format landing well with decision-makers</div><div class="retro-item">Finer requirements emerging clearly from live sessions</div><div class="retro-item">Path to proposal feels more structured once we're here</div></div>
-          </div>
-          <div class="retro-col change">
-            <div class="retro-label"><span class="retro-icon">&#8594;</span> What needs to change</div>
-            <div class="retro-items"><div class="retro-item">Too much prep and doc effort before the session</div><div class="retro-item">Decision-maker not always present — sessions lose value</div><div class="retro-item">Takes too long to convert to a proposal after</div></div>
-          </div>
-          <div class="retro-col motion">
-            <div class="retro-label"><span class="retro-icon">&#9654;</span> Already in motion</div>
-            <div class="retro-items"><div class="retro-item">Confirmed POC + requirements doc as standard output</div><div class="retro-item">Team calendar ensures right people are booked in</div><div class="retro-item">Pilot delivery plan template being developed</div></div>
-          </div>
-        </div>
       </div>
     </div></div>
     <div class="panel-wrap" id="pw-5"><div class="panel-inner">
       <div class="panel-shell">
-        <div class="rag-bar"><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
-          <div class="rag-dot" style="background:#E0392B"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Performance <span class="rag-status" style="color:#E0392B">Broken</span></div>
-            <div class="rag-reason">Disproportionate time spent pre-commercial leaves little capacity for proposals</div>
-          </div>
-        </div><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
-          <div class="rag-dot" style="background:#E0392B"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Definition <span class="rag-status" style="color:#E0392B">Broken</span></div>
-            <div class="rag-reason">SOP for proposals in progress — not there yet</div>
-          </div>
-        </div><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
-          <div class="rag-dot" style="background:#E0392B"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Effort/Output <span class="rag-status" style="color:#E0392B">Broken</span></div>
-            <div class="rag-reason">Too much time on busy work, not enough on needle-moving activity</div>
-          </div>
-        </div></div>
-        <div class="panel">
+                <div class="panel">
           <div class="panel-accent" style="background:#88B830" data-n="05">
             <div class="pa-eyebrow">Stage 05</div>
             <div class="pa-name">Proposal</div>
@@ -609,44 +456,11 @@
             <div class="io-items"><div class="io-item">Confirmed POC and finer requirements from Stage 4</div><div class="io-item">Pilot delivery plan and estimates</div><div class="io-item">Commercial parameters understood</div></div>
           </div>
         </div>
-        <div class="retro-bar">
-          <div class="retro-col working">
-            <div class="retro-label"><span class="retro-icon">&#10003;</span> What's working</div>
-            <div class="retro-items"><div class="retro-item">When proposals go out they are commercially credible</div><div class="retro-item">Solutions and Commercial alignment improving</div><div class="retro-item">Client acknowledgement rate is reasonable once sent</div></div>
-          </div>
-          <div class="retro-col change">
-            <div class="retro-label"><span class="retro-icon">&#8594;</span> What needs to change</div>
-            <div class="retro-items"><div class="retro-item">Capacity severely constrained by pre-commercial load</div><div class="retro-item">No SOP for proposals yet — inconsistency across deals</div><div class="retro-item">Too much busy work eating into proposal time</div></div>
-          </div>
-          <div class="retro-col motion">
-            <div class="retro-label"><span class="retro-icon">&#9654;</span> Already in motion</div>
-            <div class="retro-items"><div class="retro-item">Proposal SOP in progress</div><div class="retro-item">Exploring ways to free up capacity from earlier stages</div><div class="retro-item">Commercial and Solutions working closer together</div></div>
-          </div>
-        </div>
       </div>
     </div></div>
     <div class="panel-wrap" id="pw-6"><div class="panel-inner">
       <div class="panel-shell">
-        <div class="rag-bar"><div class="rag-pill" style="background:rgba(212,150,12,0.15);border:1px solid rgba(212,150,12,0.4)">
-          <div class="rag-dot" style="background:#D4960C"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Performance <span class="rag-status" style="color:#D4960C">At risk</span></div>
-            <div class="rag-reason">Vendor onboarding at the client side is slow and unpredictable</div>
-          </div>
-        </div><div class="rag-pill" style="background:rgba(212,150,12,0.15);border:1px solid rgba(212,150,12,0.4)">
-          <div class="rag-dot" style="background:#D4960C"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Definition <span class="rag-status" style="color:#D4960C">At risk</span></div>
-            <div class="rag-reason">No clear or standard process on our side for managing this</div>
-          </div>
-        </div><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
-          <div class="rag-dot" style="background:#E0392B"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Effort/Output <span class="rag-status" style="color:#E0392B">Broken</span></div>
-            <div class="rag-reason">High admin burden with unpredictable timelines and outcomes</div>
-          </div>
-        </div></div>
-        <div class="panel">
+                <div class="panel">
           <div class="panel-accent" style="background:#40A840" data-n="06">
             <div class="pa-eyebrow">Stage 06</div>
             <div class="pa-name">Procurement</div>
@@ -680,44 +494,11 @@
             <div class="io-items"><div class="io-item">Acknowledged proposal from Stage 5</div><div class="io-item">Procurement contact identified</div><div class="io-item">Conquer compliance documentation ready</div></div>
           </div>
         </div>
-        <div class="retro-bar">
-          <div class="retro-col working">
-            <div class="retro-label"><span class="retro-icon">&#10003;</span> What's working</div>
-            <div class="retro-items"><div class="retro-item">Champion escalation has unblocked deals before</div><div class="retro-item">Conquer compliance docs generally ready</div><div class="retro-item">Client relationships strong enough to navigate delays</div></div>
-          </div>
-          <div class="retro-col change">
-            <div class="retro-label"><span class="retro-icon">&#8594;</span> What needs to change</div>
-            <div class="retro-items"><div class="retro-item">Vendor onboarding process not defined or standard</div><div class="retro-item">No clear owner on our side during procurement</div><div class="retro-item">Timelines unpredictable — deals stall silently</div></div>
-          </div>
-          <div class="retro-col motion">
-            <div class="retro-label"><span class="retro-icon">&#9654;</span> Already in motion</div>
-            <div class="retro-items"><div class="retro-item">Procurement checklist being drafted</div><div class="retro-item">Champion engagement model being formalised</div><div class="retro-item">Exploring earlier procurement touchpoints in Stage 5</div></div>
-          </div>
-        </div>
       </div>
     </div></div>
     <div class="panel-wrap" id="pw-7"><div class="panel-inner">
       <div class="panel-shell">
-        <div class="rag-bar"><div class="rag-pill" style="background:rgba(212,150,12,0.15);border:1px solid rgba(212,150,12,0.4)">
-          <div class="rag-dot" style="background:#D4960C"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Performance <span class="rag-status" style="color:#D4960C">At risk</span></div>
-            <div class="rag-reason">Too few accounts reaching this stage — volume is the core issue</div>
-          </div>
-        </div><div class="rag-pill" style="background:rgba(51,160,90,0.15);border:1px solid rgba(51,160,90,0.4)">
-          <div class="rag-dot" style="background:#33A05A"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Definition <span class="rag-status" style="color:#33A05A">Good</span></div>
-            <div class="rag-reason">Self-explanatory — a signed contract is a signed contract</div>
-          </div>
-        </div><div class="rag-pill" style="background:rgba(224,57,43,0.15);border:1px solid rgba(224,57,43,0.4)">
-          <div class="rag-dot" style="background:#E0392B"></div>
-          <div class="rag-pill-content">
-            <div class="rag-metric">Effort/Output <span class="rag-status" style="color:#E0392B">Broken</span></div>
-            <div class="rag-reason">Steps from signed contract to delivery kick-off are unclear and not well defined</div>
-          </div>
-        </div></div>
-        <div class="panel">
+                <div class="panel">
           <div class="panel-accent" style="background:#1A9A50" data-n="07">
             <div class="pa-eyebrow">Stage 07</div>
             <div class="pa-name">Contract Signed</div>
@@ -749,20 +530,6 @@
           <div class="panel-col gate-col">
             <div class="io-title">Key inputs</div>
             <div class="io-items"><div class="io-item">Procurement-cleared contract from Stage 6</div><div class="io-item">Signatory confirmed and available</div><div class="io-item">Delivery team briefed and ready</div></div>
-          </div>
-        </div>
-        <div class="retro-bar">
-          <div class="retro-col working">
-            <div class="retro-label"><span class="retro-icon">&#10003;</span> What's working</div>
-            <div class="retro-items"><div class="retro-item">When we get here the output is decisive — signed contract</div><div class="retro-item">Definition is clear and self-explanatory</div><div class="retro-item">Client relationships are strong at this point</div></div>
-          </div>
-          <div class="retro-col change">
-            <div class="retro-label"><span class="retro-icon">&#8594;</span> What needs to change</div>
-            <div class="retro-items"><div class="retro-item">Too few accounts reaching this stage currently</div><div class="retro-item">Steps from signed contract to delivery kick-off undefined</div><div class="retro-item">Handover to delivery team not yet standardised</div></div>
-          </div>
-          <div class="retro-col motion">
-            <div class="retro-label"><span class="retro-icon">&#9654;</span> Already in motion</div>
-            <div class="retro-items"><div class="retro-item">Delivery kick-off checklist in development</div><div class="retro-item">Tracking conversion rates from Stage 5 onwards</div><div class="retro-item">North star metric: volume and speed to contract</div></div>
           </div>
         </div>
       </div>
