@@ -234,31 +234,33 @@ body {
   50% { box-shadow: 0 0 0 5px rgba(51,160,90,0); }
 }
 
-/* ─── ZONE LABELS ─── */
-.zone-wrap { padding: 20px 28px 0; }
-.zone-label {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
-  text-transform: uppercase; color: var(--text-mid);
-  padding-bottom: 6px;
-  border-bottom: 2px solid transparent;
-  margin-bottom: 12px;
-}
-.zone-label.pre { border-image: linear-gradient(to right, var(--s1), var(--s2), var(--s3), var(--s4)) 1; }
-.zone-label.commercial { border-image: linear-gradient(to right, var(--s5), var(--s6), var(--s7)) 1; }
-.zone-label .timer { font-size: 10px; color: var(--text-dim); font-weight: 400; }
+/* ─── ZONE HEADER ─── */
 
 /* ─── STAGE GRID ─── */
 .stage-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   gap: 10px;
-  padding: 0 28px;
+  padding: 0 28px 28px;
 }
-.stage-grid.commercial {
-  grid-template-columns: repeat(3, 1fr);
-  padding: 16px 28px 28px;
+
+/* zone label row above grid */
+.zone-header {
+  display: grid;
+  grid-template-columns: 4fr 3fr;
+  gap: 10px;
+  padding: 16px 28px 8px;
 }
+.zone-header-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-mid);
+  padding-bottom: 6px;
+  border-bottom: 2px solid transparent;
+}
+.zone-header-item.pre { border-image: linear-gradient(to right, var(--s1), var(--s2), var(--s3), var(--s4)) 1; }
+.zone-header-item.commercial { border-image: linear-gradient(to right, var(--s5), var(--s6), var(--s7)) 1; }
+.zone-header-item .timer { font-size: 10px; color: var(--text-dim); font-weight: 400; }
 
 /* ─── STAGE CARD ─── */
 .stage-card {
@@ -630,12 +632,8 @@ body.advisor-mode .sync-btn { display: none !important; }
 }
 
 /* ─── PANEL GRID ROWS FOR EXPANSION ─── */
-.pre-grid-wrap, .commercial-grid-wrap {
-  display: contents;
-}
-
-/* Panel wrappers need to span correctly */
 .stage-grid .panel-wrap {
+  grid-column: 1 / -1;
   display: none;
 }
 .stage-grid .panel-wrap.open {
@@ -719,24 +717,17 @@ body.advisor-mode .sync-btn { display: none !important; }
   </div>
 </div>
 
-<!-- ─── PRE COMMERCIAL ─── -->
-<div class="zone-wrap">
-  <div class="zone-label pre">
+<!-- ─── ZONE HEADER ─── -->
+<div class="zone-header">
+  <div class="zone-header-item pre">
     Pre Commercial
     <span class="timer">⏰ Target: 2 weeks intro → POC Alignment</span>
   </div>
+  <div class="zone-header-item commercial">Commercial Territory</div>
 </div>
 
-<div class="stage-grid" id="pre-grid">
-  <!-- Cards injected by JS -->
-</div>
-
-<!-- ─── COMMERCIAL TERRITORY ─── -->
-<div class="zone-wrap" style="margin-top:20px">
-  <div class="zone-label commercial">Commercial Territory</div>
-</div>
-
-<div class="stage-grid commercial" id="commercial-grid">
+<!-- ─── SINGLE STAGE GRID ─── -->
+<div class="stage-grid" id="stage-grid">
   <!-- Cards injected by JS -->
 </div>
 
@@ -1097,8 +1088,7 @@ function relTime(dateStr) {
 }
 
 function renderAll() {
-  renderGrid('pre-grid',  STAGES.filter(s => s.id <= 4));
-  renderGrid('commercial-grid', STAGES.filter(s => s.id >= 5));
+  renderGrid('stage-grid', STAGES);
   updateStats();
   updateLastUpdated();
 }
