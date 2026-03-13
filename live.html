@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conquer AI — Mid-Funnel Live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & BASE ─── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --brand:        #515FFC;
+  --brand-dim:    rgba(81,95,252,0.12);
+  --brand-glow:   rgba(81,95,252,0.25);
+  --bg:           #0D0D0D;
+  --surface:      #1A1A1A;
+  --surface-2:    #222222;
+  --border:       #2A2A2A;
+  --border-light: #333333;
+  --text:         #E8E8E8;
+  --text-mid:     #999999;
+  --text-dim:     #555555;
+  --green:        #33A05A;
+  --green-bg:     rgba(51,160,90,0.12);
+  --amber:        #D4960C;
+  --amber-bg:     rgba(212,150,12,0.12);
+  --red:          #E0392B;
+  --red-bg:       rgba(224,57,43,0.12);
+  --commercial-bg:#111108;
+
+  /* heatmap */
+  --s1: #CC2200; --s2: #E05010; --s3: #D4880C; --s4: #C8B020;
+  --s5: #88B830; --s6: #40A840; --s7: #1A9A50;
+
+  --radius: 8px;
+  --font: 'Geist', sans-serif;
+  --mono: 'Geist Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+
+/* ─── HEADER ─── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13,13,13,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.logo-mark {
+  width: 26px; height: 26px;
+  background: var(--brand);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: white; letter-spacing: -0.5px;
+}
+.logo-text {
+  font-size: 13px; font-weight: 600; color: var(--text);
+  letter-spacing: -0.2px;
+}
+.logo-badge {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.08em;
+  color: var(--brand); background: var(--brand-dim);
+  padding: 2px 6px; border-radius: 3px; text-transform: uppercase;
+}
+
+.header-divider { width: 1px; height: 20px; background: var(--border); }
+
+/* search */
+.search-wrap {
+  flex: 1; max-width: 420px;
+  position: relative;
+}
+.search-icon {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  color: var(--text-dim); pointer-events: none;
+}
+#searchInput {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 7px 12px 7px 32px;
+  font-family: var(--font);
+  font-size: 12px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+#searchInput::placeholder { color: var(--text-dim); }
+#searchInput:focus { border-color: var(--brand); }
+.search-clear {
+  position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; color: var(--text-dim);
+  cursor: pointer; padding: 2px; display: none; font-size: 14px;
+  line-height: 1;
+}
+#searchInput:not([value=""]) ~ .search-clear,
+.search-clear.visible { display: block; }
+
+.search-results-count {
+  font-size: 11px; color: var(--text-dim); margin-left: 4px;
+  display: none;
+}
+.search-results-count.visible { display: inline; }
+
+/* rag filter */
+.rag-filters {
+  display: flex; gap: 4px; flex-shrink: 0;
+}
+.rag-filter-btn {
+  height: 28px; padding: 0 10px;
+  border-radius: 5px; border: 1px solid var(--border);
+  background: transparent; cursor: pointer;
+  font-family: var(--font); font-size: 11px; font-weight: 500;
+  color: var(--text-mid); transition: all 0.15s;
+  display: flex; align-items: center; gap: 5px;
+}
+.rag-filter-btn .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+}
+.rag-filter-btn:hover { border-color: var(--border-light); color: var(--text); }
+.rag-filter-btn.active-green { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+.rag-filter-btn.active-amber { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
+.rag-filter-btn.active-red { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+
+/* nav toggle */
+.nav-toggle {
+  display: flex; gap: 2px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.nav-btn {
+  padding: 4px 12px;
+  border-radius: 4px; border: none;
+  font-family: var(--font); font-size: 11px; font-weight: 500;
+  cursor: pointer; transition: all 0.15s;
+  background: transparent; color: var(--text-mid);
+}
+.nav-btn.active { background: var(--brand); color: white; }
+
+/* add deal button */
+.add-deal-btn {
+  height: 30px; padding: 0 12px;
+  background: var(--brand); border: none; border-radius: 6px;
+  font-family: var(--font); font-size: 12px; font-weight: 600;
+  color: white; cursor: pointer; transition: background 0.15s;
+  display: flex; align-items: center; gap: 6px;
+  flex-shrink: 0;
+}
+.add-deal-btn:hover { background: #3a4ad4; }
+.add-deal-btn svg { flex-shrink: 0; }
+
+/* sync button */
+.sync-btn {
+  height: 30px; padding: 0 10px;
+  background: transparent; border: 1px solid var(--border); border-radius: 6px;
+  font-family: var(--font); font-size: 11px; font-weight: 500;
+  color: var(--text-mid); cursor: pointer; transition: all 0.15s;
+  display: flex; align-items: center; gap: 6px;
+  flex-shrink: 0;
+}
+.sync-btn:hover { border-color: var(--brand); color: var(--brand); }
+.sync-btn.syncing svg { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── STATS BAR ─── */
+.stats-bar {
+  display: flex; align-items: center; gap: 20px;
+  padding: 10px 28px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.stat-item {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--text-mid);
+}
+.stat-value {
+  font-size: 18px; font-weight: 700; color: var(--text);
+  font-variant-numeric: tabular-nums; line-height: 1;
+}
+.stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+.stat-divider { width: 1px; height: 28px; background: var(--border); }
+
+.last-updated {
+  margin-left: auto;
+  font-size: 10px; color: var(--text-dim);
+  display: flex; align-items: center; gap: 5px;
+}
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 0 rgba(51,160,90,0.4);
+  animation: pulse-live 2.5s ease-in-out infinite;
+}
+@keyframes pulse-live {
+  0%,100% { box-shadow: 0 0 0 0 rgba(51,160,90,0.4); }
+  50% { box-shadow: 0 0 0 5px rgba(51,160,90,0); }
+}
+
+/* ─── ZONE LABELS ─── */
+.zone-wrap { padding: 20px 28px 0; }
+.zone-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-mid);
+  padding-bottom: 6px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: 12px;
+}
+.zone-label.pre { border-image: linear-gradient(to right, var(--s1), var(--s2), var(--s3), var(--s4)) 1; }
+.zone-label.commercial { border-image: linear-gradient(to right, var(--s5), var(--s6), var(--s7)) 1; }
+.zone-label .timer { font-size: 10px; color: var(--text-dim); font-weight: 400; }
+
+/* ─── STAGE GRID ─── */
+.stage-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 0 28px;
+}
+.stage-grid.commercial {
+  grid-template-columns: repeat(3, 1fr);
+  padding: 16px 28px 28px;
+}
+
+/* ─── STAGE CARD ─── */
+.stage-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+  position: relative;
+}
+.stage-card:hover { border-color: var(--border-light); transform: translateY(-1px); }
+.stage-card.expanded { border-color: var(--border-light); }
+.stage-card.commercial-stage { background: var(--commercial-bg); }
+
+.stage-card.search-hidden { opacity: 0.25; pointer-events: none; }
+.stage-card.search-match { border-color: var(--brand); }
+
+.card-stripe {
+  height: 3px;
+  background: var(--stripe-color, var(--s1));
+}
+
+.card-body { padding: 14px 14px 12px; }
+
+.card-number {
+  font-size: 36px; font-weight: 700; line-height: 1;
+  color: rgba(255,255,255,0.04);
+  position: absolute; top: 10px; right: 12px;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+
+.card-stage-label {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-dim);
+  margin-bottom: 4px;
+}
+.card-title {
+  font-size: 13px; font-weight: 600; color: var(--text);
+  line-height: 1.3; margin-bottom: 2px;
+}
+.card-subtitle {
+  font-size: 10px; color: var(--text-dim); margin-bottom: 10px;
+}
+
+/* deal count badge */
+.deal-count {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600;
+  color: var(--text-mid);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+.deal-count .count-num { color: var(--text); }
+.deal-count.has-deals { border-color: var(--brand); color: var(--brand); background: var(--brand-dim); }
+.deal-count.has-deals .count-num { color: var(--brand); }
+
+/* dot grid (internal) */
+.dot-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 4px; margin-top: 8px;
+}
+.dot-cell {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 9px; color: var(--text-dim);
+}
+.dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+}
+.dot.green { background: var(--green); box-shadow: 0 0 4px rgba(51,160,90,0.4); }
+.dot.amber { background: var(--amber); box-shadow: 0 0 4px rgba(212,150,12,0.4); }
+.dot.red { background: var(--red); box-shadow: 0 0 4px rgba(224,57,43,0.35); }
+.dot.off { background: var(--border); }
+
+/* expand indicator */
+.card-expand {
+  position: absolute; bottom: 10px; right: 12px;
+  color: var(--text-dim); font-size: 10px;
+  transition: transform 0.2s;
+}
+.stage-card.expanded .card-expand { transform: rotate(180deg); }
+
+/* ─── DEAL LIST (inside card) ─── */
+.deal-list {
+  margin-top: 8px;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.deal-chip {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 7px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 10px; color: var(--text-mid);
+  cursor: default;
+  transition: all 0.15s;
+  position: relative;
+}
+.deal-chip:hover { border-color: var(--border-light); color: var(--text); }
+.deal-chip-name { font-weight: 500; color: var(--text); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.deal-chip-rag { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.deal-chip-rag.green { background: var(--green); }
+.deal-chip-rag.amber { background: var(--amber); }
+.deal-chip-rag.red { background: var(--red); }
+.deal-chip-time { font-size: 9px; color: var(--text-dim); flex-shrink: 0; }
+
+.deal-chip-actions {
+  display: none;
+  gap: 4px;
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+}
+.deal-chip:hover .deal-chip-actions { display: flex; }
+.deal-chip:hover .deal-chip-time { display: none; }
+
+.deal-chip-btn {
+  font-size: 9px; padding: 1px 5px;
+  border-radius: 3px; border: 1px solid var(--border-light);
+  background: var(--surface); color: var(--text-mid);
+  cursor: pointer; font-family: var(--font);
+  transition: all 0.1s;
+}
+.deal-chip-btn:hover { border-color: var(--brand); color: var(--brand); }
+.deal-chip-btn.del:hover { border-color: var(--red); color: var(--red); }
+
+/* ─── EXPANDED PANEL ─── */
+.panel-wrap {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+.panel-wrap.open { max-height: 2000px; }
+
+.panel-shell {
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+/* RAG bar */
+.rag-bar {
+  display: flex; gap: 8px;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid var(--border);
+}
+.rag-pill {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px; border: 1px solid;
+  font-size: 10px; font-weight: 500;
+}
+.rag-pill.good { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+.rag-pill.at-risk { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
+.rag-pill.broken { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+.rag-pill .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+/* panel grid */
+.panel {
+  display: grid;
+  grid-template-columns: 160px 1fr 190px 190px;
+  gap: 0;
+}
+.panel-accent {
+  background: var(--accent-color, #333);
+  padding: 20px 16px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.panel-accent-stage { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
+.panel-accent-name { font-size: 15px; font-weight: 700; color: white; line-height: 1.2; }
+.panel-output-pill {
+  margin-top: 12px;
+  display: inline-flex; align-items: center;
+  font-size: 9px; font-weight: 600; letter-spacing: 0.06em;
+  text-transform: uppercase; color: rgba(255,255,255,0.7);
+  background: rgba(0,0,0,0.2); padding: 3px 8px; border-radius: 3px;
+  width: fit-content;
+}
+
+.panel-col {
+  padding: 16px;
+  border-left: 1px solid var(--border);
+}
+.panel-col-title {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-dim);
+  margin-bottom: 10px;
+}
+.panel-col p {
+  font-size: 11px; color: var(--text-mid); line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+/* gates */
+.gate-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+.gate-item {
+  display: flex; align-items: flex-start; gap: 7px;
+  font-size: 11px; color: var(--text-mid); line-height: 1.4;
+}
+.gate-tick { color: var(--green); flex-shrink: 0; margin-top: 1px; }
+
+/* callout */
+.callout {
+  background: var(--brand-dim); border: 1px solid var(--brand-glow);
+  border-radius: 6px; padding: 8px 10px;
+  font-size: 10px; color: var(--text-mid); margin-top: 8px;
+}
+.callout a { color: var(--brand); text-decoration: none; }
+.callout a:hover { text-decoration: underline; }
+
+/* players */
+.player-list { display: flex; flex-direction: column; gap: 5px; }
+.player-card {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 7px 9px;
+}
+.player-icon {
+  width: 24px; height: 24px; border-radius: 5px;
+  background: var(--brand-dim); border: 1px solid var(--brand-glow);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; flex-shrink: 0;
+}
+.player-name { font-size: 11px; font-weight: 500; color: var(--text); }
+.player-role { font-size: 9px; color: var(--text-dim); }
+
+/* inputs/outputs */
+.io-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+.io-item {
+  display: flex; align-items: flex-start; gap: 6px;
+  font-size: 10px; color: var(--text-mid); line-height: 1.4;
+}
+.io-bullet { font-size: 9px; color: var(--text-dim); flex-shrink: 0; margin-top: 1px; }
+
+/* retro bar */
+.retro-bar {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 0;
+  border-top: 1px solid var(--border);
+}
+.retro-col {
+  padding: 12px 16px;
+  border-right: 1px solid var(--border);
+}
+.retro-col:last-child { border-right: none; }
+.retro-col-title {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; margin-bottom: 6px;
+}
+.retro-col:nth-child(1) .retro-col-title { color: var(--green); }
+.retro-col:nth-child(2) .retro-col-title { color: var(--amber); }
+.retro-col:nth-child(3) .retro-col-title { color: var(--brand); }
+.retro-item {
+  display: flex; align-items: flex-start; gap: 5px;
+  font-size: 10px; color: var(--text-dim); margin-bottom: 3px; line-height: 1.4;
+}
+.retro-item::before { content: '·'; flex-shrink: 0; }
+
+/* ─── FOOTER ─── */
+.footer {
+  padding: 20px 28px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 16px;
+  font-size: 10px; color: var(--text-dim);
+}
+.rag-legend { display: flex; gap: 12px; }
+.rag-legend-item { display: flex; align-items: center; gap: 5px; }
+
+/* ─── ADVISOR OVERRIDES ─── */
+body.advisor-mode .internal-only { display: none !important; }
+body.advisor-mode .rag-bar { display: none !important; }
+body.advisor-mode .retro-bar { display: none !important; }
+body.advisor-mode .dot-grid { display: none !important; }
+body.advisor-mode .rag-filters { display: none !important; }
+body.advisor-mode .add-deal-btn { display: none !important; }
+body.advisor-mode .deal-chip-actions { display: none !important; }
+body.advisor-mode .deal-chip:hover .deal-chip-time { display: block !important; }
+body.advisor-mode .sync-btn { display: none !important; }
+
+/* ─── MODAL ─── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  display: none; align-items: center; justify-content: center;
+  animation: fade-in 0.15s ease;
+}
+.modal-overlay.open { display: flex; }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  width: 420px;
+  padding: 24px;
+  animation: slide-up 0.2s ease;
+}
+@keyframes slide-up { from { transform: translateY(10px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+.modal-title {
+  font-size: 15px; font-weight: 700; color: var(--text);
+  margin-bottom: 18px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-close {
+  background: none; border: none; color: var(--text-dim);
+  cursor: pointer; font-size: 18px; line-height: 1;
+  padding: 2px;
+}
+
+.form-group { margin-bottom: 14px; }
+.form-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-dim);
+  display: block; margin-bottom: 5px;
+}
+.form-input, .form-select {
+  width: 100%;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 6px; padding: 8px 10px;
+  font-family: var(--font); font-size: 12px; color: var(--text);
+  outline: none; transition: border-color 0.15s;
+  appearance: none;
+}
+.form-input:focus, .form-select:focus { border-color: var(--brand); }
+.form-select option { background: var(--surface); }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+.btn-primary {
+  padding: 8px 18px; background: var(--brand); border: none;
+  border-radius: 6px; font-family: var(--font); font-size: 12px;
+  font-weight: 600; color: white; cursor: pointer; transition: background 0.15s;
+}
+.btn-primary:hover { background: #3a4ad4; }
+.btn-secondary {
+  padding: 8px 16px; background: transparent; border: 1px solid var(--border);
+  border-radius: 6px; font-family: var(--font); font-size: 12px;
+  font-weight: 500; color: var(--text-mid); cursor: pointer; transition: all 0.15s;
+}
+.btn-secondary:hover { border-color: var(--border-light); color: var(--text); }
+
+/* Sheets config modal */
+.sheets-info {
+  font-size: 11px; color: var(--text-dim); line-height: 1.6;
+  background: var(--surface-2); border-radius: 6px; padding: 10px;
+  margin-bottom: 14px;
+}
+.sheets-info code {
+  font-family: var(--mono); font-size: 10px; color: var(--brand);
+  background: var(--brand-dim); padding: 1px 4px; border-radius: 3px;
+}
+
+/* ─── SEARCH HIGHLIGHT ─── */
+.search-hl { background: rgba(81,95,252,0.25); border-radius: 2px; padding: 0 1px; }
+
+/* ─── EMPTY STATE ─── */
+.empty-stage {
+  font-size: 10px; color: var(--text-dim); font-style: italic;
+  padding: 2px 0;
+}
+
+/* ─── PANEL GRID ROWS FOR EXPANSION ─── */
+.pre-grid-wrap, .commercial-grid-wrap {
+  display: contents;
+}
+
+/* Panel wrappers need to span correctly */
+.stage-grid .panel-wrap {
+  display: none;
+}
+.stage-grid .panel-wrap.open {
+  display: block;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header class="header">
+  <div class="logo">
+    <div class="logo-mark">C</div>
+    <span class="logo-text">Conquer AI</span>
+    <span class="logo-badge">Live</span>
+  </div>
+  <div class="header-divider"></div>
+
+  <div class="search-wrap">
+    <svg class="search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="searchInput" placeholder="Search deals, stages, players…" oninput="handleSearch(this.value)">
+    <button class="search-clear" onclick="clearSearch()" title="Clear search">✕</button>
+    <span class="search-results-count" id="searchCount"></span>
+  </div>
+
+  <div class="rag-filters internal-only">
+    <button class="rag-filter-btn" id="filter-green" onclick="toggleRagFilter('green')">
+      <span class="dot" style="background:var(--green)"></span> Good
+    </button>
+    <button class="rag-filter-btn" id="filter-amber" onclick="toggleRagFilter('amber')">
+      <span class="dot" style="background:var(--amber)"></span> At Risk
+    </button>
+    <button class="rag-filter-btn" id="filter-red" onclick="toggleRagFilter('red')">
+      <span class="dot" style="background:var(--red)"></span> Broken
+    </button>
+  </div>
+
+  <button class="sync-btn internal-only" onclick="openSheetsModal()" title="Configure Google Sheets sync">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 0 1 9-9"/></svg>
+    Sheets Sync
+  </button>
+
+  <button class="add-deal-btn internal-only" onclick="openAddDeal()">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+    Add Deal
+  </button>
+
+  <div class="nav-toggle">
+    <button class="nav-btn active" id="btn-internal" onclick="setMode('internal')">Internal</button>
+    <button class="nav-btn" id="btn-advisor" onclick="setMode('advisor')">Advisor View</button>
+  </div>
+</header>
+
+<!-- ─── STATS BAR ─── -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <span class="stat-value" id="stat-total">0</span>
+    <span class="stat-label">Active Deals</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-value" id="stat-pre">0</span>
+    <span class="stat-label">Pre-Commercial</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <span class="stat-value" id="stat-comm">0</span>
+    <span class="stat-label">Commercial</span>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item internal-only">
+    <span class="stat-value" id="stat-broken" style="color:var(--red)">0</span>
+    <span class="stat-label">Broken Stages</span>
+  </div>
+  <div class="stat-divider internal-only"></div>
+
+  <div class="last-updated">
+    <span class="live-dot"></span>
+    <span id="lastUpdated">—</span>
+  </div>
+</div>
+
+<!-- ─── PRE COMMERCIAL ─── -->
+<div class="zone-wrap">
+  <div class="zone-label pre">
+    Pre Commercial
+    <span class="timer">⏰ Target: 2 weeks intro → POC Alignment</span>
+  </div>
+</div>
+
+<div class="stage-grid" id="pre-grid">
+  <!-- Cards injected by JS -->
+</div>
+
+<!-- ─── COMMERCIAL TERRITORY ─── -->
+<div class="zone-wrap" style="margin-top:20px">
+  <div class="zone-label commercial">Commercial Territory</div>
+</div>
+
+<div class="stage-grid commercial" id="commercial-grid">
+  <!-- Cards injected by JS -->
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="footer">
+  <div class="rag-legend internal-only">
+    <span class="rag-legend-item"><span class="dot green"></span> Good</span>
+    <span class="rag-legend-item"><span class="dot amber"></span> At Risk</span>
+    <span class="rag-legend-item"><span class="dot red"></span> Broken</span>
+  </div>
+  <span>Conquer AI · Mid-Funnel Live Dashboard · <a href="index.html" style="color:var(--text-dim)">Classic Internal</a> · <a href="advisor.html" style="color:var(--text-dim)">Advisor</a></span>
+</footer>
+
+<!-- ─── ADD / EDIT DEAL MODAL ─── -->
+<div class="modal-overlay" id="dealModal">
+  <div class="modal">
+    <div class="modal-title">
+      <span id="modalTitle">Add Deal</span>
+      <button class="modal-close" onclick="closeDealModal()">✕</button>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Account Name</label>
+      <input type="text" class="form-input" id="dealName" placeholder="e.g. Acme Corp">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Stage</label>
+        <select class="form-select" id="dealStage">
+          <option value="1">01 · Intro</option>
+          <option value="2">02 · Discovery</option>
+          <option value="3">03 · POC Initial</option>
+          <option value="4">04 · POC Alignment</option>
+          <option value="5">05 · Proposal</option>
+          <option value="6">06 · Procurement</option>
+          <option value="7">07 · Contract Signed</option>
+        </select>
+      </div>
+      <div class="form-group internal-only">
+        <label class="form-label">RAG Status</label>
+        <select class="form-select" id="dealRag">
+          <option value="green">🟢 Good</option>
+          <option value="amber">🟡 At Risk</option>
+          <option value="red">🔴 Broken</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notes (optional)</label>
+      <input type="text" class="form-input" id="dealNotes" placeholder="Brief context…">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeDealModal()">Cancel</button>
+      <button class="btn-primary" id="dealSaveBtn" onclick="saveDeal()">Add Deal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SHEETS SYNC MODAL ─── -->
+<div class="modal-overlay" id="sheetsModal">
+  <div class="modal">
+    <div class="modal-title">
+      <span>Google Sheets Sync</span>
+      <button class="modal-close" onclick="closeSheetsModal()">✕</button>
+    </div>
+    <div class="sheets-info">
+      Paste your <strong style="color:var(--text)">published Google Sheet CSV URL</strong>.<br><br>
+      In Google Sheets: <code>File → Share → Publish to web</code>, choose <code>CSV</code> format, then copy the URL here.<br><br>
+      Expected columns: <code>name, stage, rag, notes, updated</code>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Sheet CSV URL</label>
+      <input type="text" class="form-input" id="sheetsUrl" placeholder="https://docs.google.com/spreadsheets/d/…/export?format=csv">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Auto-refresh interval</label>
+      <select class="form-select" id="sheetsInterval">
+        <option value="0">Manual only</option>
+        <option value="60">Every minute</option>
+        <option value="300">Every 5 minutes</option>
+        <option value="900">Every 15 minutes</option>
+      </select>
+    </div>
+    <div id="sheetsStatus" style="font-size:11px;color:var(--text-dim);margin-top:4px;min-height:18px;"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeSheetsModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveSheetsCfg()">Save &amp; Sync Now</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── MOVE DEAL MODAL ─── -->
+<div class="modal-overlay" id="moveModal">
+  <div class="modal" style="width:340px">
+    <div class="modal-title">
+      <span>Move Deal</span>
+      <button class="modal-close" onclick="closeMoveModal()">✕</button>
+    </div>
+    <div style="font-size:12px;color:var(--text-mid);margin-bottom:14px">
+      Moving: <strong id="moveDealName" style="color:var(--text)"></strong>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">New Stage</label>
+        <select class="form-select" id="moveStage">
+          <option value="1">01 · Intro</option>
+          <option value="2">02 · Discovery</option>
+          <option value="3">03 · POC Initial</option>
+          <option value="4">04 · POC Alignment</option>
+          <option value="5">05 · Proposal</option>
+          <option value="6">06 · Procurement</option>
+          <option value="7">07 · Contract Signed</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">RAG Status</label>
+        <select class="form-select" id="moveRag">
+          <option value="green">🟢 Good</option>
+          <option value="amber">🟡 At Risk</option>
+          <option value="red">🔴 Broken</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeMoveModal()">Cancel</button>
+      <button class="btn-primary" onclick="confirmMove()">Move</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+/* ═══════════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════════ */
+
+// ── Stage definitions ──
+const STAGES = [
+  {
+    id: 1, name: "Intro", subtitle: null,
+    stripe: "#CC2200", accent: "#9e1a00",
+    rag: { perf: "good", def: "good", effort: "amber" },
+    players: [
+      { icon: "🤝", name: "Partners", role: "Network referrals" },
+      { icon: "👔", name: "C Level", role: "Executive sponsor" },
+      { icon: "⚡", name: "Senior Solutions Team", role: "Technical credibility" }
+    ],
+    success: "Clear qualification of AI readiness and interest. Defined output handed over to Discovery.",
+    gates: [
+      "AI readiness signal captured",
+      "Intro call completed with right attendees",
+      "Account Intelligence doc started",
+      "Clear handover note to Discovery"
+    ],
+    inputs: ["Partner referral / outbound", "Services catalogue per vertical", "Account Intelligence template"],
+    outputs: ["Account Intelligence doc", "Booked Discovery session", "Qualified handover note"],
+    retro: {
+      working: ["Strong intro volume", "Partner network working", "Clear output defined"],
+      change: ["Handover to Discovery needs smoothing", "Follow-up ownership unclear", "AI readiness signal inconsistent"],
+      motion: ["Account Intelligence doc template", "Partner briefing materials", "Services Catalogue per vertical"]
+    }
+  },
+  {
+    id: 2, name: "Discovery", subtitle: "Pre Whiteboard",
+    stripe: "#E05010", accent: "#b03c0c",
+    rag: { perf: "red", def: "good", effort: "amber" },
+    booking: true,
+    players: [
+      { icon: "🏆", name: "Champion (client)", role: "Internal advocate" },
+      { icon: "🧠", name: "Subject Matter Expert", role: "Domain depth" },
+      { icon: "🔧", name: "Conquer Solutions Lead", role: "Session facilitator" }
+    ],
+    success: "POC Direction defined. Whiteboard session booked. NDA in place.",
+    gates: [
+      "Whiteboard session scheduled in our calendar",
+      "Champion identified and committed",
+      "NDA signed",
+      "POC Direction output agreed"
+    ],
+    inputs: ["Account Intelligence doc", "Booked session", "Whiteboard template"],
+    outputs: ["POC Direction document", "Booked POC Initial session", "NDA executed"],
+    retro: {
+      working: ["Good session volume", "Whiteboard template works", "POC Direction output clear"],
+      change: ["Unprepared at short notice", "Schedule not in our control", "Follow-ups rushed"],
+      motion: ["Team calendar live", "NDA process standardised", "POC Direction template"]
+    }
+  },
+  {
+    id: 3, name: "POC Initial", subtitle: "Whiteboard",
+    stripe: "#D4880C", accent: "#a06008",
+    rag: { perf: "good", def: "good", effort: "amber" },
+    booking: true,
+    players: [
+      { icon: "👥", name: "End Users", role: "Workflow owners" },
+      { icon: "🏆", name: "Champion (client)", role: "Internal advocate" },
+      { icon: "⚡", name: "Conquer Solutions Team", role: "POC delivery" }
+    ],
+    success: "POC delivered in clickable Figma format. Feedback gathered. Alignment session booked.",
+    gates: [
+      "POC produced using SOP (materials, not delivery)",
+      "Figma site delivered and walkthrough complete",
+      "Structured feedback captured",
+      "POC Alignment session booked"
+    ],
+    inputs: ["POC Direction doc", "Figma SOP", "Booked session slot"],
+    outputs: ["Clickable Figma POC site", "Feedback summary", "Booked POC Alignment session"],
+    figmaLinks: [
+      { label: "POC Example A", url: "#" },
+      { label: "POC Example B", url: "#" },
+      { label: "POC Example C", url: "#" }
+    ],
+    retro: {
+      working: ["POC quality consistent", "SOP enables material production", "Clickable format lands well"],
+      change: ["Follow-up after delivery inconsistent", "Refinement loops skipped", "Feedback not structured"],
+      motion: ["SOP documented", "Team calendar in place", "Figma site examples"]
+    }
+  },
+  {
+    id: 4, name: "POC Alignment", subtitle: "Whiteboard",
+    stripe: "#C8B020", accent: "#8c7a14",
+    rag: { perf: "amber", def: "amber", effort: "red" },
+    booking: true,
+    players: [
+      { icon: "🎯", name: "Decision-Maker", role: "Must be present" },
+      { icon: "🏆", name: "Champion (client)", role: "Internal advocate" },
+      { icon: "⚡", name: "Conquer Solutions Team", role: "Requirements capture" }
+    ],
+    success: "Decision-Maker engaged. Finer requirements documented. Proposal path confirmed.",
+    gates: [
+      "Decision-Maker confirmed present",
+      "POC refinements agreed",
+      "Requirements documented",
+      "Commercial conversation opened"
+    ],
+    inputs: ["Figma POC site", "Feedback summary", "DM confirmation"],
+    outputs: ["Confirmed requirements doc", "Pilot delivery plan", "Proposal brief"],
+    retro: {
+      working: ["Demo format works with DMs", "Finer requirements emerge clearly", "Structured path to proposal"],
+      change: ["Too much prep effort", "DM not always present", "Too slow to convert to proposal"],
+      motion: ["Confirmed POC + requirements doc", "Team calendar", "Pilot delivery plan template"]
+    }
+  },
+  {
+    id: 5, name: "Proposal", subtitle: null,
+    stripe: "#88B830", accent: "#547020",
+    rag: { perf: "red", def: "red", effort: "red" },
+    players: [
+      { icon: "💡", name: "Solutions", role: "Technical scoping" },
+      { icon: "💼", name: "Commercial", role: "Pricing & terms" },
+      { icon: "🎯", name: "Decision-Maker (client)", role: "Proposal receiver" }
+    ],
+    success: "Credible, scoped proposal delivered. Acknowledgement received. Review meeting booked.",
+    gates: [
+      "Solutions and Commercial aligned on scope",
+      "Proposal sent within agreed timeframe",
+      "Acknowledgement received",
+      "Review meeting booked"
+    ],
+    inputs: ["Requirements doc", "Pilot delivery plan", "Commercial rate card"],
+    outputs: ["Signed proposal / LOI", "Review meeting notes", "Procurement brief"],
+    retro: {
+      working: ["Proposals commercially credible", "Solutions/Commercial alignment improving", "Acknowledgement rate reasonable"],
+      change: ["Capacity constrained by pre-commercial load", "No proposal SOP", "Too much busy work"],
+      motion: ["Proposal SOP in progress", "Exploring capacity freeing", "S&C working closer"]
+    }
+  },
+  {
+    id: 6, name: "Procurement", subtitle: null,
+    stripe: "#40A840", accent: "#286828",
+    rag: { perf: "amber", def: "amber", effort: "red" },
+    players: [
+      { icon: "📋", name: "Procurement Lead", role: "Client-side process" },
+      { icon: "⚖️", name: "Legal / Security", role: "Compliance sign-off" },
+      { icon: "🏆", name: "Champion (client)", role: "Internal escalation" }
+    ],
+    success: "Vendor onboarding complete. Legal/security cleared. Contract ready to sign.",
+    gates: [
+      "Vendor onboarding pack submitted",
+      "Legal/security review passed",
+      "Champion engaged for escalation",
+      "Contract drafted and reviewed"
+    ],
+    inputs: ["Signed proposal", "Compliance docs", "Vendor onboarding pack"],
+    outputs: ["Approved vendor status", "Final contract draft", "Signatory identified"],
+    retro: {
+      working: ["Champion escalation unblocks deals", "Compliance docs ready", "Relationships strong"],
+      change: ["Vendor onboarding undefined", "No clear owner on our side", "Timelines unpredictable"],
+      motion: ["Procurement checklist drafted", "Champion engagement model", "Earlier procurement touchpoints"]
+    }
+  },
+  {
+    id: 7, name: "Contract Signed", subtitle: null,
+    stripe: "#1A9A50", accent: "#0f6030",
+    rag: { perf: "amber", def: "good", effort: "red" },
+    players: [
+      { icon: "✍️", name: "Signatory (client)", role: "Contract execution" },
+      { icon: "🏆", name: "Champion (client)", role: "Relationship holder" },
+      { icon: "🚀", name: "Conquer Delivery Lead", role: "Kick-off handover" }
+    ],
+    success: "Contract signed. Kick-off meeting booked. Delivery handover complete.",
+    gates: [
+      "Contract executed by both parties",
+      "Kick-off meeting scheduled",
+      "Delivery lead briefed",
+      "Success metrics agreed"
+    ],
+    inputs: ["Final contract draft", "Approved vendor status", "Delivery brief"],
+    outputs: ["Signed contract", "Kick-off meeting", "Delivery handover pack"],
+    retro: {
+      working: ["Output decisive when we get here", "Definition clear", "Relationships strong"],
+      change: ["Too few accounts reaching this stage", "Post-contract to kick-off undefined", "Delivery handover not standardised"],
+      motion: ["Delivery kick-off checklist", "Tracking conversion rates", "North star: volume and speed to contract"]
+    }
+  }
+];
+
+// ── Deal data (editable JSON — modify here or via UI) ──
+// Format: { id, name, stage (1-7), rag ("green"|"amber"|"red"), notes, updated }
+let DEALS = [
+  { id: 1,  name: "Alpha Industries",    stage: 1, rag: "green", notes: "Warm intro via partner", updated: "2026-03-12" },
+  { id: 2,  name: "Beacon Health",       stage: 1, rag: "amber", notes: "C-level engaged",        updated: "2026-03-11" },
+  { id: 3,  name: "Cascade Logistics",   stage: 2, rag: "red",   notes: "Discovery booked",       updated: "2026-03-13" },
+  { id: 4,  name: "Delta Pharma",        stage: 2, rag: "amber", notes: "SME involved",            updated: "2026-03-10" },
+  { id: 5,  name: "Echo Finance",        stage: 3, rag: "green", notes: "POC underway",            updated: "2026-03-13" },
+  { id: 6,  name: "Fortis Energy",       stage: 3, rag: "amber", notes: "Feedback pending",        updated: "2026-03-09" },
+  { id: 7,  name: "Granite Legal",       stage: 4, rag: "red",   notes: "DM not yet confirmed",    updated: "2026-03-12" },
+  { id: 8,  name: "Helix Bio",           stage: 4, rag: "amber", notes: "Alignment session set",   updated: "2026-03-11" },
+  { id: 9,  name: "Iris Technology",     stage: 5, rag: "red",   notes: "Proposal in draft",       updated: "2026-03-13" },
+  { id: 10, name: "Juniper Retail",      stage: 6, rag: "amber", notes: "Procurement started",     updated: "2026-03-08" },
+  { id: 11, name: "Kelvin Manufacturing",stage: 7, rag: "green", notes: "Contract review",         updated: "2026-03-13" }
+];
+
+let nextId = 100;
+let editingDealId = null;
+let movingDealId = null;
+let activeRagFilter = null;
+let sheetsInterval = null;
+let currentMode = 'internal';
+
+/* ═══════════════════════════════════════════════════
+   RENDER
+═══════════════════════════════════════════════════ */
+
+function ragClass(val) {
+  return val === 'good' ? 'good' : val === 'amber' ? 'at-risk' : 'broken';
+}
+function ragLabel(val) {
+  return val === 'good' ? 'Good' : val === 'amber' ? 'At Risk' : 'Broken';
+}
+function relTime(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr), now = new Date();
+  const diff = Math.floor((now - d) / 86400000);
+  if (diff === 0) return 'today';
+  if (diff === 1) return '1d ago';
+  if (diff < 7) return `${diff}d ago`;
+  if (diff < 30) return `${Math.floor(diff/7)}w ago`;
+  return `${Math.floor(diff/30)}mo ago`;
+}
+
+function renderAll() {
+  renderGrid('pre-grid',  STAGES.filter(s => s.id <= 4));
+  renderGrid('commercial-grid', STAGES.filter(s => s.id >= 5));
+  updateStats();
+  updateLastUpdated();
+}
+
+function renderGrid(gridId, stages) {
+  const grid = document.getElementById(gridId);
+  // Preserve open panels
+  const openPanels = new Set(
+    [...grid.querySelectorAll('.panel-wrap.open')].map(el => +el.dataset.stage)
+  );
+
+  grid.innerHTML = '';
+  stages.forEach(stage => {
+    const deals = DEALS.filter(d => d.stage === stage.id);
+    grid.appendChild(buildCard(stage, deals, openPanels.has(stage.id)));
+    const pw = buildPanel(stage);
+    pw.dataset.stage = stage.id;
+    if (openPanels.has(stage.id)) pw.classList.add('open');
+    grid.appendChild(pw);
+  });
+}
+
+function buildCard(stage, deals, expanded) {
+  const card = document.createElement('div');
+  card.className = 'stage-card' + (stage.id >= 5 ? ' commercial-stage' : '') + (expanded ? ' expanded' : '');
+  card.id = `card-${stage.id}`;
+  card.style.setProperty('--stripe-color', stage.stripe);
+  card.onclick = () => togglePanel(stage.id);
+
+  const rag = stage.rag;
+  const dotMap = v => v === 'good' ? 'green' : v === 'amber' ? 'amber' : 'red';
+
+  card.innerHTML = `
+    <div class="card-stripe"></div>
+    <div class="card-body">
+      <div class="card-number">${String(stage.id).padStart(2,'0')}</div>
+      <div class="card-stage-label">Stage ${String(stage.id).padStart(2,'0')}</div>
+      <div class="card-title">${stage.name}</div>
+      ${stage.subtitle ? `<div class="card-subtitle">${stage.subtitle}</div>` : ''}
+      <div class="deal-count ${deals.length > 0 ? 'has-deals' : ''}">
+        <span class="count-num">${deals.length}</span> deal${deals.length !== 1 ? 's' : ''}
+      </div>
+      ${renderDealList(stage, deals)}
+      <div class="dot-grid internal-only">
+        <div class="dot-cell"><span class="dot ${dotMap(rag.perf)}"></span>Perf</div>
+        <div class="dot-cell"><span class="dot ${dotMap(rag.def)}"></span>Def</div>
+        <div class="dot-cell"><span class="dot ${dotMap(rag.effort)}"></span>Out</div>
+      </div>
+    </div>
+    <div class="card-expand">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+  `;
+  return card;
+}
+
+function renderDealList(stage, deals) {
+  if (deals.length === 0) {
+    return `<div class="deal-list"><div class="empty-stage">No active deals</div></div>`;
+  }
+  const items = deals.map(d => `
+    <div class="deal-chip" data-deal="${d.id}" onclick="event.stopPropagation()">
+      <span class="deal-chip-rag ${d.rag}"></span>
+      <span class="deal-chip-name">${d.name}</span>
+      <span class="deal-chip-time">${relTime(d.updated)}</span>
+      <span class="deal-chip-actions internal-only">
+        <button class="deal-chip-btn" onclick="openEditDeal(${d.id})">Edit</button>
+        <button class="deal-chip-btn" onclick="openMoveDeal(${d.id})">Move</button>
+        <button class="deal-chip-btn del" onclick="deleteDeal(${d.id})">✕</button>
+      </span>
+    </div>
+  `).join('');
+  return `<div class="deal-list">${items}</div>`;
+}
+
+function buildPanel(stage) {
+  const pw = document.createElement('div');
+  pw.className = 'panel-wrap';
+  pw.id = `panel-${stage.id}`;
+
+  const rag = stage.rag;
+  const pillHtml = (label, val) =>
+    `<span class="rag-pill ${ragClass(val)}"><span class="dot"></span>${label}: ${ragLabel(val)}</span>`;
+
+  const gatesHtml = stage.gates.map(g =>
+    `<div class="gate-item"><span class="gate-tick">✓</span>${g}</div>`
+  ).join('');
+
+  const playersHtml = stage.players.map(p => `
+    <div class="player-card">
+      <div class="player-icon">${p.icon}</div>
+      <div><div class="player-name">${p.name}</div><div class="player-role">${p.role}</div></div>
+    </div>
+  `).join('');
+
+  const inputsHtml = stage.inputs.map(i =>
+    `<div class="io-item"><span class="io-bullet">→</span>${i}</div>`
+  ).join('');
+  const outputsHtml = stage.outputs.map(o =>
+    `<div class="io-item"><span class="io-bullet">←</span>${o}</div>`
+  ).join('');
+
+  const figmaLinksHtml = stage.figmaLinks ? stage.figmaLinks.map(l =>
+    `<div class="io-item"><span class="io-bullet">↗</span><a href="${l.url}" style="color:var(--brand)">${l.label}</a></div>`
+  ).join('') : '';
+
+  const bookingHtml = stage.booking ? `
+    <div class="callout">
+      📅 <a href="https://calendar.app.google/qqYGLRGDRmh5Mn1v5" target="_blank">Book session</a>
+      — avoids double-booking, confirms availability
+    </div>
+  ` : '';
+
+  const retroHtml = stage.retro ? `
+    <div class="retro-bar internal-only">
+      <div class="retro-col">
+        <div class="retro-col-title">What's working</div>
+        ${stage.retro.working.map(i => `<div class="retro-item">${i}</div>`).join('')}
+      </div>
+      <div class="retro-col">
+        <div class="retro-col-title">What needs to change</div>
+        ${stage.retro.change.map(i => `<div class="retro-item">${i}</div>`).join('')}
+      </div>
+      <div class="retro-col">
+        <div class="retro-col-title">Already in motion</div>
+        ${stage.retro.motion.map(i => `<div class="retro-item">${i}</div>`).join('')}
+      </div>
+    </div>
+  ` : '';
+
+  pw.innerHTML = `
+    <div class="panel-shell">
+      <div class="rag-bar internal-only">
+        ${pillHtml('Performance', rag.perf)}
+        ${pillHtml('Definition', rag.def)}
+        ${pillHtml('Effort / Output', rag.effort)}
+      </div>
+      <div class="panel" style="--accent-color:${stage.accent}">
+        <div class="panel-accent">
+          <div>
+            <div class="panel-accent-stage">Stage ${String(stage.id).padStart(2,'0')}</div>
+            <div class="panel-accent-name">${stage.name}${stage.subtitle ? `<br><span style="font-weight:400;font-size:11px;opacity:0.6">${stage.subtitle}</span>` : ''}</div>
+          </div>
+          <div class="panel-output-pill">Output defined</div>
+        </div>
+        <div class="panel-col">
+          <div class="panel-col-title">Success looks like</div>
+          <p>${stage.success}</p>
+          <div class="panel-col-title" style="margin-top:10px">Exit Gates</div>
+          <div class="gate-list">${gatesHtml}</div>
+          ${bookingHtml}
+        </div>
+        <div class="panel-col io-col">
+          <div class="panel-col-title">Key Players</div>
+          <div class="player-list">${playersHtml}</div>
+        </div>
+        <div class="panel-col gate-col">
+          <div class="panel-col-title">Key Inputs</div>
+          <div class="io-list">${inputsHtml}</div>
+          <div class="panel-col-title" style="margin-top:10px">Key Outputs</div>
+          <div class="io-list">${outputsHtml}</div>
+          ${figmaLinksHtml}
+        </div>
+      </div>
+      ${retroHtml}
+    </div>
+  `;
+  return pw;
+}
+
+/* ═══════════════════════════════════════════════════
+   PANEL TOGGLE
+═══════════════════════════════════════════════════ */
+
+function togglePanel(stageId) {
+  const card = document.getElementById(`card-${stageId}`);
+  const panel = document.getElementById(`panel-${stageId}`);
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  card.classList.toggle('expanded', !isOpen);
+}
+
+/* ═══════════════════════════════════════════════════
+   STATS
+═══════════════════════════════════════════════════ */
+
+function updateStats() {
+  const filtered = activeRagFilter
+    ? DEALS.filter(d => d.rag === activeRagFilter)
+    : DEALS;
+
+  document.getElementById('stat-total').textContent = DEALS.length;
+  document.getElementById('stat-pre').textContent = DEALS.filter(d => d.stage <= 4).length;
+  document.getElementById('stat-comm').textContent = DEALS.filter(d => d.stage >= 5).length;
+
+  // Broken stages = stages where any RAG is 'red' (from stage config)
+  const brokenCount = STAGES.filter(s =>
+    s.rag.perf === 'red' || s.rag.def === 'red' || s.rag.effort === 'red'
+  ).length;
+  document.getElementById('stat-broken').textContent = brokenCount;
+}
+
+function updateLastUpdated() {
+  const now = new Date();
+  document.getElementById('lastUpdated').textContent =
+    `Updated ${now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'})}`;
+}
+
+/* ═══════════════════════════════════════════════════
+   MODE TOGGLE
+═══════════════════════════════════════════════════ */
+
+function setMode(mode) {
+  currentMode = mode;
+  document.body.classList.toggle('advisor-mode', mode === 'advisor');
+  document.getElementById('btn-internal').classList.toggle('active', mode === 'internal');
+  document.getElementById('btn-advisor').classList.toggle('active', mode === 'advisor');
+  localStorage.setItem('cq-mode', mode);
+}
+
+/* ═══════════════════════════════════════════════════
+   SEARCH
+═══════════════════════════════════════════════════ */
+
+function handleSearch(query) {
+  const input = document.getElementById('searchInput');
+  const clearBtn = input.nextElementSibling;
+  const countEl = document.getElementById('searchCount');
+
+  clearBtn.classList.toggle('visible', query.length > 0);
+  input.value = query;
+
+  if (!query.trim()) {
+    clearSearch();
+    return;
+  }
+
+  const q = query.toLowerCase();
+  let matchCount = 0;
+
+  STAGES.forEach(stage => {
+    const card = document.getElementById(`card-${stage.id}`);
+    if (!card) return;
+
+    // Check stage content
+    const stageText = [
+      stage.name, stage.subtitle || '',
+      ...stage.gates, ...(stage.inputs || []), ...(stage.outputs || []),
+      ...stage.players.map(p => p.name + ' ' + p.role),
+      stage.success
+    ].join(' ').toLowerCase();
+
+    // Check deals in this stage
+    const stageDeals = DEALS.filter(d => d.stage === stage.id);
+    const dealText = stageDeals.map(d => d.name + ' ' + (d.notes || '')).join(' ').toLowerCase();
+
+    const matches = stageText.includes(q) || dealText.includes(q);
+
+    card.classList.toggle('search-match', matches);
+    card.classList.toggle('search-hidden', !matches);
+    if (matches) matchCount++;
+  });
+
+  countEl.textContent = `${matchCount} stage${matchCount !== 1 ? 's' : ''}`;
+  countEl.classList.add('visible');
+}
+
+function clearSearch() {
+  const input = document.getElementById('searchInput');
+  input.value = '';
+  document.getElementById('searchCount').classList.remove('visible');
+  document.querySelectorAll('.stage-card').forEach(c => {
+    c.classList.remove('search-match', 'search-hidden');
+  });
+  document.querySelector('.search-clear').classList.remove('visible');
+}
+
+/* ═══════════════════════════════════════════════════
+   RAG FILTER
+═══════════════════════════════════════════════════ */
+
+function toggleRagFilter(color) {
+  const btn = document.getElementById(`filter-${color}`);
+  if (activeRagFilter === color) {
+    activeRagFilter = null;
+    btn.className = 'rag-filter-btn';
+    document.querySelectorAll('.stage-card').forEach(c => c.classList.remove('search-hidden'));
+  } else {
+    activeRagFilter = color;
+    ['green','amber','red'].forEach(c => {
+      document.getElementById(`filter-${c}`).className = 'rag-filter-btn' + (c === color ? ` active-${c}` : '');
+    });
+    STAGES.forEach(stage => {
+      const card = document.getElementById(`card-${stage.id}`);
+      if (!card) return;
+      const rag = stage.rag;
+      const matches = color === 'green'
+        ? (rag.perf === 'good' && rag.def === 'good' && rag.effort === 'good')
+        : color === 'red'
+        ? (rag.perf === 'red' || rag.def === 'red' || rag.effort === 'red')
+        : (rag.perf === 'amber' || rag.def === 'amber' || rag.effort === 'amber');
+      card.classList.toggle('search-hidden', !matches);
+    });
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   ADD / EDIT DEAL
+═══════════════════════════════════════════════════ */
+
+function openAddDeal(stageId) {
+  editingDealId = null;
+  document.getElementById('modalTitle').textContent = 'Add Deal';
+  document.getElementById('dealSaveBtn').textContent = 'Add Deal';
+  document.getElementById('dealName').value = '';
+  document.getElementById('dealStage').value = stageId || 1;
+  document.getElementById('dealRag').value = 'green';
+  document.getElementById('dealNotes').value = '';
+  document.getElementById('dealModal').classList.add('open');
+  setTimeout(() => document.getElementById('dealName').focus(), 100);
+}
+
+function openEditDeal(id) {
+  const deal = DEALS.find(d => d.id === id);
+  if (!deal) return;
+  editingDealId = id;
+  document.getElementById('modalTitle').textContent = 'Edit Deal';
+  document.getElementById('dealSaveBtn').textContent = 'Save Changes';
+  document.getElementById('dealName').value = deal.name;
+  document.getElementById('dealStage').value = deal.stage;
+  document.getElementById('dealRag').value = deal.rag;
+  document.getElementById('dealNotes').value = deal.notes || '';
+  document.getElementById('dealModal').classList.add('open');
+}
+
+function closeDealModal() {
+  document.getElementById('dealModal').classList.remove('open');
+}
+
+function saveDeal() {
+  const name = document.getElementById('dealName').value.trim();
+  if (!name) { document.getElementById('dealName').focus(); return; }
+
+  const stage = +document.getElementById('dealStage').value;
+  const rag = document.getElementById('dealRag').value;
+  const notes = document.getElementById('dealNotes').value.trim();
+  const today = new Date().toISOString().split('T')[0];
+
+  if (editingDealId !== null) {
+    const deal = DEALS.find(d => d.id === editingDealId);
+    if (deal) { deal.name = name; deal.stage = stage; deal.rag = rag; deal.notes = notes; deal.updated = today; }
+  } else {
+    DEALS.push({ id: nextId++, name, stage, rag, notes, updated: today });
+  }
+
+  closeDealModal();
+  renderAll();
+  saveDealsLocal();
+}
+
+function deleteDeal(id) {
+  if (!confirm('Remove this deal?')) return;
+  DEALS = DEALS.filter(d => d.id !== id);
+  renderAll();
+  saveDealsLocal();
+}
+
+/* ═══════════════════════════════════════════════════
+   MOVE DEAL
+═══════════════════════════════════════════════════ */
+
+function openMoveDeal(id) {
+  const deal = DEALS.find(d => d.id === id);
+  if (!deal) return;
+  movingDealId = id;
+  document.getElementById('moveDealName').textContent = deal.name;
+  document.getElementById('moveStage').value = deal.stage;
+  document.getElementById('moveRag').value = deal.rag;
+  document.getElementById('moveModal').classList.add('open');
+}
+
+function closeMoveModal() {
+  document.getElementById('moveModal').classList.remove('open');
+}
+
+function confirmMove() {
+  const deal = DEALS.find(d => d.id === movingDealId);
+  if (deal) {
+    deal.stage = +document.getElementById('moveStage').value;
+    deal.rag = document.getElementById('moveRag').value;
+    deal.updated = new Date().toISOString().split('T')[0];
+  }
+  closeMoveModal();
+  renderAll();
+  saveDealsLocal();
+}
+
+/* ═══════════════════════════════════════════════════
+   GOOGLE SHEETS SYNC
+═══════════════════════════════════════════════════ */
+
+function openSheetsModal() {
+  const cfg = getSheetsConfig();
+  document.getElementById('sheetsUrl').value = cfg.url || '';
+  document.getElementById('sheetsInterval').value = cfg.interval || 0;
+  document.getElementById('sheetsStatus').textContent = '';
+  document.getElementById('sheetsModal').classList.add('open');
+}
+
+function closeSheetsModal() {
+  document.getElementById('sheetsModal').classList.remove('open');
+}
+
+function getSheetsConfig() {
+  try { return JSON.parse(localStorage.getItem('cq-sheets') || '{}'); } catch { return {}; }
+}
+
+function saveSheetsCfg() {
+  const url = document.getElementById('sheetsUrl').value.trim();
+  const interval = +document.getElementById('sheetsInterval').value;
+  localStorage.setItem('cq-sheets', JSON.stringify({ url, interval }));
+  setupAutoSync(url, interval);
+  if (url) syncFromSheets(url);
+  closeSheetsModal();
+}
+
+function setupAutoSync(url, interval) {
+  if (sheetsInterval) clearInterval(sheetsInterval);
+  if (url && interval > 0) {
+    sheetsInterval = setInterval(() => syncFromSheets(url), interval * 1000);
+  }
+}
+
+async function syncFromSheets(url) {
+  if (!url) return;
+  const btn = document.querySelector('.sync-btn');
+  btn.classList.add('syncing');
+  try {
+    const res = await fetch(url);
+    const text = await res.text();
+    const rows = text.trim().split('\n').slice(1); // skip header
+    const imported = [];
+    rows.forEach((row, i) => {
+      const cols = row.split(',').map(c => c.trim().replace(/^"|"$/g,''));
+      if (!cols[0]) return;
+      imported.push({
+        id: 200 + i,
+        name: cols[0],
+        stage: Math.min(7, Math.max(1, +cols[1] || 1)),
+        rag: ['green','amber','red'].includes(cols[2]) ? cols[2] : 'green',
+        notes: cols[3] || '',
+        updated: cols[4] || new Date().toISOString().split('T')[0]
+      });
+    });
+    if (imported.length > 0) {
+      DEALS = imported;
+      renderAll();
+      saveDealsLocal();
+    }
+  } catch(e) {
+    console.warn('Sheets sync failed:', e);
+  }
+  btn.classList.remove('syncing');
+}
+
+/* ═══════════════════════════════════════════════════
+   LOCAL STORAGE PERSISTENCE
+═══════════════════════════════════════════════════ */
+
+function saveDealsLocal() {
+  try { localStorage.setItem('cq-deals', JSON.stringify(DEALS)); } catch {}
+}
+
+function loadDealsLocal() {
+  try {
+    const saved = localStorage.getItem('cq-deals');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        DEALS = parsed;
+        nextId = Math.max(...parsed.map(d => d.id)) + 1;
+      }
+    }
+  } catch {}
+}
+
+/* ═══════════════════════════════════════════════════
+   KEYBOARD
+═══════════════════════════════════════════════════ */
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeDealModal(); closeSheetsModal(); closeMoveModal();
+    if (document.getElementById('searchInput').value) clearSearch();
+  }
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+    document.getElementById('searchInput').select();
+  }
+});
+
+// Close modals on overlay click
+['dealModal','sheetsModal','moveModal'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.classList.remove('open');
+    }
+  });
+});
+
+/* ═══════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════ */
+
+(function init() {
+  loadDealsLocal();
+  renderAll();
+
+  // Restore mode
+  const savedMode = localStorage.getItem('cq-mode');
+  if (savedMode === 'advisor') setMode('advisor');
+
+  // Restore sheets sync
+  const cfg = getSheetsConfig();
+  if (cfg.url && cfg.interval) setupAutoSync(cfg.url, cfg.interval);
+})();
+</script>
+</body>
+</html>
