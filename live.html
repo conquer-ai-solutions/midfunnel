@@ -148,24 +148,8 @@ body {
 .rag-filter-btn.active-amber { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
 .rag-filter-btn.active-red { background: var(--red-bg); border-color: var(--red); color: var(--red); }
 
-/* nav toggle */
-.nav-toggle {
-  display: flex; gap: 2px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 3px;
-  flex-shrink: 0;
-  margin-left: auto;
-}
-.nav-btn {
-  padding: 4px 12px;
-  border-radius: 4px; border: none;
-  font-family: var(--font); font-size: 11px; font-weight: 500;
-  cursor: pointer; transition: all 0.15s;
-  background: transparent; color: var(--text-mid);
-}
-.nav-btn.active { background: var(--brand); color: white; }
+
+
 
 /* add deal button */
 .add-deal-btn {
@@ -535,16 +519,8 @@ body {
 .rag-legend { display: flex; gap: 12px; }
 .rag-legend-item { display: flex; align-items: center; gap: 5px; }
 
-/* ─── ADVISOR OVERRIDES ─── */
-body.advisor-mode .internal-only { display: none !important; }
-body.advisor-mode .rag-bar { display: none !important; }
-body.advisor-mode .retro-bar { display: none !important; }
-body.advisor-mode .dot-grid { display: none !important; }
-body.advisor-mode .rag-filters { display: none !important; }
-body.advisor-mode .add-deal-btn { display: none !important; }
-body.advisor-mode .deal-chip-actions { display: none !important; }
-body.advisor-mode .deal-chip:hover .deal-chip-time { display: block !important; }
-body.advisor-mode .sync-btn { display: none !important; }
+
+
 
 /* ─── MODAL ─── */
 .modal-overlay {
@@ -659,7 +635,7 @@ body.advisor-mode .sync-btn { display: none !important; }
     <span class="search-results-count" id="searchCount"></span>
   </div>
 
-  <div class="rag-filters internal-only">
+  <div class="rag-filters">
     <button class="rag-filter-btn" id="filter-green" onclick="toggleRagFilter('green')">
       <span class="dot" style="background:var(--green)"></span> Good
     </button>
@@ -671,20 +647,18 @@ body.advisor-mode .sync-btn { display: none !important; }
     </button>
   </div>
 
-  <button class="sync-btn internal-only" onclick="openSheetsModal()" title="Configure Google Sheets sync">
+  <button class="sync-btn" onclick="openSheetsModal()" title="Configure Google Sheets sync">
     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 0 1 9-9"/></svg>
     Sheets Sync
   </button>
 
-  <button class="add-deal-btn internal-only" onclick="openAddDeal()">
+  <button class="add-deal-btn" onclick="openAddDeal()">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
     Add Deal
   </button>
 
-  <div class="nav-toggle">
-    <button class="nav-btn active" id="btn-internal" onclick="setMode('internal')">Internal</button>
-    <button class="nav-btn" id="btn-advisor" onclick="setMode('advisor')">Advisor View</button>
-  </div>
+
+
 </header>
 
 <!-- ─── STATS BAR ─── -->
@@ -704,11 +678,11 @@ body.advisor-mode .sync-btn { display: none !important; }
     <span class="stat-label">Commercial</span>
   </div>
   <div class="stat-divider"></div>
-  <div class="stat-item internal-only">
+  <div class="stat-item">
     <span class="stat-value" id="stat-broken" style="color:var(--red)">0</span>
     <span class="stat-label">Broken Stages</span>
   </div>
-  <div class="stat-divider internal-only"></div>
+  <div class="stat-divider"></div>
 
   <div class="last-updated">
     <span class="live-dot"></span>
@@ -732,7 +706,7 @@ body.advisor-mode .sync-btn { display: none !important; }
 
 <!-- ─── FOOTER ─── -->
 <footer class="footer">
-  <div class="rag-legend internal-only">
+  <div class="rag-legend">
     <span class="rag-legend-item"><span class="dot green"></span> Good</span>
     <span class="rag-legend-item"><span class="dot amber"></span> At Risk</span>
     <span class="rag-legend-item"><span class="dot red"></span> Broken</span>
@@ -764,7 +738,7 @@ body.advisor-mode .sync-btn { display: none !important; }
           <option value="7">07 · Contract Signed</option>
         </select>
       </div>
-      <div class="form-group internal-only">
+      <div class="form-group">
         <label class="form-label">RAG Status</label>
         <select class="form-select" id="dealRag">
           <option value="green">🟢 Good</option>
@@ -1074,7 +1048,6 @@ let movingDealId = null;
 let activeRagFilter = null;
 let focusedDeal = null;
 let sheetsInterval = null;
-let currentMode = 'internal';
 
 /* ═══════════════════════════════════════════════════
    RENDER
@@ -1150,7 +1123,7 @@ function buildCard(stage, deals) {
         <span class="count-num">${deals.length}</span> deal${deals.length !== 1 ? 's' : ''}
       </div>
       ${renderDealList(stage, deals)}
-      <div class="dot-grid internal-only">
+      <div class="dot-grid">
         <div class="dot-cell"><span class="dot ${dotMap(rag.perf)}"></span>Perf</div>
         <div class="dot-cell"><span class="dot ${dotMap(rag.def)}"></span>Def</div>
         <div class="dot-cell"><span class="dot ${dotMap(rag.effort)}"></span>Out</div>
@@ -1170,7 +1143,7 @@ function renderDealList(stage, deals) {
       <span class="deal-chip-rag ${d.rag}"></span>
       <span class="deal-chip-name">${d.name}</span>
       <span class="deal-chip-time">${relTime(d.updated)}</span>
-      <span class="deal-chip-actions internal-only">
+      <span class="deal-chip-actions">
         <button class="deal-chip-btn" onclick="event.stopPropagation(); openEditDeal(${d.id})">Edit</button>
         <button class="deal-chip-btn" onclick="event.stopPropagation(); openMoveDeal(${d.id})">Move</button>
         <button class="deal-chip-btn del" onclick="event.stopPropagation(); deleteDeal(${d.id})">✕</button>
@@ -1188,7 +1161,7 @@ function buildDealListPanel(stage) {
   const deals = DEALS.filter(d => d.stage === stage.id);
 
   const rowsHtml = deals.length === 0
-    ? `<div class="panel-empty">No active deals in this stage — <button class="inline-add internal-only" onclick="openAddDeal(${stage.id})">add one</button></div>`
+    ? `<div class="panel-empty">No active deals in this stage — <button class="inline-add" onclick="openAddDeal(${stage.id})">add one</button></div>`
     : deals.map(d => `
       <div class="deal-list-row ${focusedDeal === d.id ? 'focused' : ''}" onclick="selectDeal(${d.id})">
         <div class="deal-list-rag ${d.rag}"></div>
@@ -1213,7 +1186,7 @@ function buildDealListPanel(stage) {
           Stage ${String(stage.id).padStart(2,'0')} · ${stage.name}
         </span>
         <span class="deal-panel-count">${deals.length} deal${deals.length !== 1 ? 's' : ''}</span>
-        <button class="deal-panel-add internal-only" onclick="openAddDeal(${stage.id})">
+        <button class="deal-panel-add" onclick="openAddDeal(${stage.id})">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
           Add deal
         </button>
@@ -1236,7 +1209,7 @@ function buildDealFocusHTML(deal, stage) {
         <div class="deal-focus-name-row">
           <span class="deal-focus-name">${deal.name}</span>
           <span class="deal-focus-rag-pill ${deal.rag}">${ragLabel}</span>
-          <span class="deal-focus-actions internal-only">
+          <span class="deal-focus-actions">
             <button class="deal-chip-btn" onclick="openEditDeal(${deal.id})">Edit</button>
             <button class="deal-chip-btn" onclick="openMoveDeal(${deal.id})">Move stage</button>
             <button class="deal-chip-btn del" onclick="deleteDeal(${deal.id})">Remove</button>
@@ -1328,17 +1301,8 @@ function updateLastUpdated() {
     `Updated ${now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'})}`;
 }
 
-/* ═══════════════════════════════════════════════════
-   MODE TOGGLE
-═══════════════════════════════════════════════════ */
 
-function setMode(mode) {
-  currentMode = mode;
-  document.body.classList.toggle('advisor-mode', mode === 'advisor');
-  document.getElementById('btn-internal').classList.toggle('active', mode === 'internal');
-  document.getElementById('btn-advisor').classList.toggle('active', mode === 'advisor');
-  localStorage.setItem('cq-mode', mode);
-}
+
 
 /* ═══════════════════════════════════════════════════
    SEARCH
@@ -1644,10 +1608,6 @@ document.addEventListener('keydown', e => {
 (function init() {
   loadDealsLocal();
   renderAll();
-
-  // Restore mode
-  const savedMode = localStorage.getItem('cq-mode');
-  if (savedMode === 'advisor') setMode('advisor');
 
   // Restore sheets sync
   const cfg = getSheetsConfig();
