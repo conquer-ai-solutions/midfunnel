@@ -144,9 +144,7 @@ body {
   width: 6px; height: 6px; border-radius: 50%;
 }
 .rag-filter-btn:hover { border-color: var(--border-light); color: var(--text); }
-.rag-filter-btn.active-green { background: var(--green-bg); border-color: var(--green); color: var(--green); }
-.rag-filter-btn.active-amber { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
-.rag-filter-btn.active-red { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+.rag-filter-btn.active-status { /* handled via inline style in JS */ }
 
 
 
@@ -338,10 +336,7 @@ body {
 .deal-chip:hover { border-color: var(--brand); color: var(--text); }
 .deal-chip.active { border-color: var(--brand); background: var(--brand-dim); color: var(--text); }
 .deal-chip-name { font-weight: 500; color: var(--text); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.deal-chip-rag { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-.deal-chip-rag.green { background: var(--green); }
-.deal-chip-rag.amber { background: var(--amber); }
-.deal-chip-rag.red { background: var(--red); }
+
 .deal-chip-time { font-size: 9px; color: var(--text-dim); flex-shrink: 0; }
 
 .deal-chip-actions {
@@ -388,12 +383,6 @@ body {
   border-left: 2px solid var(--brand);
 }
 
-.deal-list-rag {
-  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
-}
-.deal-list-rag.green { background: var(--green); box-shadow: 0 0 4px rgba(51,160,90,0.5); }
-.deal-list-rag.amber { background: var(--amber); box-shadow: 0 0 4px rgba(212,150,12,0.5); }
-.deal-list-rag.red   { background: var(--red);   box-shadow: 0 0 4px rgba(224,57,43,0.5); }
 
 .deal-list-name {
   font-size: 12px; font-weight: 600; color: var(--text);
@@ -407,13 +396,7 @@ body {
   font-size: 10px; color: var(--text-dim); flex-shrink: 0;
   font-variant-numeric: tabular-nums; min-width: 44px; text-align: right;
 }
-.deal-list-rag-pill {
-  font-size: 9px; font-weight: 600; padding: 2px 7px;
-  border-radius: 10px; border: 1px solid; flex-shrink: 0;
-}
-.deal-list-rag-pill.green { background: var(--green-bg); border-color: var(--green); color: var(--green); }
-.deal-list-rag-pill.amber { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
-.deal-list-rag-pill.red   { background: var(--red-bg);   border-color: var(--red);   color: var(--red); }
+
 
 .deal-list-chevron {
   color: var(--text-dim); flex-shrink: 0;
@@ -513,8 +496,8 @@ body {
   display: flex; align-items: center; gap: 16px;
   font-size: 10px; color: var(--text-dim);
 }
-.rag-legend { display: flex; gap: 12px; }
-.rag-legend-item { display: flex; align-items: center; gap: 5px; }
+.status-legend { display: flex; gap: 12px; }
+.status-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-dim); }
 
 
 
@@ -700,12 +683,15 @@ body {
 
 <!-- ─── FOOTER ─── -->
 <footer class="footer">
-  <div class="rag-legend">
-    <span class="rag-legend-item"><span class="dot green"></span> Good</span>
-    <span class="rag-legend-item"><span class="dot amber"></span> At Risk</span>
-    <span class="rag-legend-item"><span class="dot red"></span> Broken</span>
+  <div class="status-legend">
+    <span class="status-legend-item"><span class="dot" style="background:#33A05A"></span> Active</span>
+    <span class="status-legend-item"><span class="dot" style="background:#515FFC"></span> Awaiting</span>
+    <span class="status-legend-item"><span class="dot" style="background:#D4960C"></span> Stalled</span>
+    <span class="status-legend-item"><span class="dot" style="background:#E0392B"></span> Blocked</span>
+    <span class="status-legend-item"><span class="dot" style="background:#E07010"></span> At Risk</span>
+    <span class="status-legend-item"><span class="dot" style="background:#555555"></span> Lost</span>
   </div>
-  <span>Conquer AI · Mid-Funnel Live Dashboard · <a href="index.html" style="color:var(--text-dim)">Classic Internal</a> · <a href="advisor.html" style="color:var(--text-dim)">Advisor</a></span>
+  <span>Conquer AI · Mid-Funnel Live Dashboard</span>
 </footer>
 
 <!-- ─── ADD / EDIT DEAL MODAL ─── -->
@@ -1367,15 +1353,18 @@ function clearSearch() {
 ═══════════════════════════════════════════════════ */
 
 function toggleRagFilter(status) {
-  const btn = document.getElementById(`filter-${status}`);
+  const allBtns = document.querySelectorAll('.rag-filter-btn');
   if (activeRagFilter === status) {
     activeRagFilter = null;
-    document.querySelectorAll('.rag-filter-btn').forEach(b => b.className = 'rag-filter-btn');
+    allBtns.forEach(b => { b.removeAttribute('style'); b.className = 'rag-filter-btn'; });
     document.querySelectorAll('.stage-card').forEach(c => c.classList.remove('search-hidden'));
   } else {
     activeRagFilter = status;
-    document.querySelectorAll('.rag-filter-btn').forEach(b => b.className = 'rag-filter-btn');
-    btn.style.cssText = `background:${STATUS_BG[status]};border-color:${statusColor(status)};color:${statusColor(status)}`;
+    allBtns.forEach(b => { b.removeAttribute('style'); b.className = 'rag-filter-btn'; });
+    const btn = document.getElementById(`filter-${status}`);
+    btn.style.background = STATUS_BG[status];
+    btn.style.borderColor = statusColor(status);
+    btn.style.color = statusColor(status);
     btn.className = 'rag-filter-btn active-status';
     STAGES.forEach(stage => {
       const card = document.getElementById(`card-${stage.id}`);
