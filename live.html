@@ -185,7 +185,18 @@ body {
 .stat-item {
   display: flex; align-items: center; gap: 8px;
   color: var(--text-mid);
+  cursor: pointer;
+  padding: 4px 8px; border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  user-select: none;
 }
+.stat-item:hover { background: var(--surface-2); border-color: var(--border); }
+.stat-item.active { background: var(--brand-dim); border-color: var(--brand); }
+.stat-item.active .stat-label { color: var(--brand); }
+.stat-item.active .stat-value { color: var(--brand); }
+.stat-item.active-attention { background: rgba(212,150,12,0.1); border-color: var(--amber); }
+.stat-item.active-attention .stat-label { color: var(--amber); }
 .stat-value {
   font-size: 18px; font-weight: 700; color: var(--text);
   font-variant-numeric: tabular-nums; line-height: 1;
@@ -640,22 +651,22 @@ body {
 
 <!-- ─── STATS BAR ─── -->
 <div class="stats-bar">
-  <div class="stat-item">
+  <div class="stat-item" id="stat-item-total" onclick="toggleStatFilter('all')">
     <span class="stat-value" id="stat-total">0</span>
     <span class="stat-label">Active Deals</span>
   </div>
   <div class="stat-divider"></div>
-  <div class="stat-item">
+  <div class="stat-item" id="stat-item-pre" onclick="toggleStatFilter('pre')">
     <span class="stat-value" id="stat-pre">0</span>
     <span class="stat-label">Pre-Commercial</span>
   </div>
   <div class="stat-divider"></div>
-  <div class="stat-item">
+  <div class="stat-item" id="stat-item-comm" onclick="toggleStatFilter('comm')">
     <span class="stat-value" id="stat-comm">0</span>
     <span class="stat-label">Commercial</span>
   </div>
   <div class="stat-divider"></div>
-  <div class="stat-item">
+  <div class="stat-item" id="stat-item-atrisk" onclick="toggleStatFilter('attention')">
     <span class="stat-value" id="stat-atrisk" style="color:var(--amber)">0</span>
     <span class="stat-label">Need Attention</span>
   </div>
@@ -1024,6 +1035,7 @@ let nextId = 100;
 let editingDealId = null;
 let movingDealId = null;
 let activeRagFilter = null;
+let activeStatFilter = null;
 let focusedDeal = null;
 let sheetsInterval = null;
 
@@ -1343,6 +1355,42 @@ function clearSearch() {
 /* ═══════════════════════════════════════════════════
    RAG FILTER
 ═══════════════════════════════════════════════════ */
+
+function toggleStatFilter(type) {
+  const ids = ['total','pre','comm','atrisk'];
+  const items = ids.map(id => document.getElementById(`stat-item-${id}`));
+
+  if (activeStatFilter === type) {
+    // deactivate
+    activeStatFilter = null;
+    items.forEach(el => { if(el) { el.classList.remove('active','active-attention'); } });
+    STAGES.forEach(s => {
+      const card = document.getElementById(`card-${s.id}`);
+      if (card) card.classList.remove('search-hidden');
+    });
+    return;
+  }
+
+  activeStatFilter = type;
+  items.forEach(el => { if(el) el.classList.remove('active','active-attention'); });
+
+  // highlight active stat item
+  const map = { all: 'total', pre: 'pre', comm: 'comm', attention: 'atrisk' };
+  const el = document.getElementById(`stat-item-${map[type]}`);
+  if (el) el.classList.add(type === 'attention' ? 'active-attention' : 'active');
+
+  // filter cards
+  STAGES.forEach(s => {
+    const card = document.getElementById(`card-${s.id}`);
+    if (!card) return;
+    let show = false;
+    if (type === 'all')       show = DEALS.some(d => d.stage === s.id);
+    if (type === 'pre')       show = s.id <= 4;
+    if (type === 'comm')      show = s.id >= 5;
+    if (type === 'attention') show = DEALS.some(d => d.stage === s.id && ['stalled','blocked','at-risk','lost'].includes(d.rag));
+    card.classList.toggle('search-hidden', !show);
+  });
+}
 
 function toggleRagFilter(status) {
   const allBtns = document.querySelectorAll('.rag-filter-btn');
