@@ -455,13 +455,10 @@ body {
   font-size: 18px; font-weight: 700; color: var(--text);
   letter-spacing: -0.3px; flex: 1;
 }
-.deal-focus-rag-pill {
+.deal-focus-status-pill {
   font-size: 10px; font-weight: 600; padding: 3px 10px;
   border-radius: 12px; border: 1px solid; flex-shrink: 0;
 }
-.deal-focus-rag-pill.green { background: var(--green-bg); border-color: var(--green); color: var(--green); }
-.deal-focus-rag-pill.amber { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
-.deal-focus-rag-pill.red   { background: var(--red-bg);   border-color: var(--red);   color: var(--red); }
 
 .deal-focus-actions { display: flex; gap: 5px; }
 
@@ -636,15 +633,12 @@ body {
   </div>
 
   <div class="rag-filters">
-    <button class="rag-filter-btn" id="filter-green" onclick="toggleRagFilter('green')">
-      <span class="dot" style="background:var(--green)"></span> Good
-    </button>
-    <button class="rag-filter-btn" id="filter-amber" onclick="toggleRagFilter('amber')">
-      <span class="dot" style="background:var(--amber)"></span> At Risk
-    </button>
-    <button class="rag-filter-btn" id="filter-red" onclick="toggleRagFilter('red')">
-      <span class="dot" style="background:var(--red)"></span> Broken
-    </button>
+    <button class="rag-filter-btn" id="filter-active"            onclick="toggleRagFilter('active')"><span class="dot" style="background:#33A05A"></span> Active</button>
+    <button class="rag-filter-btn" id="filter-awaiting"          onclick="toggleRagFilter('awaiting')"><span class="dot" style="background:#515FFC"></span> Awaiting</button>
+    <button class="rag-filter-btn" id="filter-stalled"           onclick="toggleRagFilter('stalled')"><span class="dot" style="background:#D4960C"></span> Stalled</button>
+    <button class="rag-filter-btn" id="filter-blocked"           onclick="toggleRagFilter('blocked')"><span class="dot" style="background:#E0392B"></span> Blocked</button>
+    <button class="rag-filter-btn" id="filter-at-risk"           onclick="toggleRagFilter('at-risk')"><span class="dot" style="background:#E07010"></span> At Risk</button>
+    <button class="rag-filter-btn" id="filter-lost"              onclick="toggleRagFilter('lost')"><span class="dot" style="background:#555555"></span> Lost</button>
   </div>
 
   <button class="sync-btn" onclick="openSheetsModal()" title="Configure Google Sheets sync">
@@ -679,8 +673,8 @@ body {
   </div>
   <div class="stat-divider"></div>
   <div class="stat-item">
-    <span class="stat-value" id="stat-broken" style="color:var(--red)">0</span>
-    <span class="stat-label">Broken Stages</span>
+    <span class="stat-value" id="stat-atrisk" style="color:var(--amber)">0</span>
+    <span class="stat-label">Need Attention</span>
   </div>
   <div class="stat-divider"></div>
 
@@ -739,11 +733,14 @@ body {
         </select>
       </div>
       <div class="form-group">
-        <label class="form-label">RAG Status</label>
+        <label class="form-label">Status</label>
         <select class="form-select" id="dealRag">
-          <option value="green">🟢 Good</option>
-          <option value="amber">🟡 At Risk</option>
-          <option value="red">🔴 Broken</option>
+          <option value="active">Active</option>
+          <option value="awaiting">Awaiting Response</option>
+          <option value="stalled">Stalled</option>
+          <option value="blocked">Blocked</option>
+          <option value="at-risk">At Risk</option>
+          <option value="lost">Lost</option>
         </select>
       </div>
     </div>
@@ -825,11 +822,14 @@ body {
         </select>
       </div>
       <div class="form-group">
-        <label class="form-label">RAG Status</label>
+        <label class="form-label">Status</label>
         <select class="form-select" id="moveRag">
-          <option value="green">🟢 Good</option>
-          <option value="amber">🟡 At Risk</option>
-          <option value="red">🔴 Broken</option>
+          <option value="active">Active</option>
+          <option value="awaiting">Awaiting Response</option>
+          <option value="stalled">Stalled</option>
+          <option value="blocked">Blocked</option>
+          <option value="at-risk">At Risk</option>
+          <option value="lost">Lost</option>
         </select>
       </div>
     </div>
@@ -1027,19 +1027,19 @@ const STAGES = [
 ];
 
 // ── Deal data (editable JSON — modify here or via UI) ──
-// Format: { id, name, stage (1-7), rag, notes, owner, nextAction, updated }
+// Status: active | awaiting | stalled | blocked | at-risk | lost
 let DEALS = [
-  { id: 1,  name: "Alpha Industries",     stage: 1, rag: "green", notes: "Warm intro via partner network, strong AI interest signalled", owner: "Bolaji",  nextAction: "Send intro deck and book discovery call",          updated: "2026-03-12" },
-  { id: 2,  name: "Beacon Health",        stage: 1, rag: "amber", notes: "C-level engaged but timeline unclear",                         owner: "Jonny",   nextAction: "Follow up with C-suite on readiness timeline",        updated: "2026-03-11" },
-  { id: 3,  name: "Cascade Logistics",    stage: 2, rag: "red",   notes: "Discovery session scheduled but team unprepared",             owner: "Bolaji",  nextAction: "Prep whiteboard template before Thursday session",     updated: "2026-03-13" },
-  { id: 4,  name: "Delta Pharma",         stage: 2, rag: "amber", notes: "SME involved, NDA pending signature",                        owner: "Bolaji",  nextAction: "Chase NDA sign-off from legal",                       updated: "2026-03-10" },
-  { id: 5,  name: "Echo Finance",         stage: 3, rag: "green", notes: "POC underway, positive early feedback from end users",       owner: "Bolaji",  nextAction: "Finalise Figma site and book alignment session",       updated: "2026-03-13" },
-  { id: 6,  name: "Fortis Energy",        stage: 3, rag: "amber", notes: "POC delivered, awaiting structured feedback",                owner: "Bolaji",  nextAction: "Send feedback form and chase champion",               updated: "2026-03-09" },
-  { id: 7,  name: "Granite Legal",        stage: 4, rag: "red",   notes: "DM not confirmed for alignment session — at risk of slipping",owner: "Jonny",   nextAction: "Champion to confirm DM attendance before EOW",        updated: "2026-03-12" },
-  { id: 8,  name: "Helix Bio",            stage: 4, rag: "amber", notes: "Alignment session booked, requirements partially captured",  owner: "Bolaji",  nextAction: "Complete requirements doc before session",             updated: "2026-03-11" },
-  { id: 9,  name: "Iris Technology",      stage: 5, rag: "red",   notes: "Proposal in draft, capacity constrained",                   owner: "Jonny",   nextAction: "Unblock Solutions resource to complete proposal",      updated: "2026-03-13" },
-  { id: 10, name: "Juniper Retail",       stage: 6, rag: "amber", notes: "Procurement started, vendor onboarding pack submitted",     owner: "Bolaji",  nextAction: "Follow up with procurement lead on timeline",          updated: "2026-03-08" },
-  { id: 11, name: "Kelvin Manufacturing", stage: 7, rag: "green", notes: "Contract in final review, both parties aligned",            owner: "Jonny",   nextAction: "Confirm signatory and send final contract version",    updated: "2026-03-13" }
+  { id: 1,  name: "Alpha Industries",     stage: 1, rag: "active",   notes: "Warm intro via partner network, strong AI interest signalled", owner: "Bolaji", nextAction: "Send intro deck and book discovery call",           updated: "2026-03-12" },
+  { id: 2,  name: "Beacon Health",        stage: 1, rag: "awaiting", notes: "C-level engaged but timeline unclear",                         owner: "Jonny",  nextAction: "Follow up with C-suite on readiness timeline",        updated: "2026-03-11" },
+  { id: 3,  name: "Cascade Logistics",    stage: 2, rag: "active",   notes: "Discovery session scheduled, team prepping",                   owner: "Bolaji", nextAction: "Prep whiteboard template before Thursday session",     updated: "2026-03-13" },
+  { id: 4,  name: "Delta Pharma",         stage: 2, rag: "blocked",  notes: "SME involved, NDA pending signature from their legal team",    owner: "Bolaji", nextAction: "Chase NDA sign-off from legal",                       updated: "2026-03-10" },
+  { id: 5,  name: "Echo Finance",         stage: 3, rag: "active",   notes: "POC underway, positive early feedback from end users",        owner: "Bolaji", nextAction: "Finalise Figma site and book alignment session",       updated: "2026-03-13" },
+  { id: 6,  name: "Fortis Energy",        stage: 3, rag: "awaiting", notes: "POC delivered, awaiting structured feedback from champion",    owner: "Bolaji", nextAction: "Send feedback form and chase champion",               updated: "2026-03-09" },
+  { id: 7,  name: "Granite Legal",        stage: 4, rag: "at-risk",  notes: "DM not confirmed for alignment session — at risk of slipping", owner: "Jonny",  nextAction: "Champion to confirm DM attendance before EOW",        updated: "2026-03-12" },
+  { id: 8,  name: "Helix Bio",            stage: 4, rag: "active",   notes: "Alignment session booked, requirements partially captured",   owner: "Bolaji", nextAction: "Complete requirements doc before session",             updated: "2026-03-11" },
+  { id: 9,  name: "Iris Technology",      stage: 5, rag: "blocked",  notes: "Proposal in draft, capacity constrained on Solutions side",   owner: "Jonny",  nextAction: "Unblock Solutions resource to complete proposal",      updated: "2026-03-13" },
+  { id: 10, name: "Juniper Retail",       stage: 6, rag: "stalled",  notes: "Procurement started but no response in 5 days",               owner: "Bolaji", nextAction: "Follow up with procurement lead on timeline",          updated: "2026-03-08" },
+  { id: 11, name: "Kelvin Manufacturing", stage: 7, rag: "active",   notes: "Contract in final review, both parties aligned",              owner: "Jonny",  nextAction: "Confirm signatory and send final contract version",    updated: "2026-03-13" }
 ];
 
 let nextId = 100;
@@ -1053,12 +1053,32 @@ let sheetsInterval = null;
    RENDER
 ═══════════════════════════════════════════════════ */
 
-function ragClass(val) {
-  return val === 'good' ? 'good' : val === 'amber' ? 'at-risk' : 'broken';
-}
-function ragLabel(val) {
-  return val === 'good' ? 'Good' : val === 'amber' ? 'At Risk' : 'Broken';
-}
+const STATUS_COLORS = {
+  'active':   '#33A05A',
+  'awaiting': '#515FFC',
+  'stalled':  '#D4960C',
+  'blocked':  '#E0392B',
+  'at-risk':  '#E07010',
+  'lost':     '#555555'
+};
+const STATUS_BG = {
+  'active':   'rgba(51,160,90,0.12)',
+  'awaiting': 'rgba(81,95,252,0.12)',
+  'stalled':  'rgba(212,150,12,0.12)',
+  'blocked':  'rgba(224,57,43,0.12)',
+  'at-risk':  'rgba(224,112,16,0.12)',
+  'lost':     'rgba(85,85,85,0.12)'
+};
+const STATUS_LABELS = {
+  'active':   'Active',
+  'awaiting': 'Awaiting Response',
+  'stalled':  'Stalled',
+  'blocked':  'Blocked',
+  'at-risk':  'At Risk',
+  'lost':     'Lost'
+};
+function statusColor(s) { return STATUS_COLORS[s] || '#555'; }
+function statusLabel(s) { return STATUS_LABELS[s] || s; }
 function relTime(dateStr) {
   if (!dateStr) return '';
   const d = new Date(dateStr), now = new Date();
@@ -1182,7 +1202,9 @@ function buildDealListPanel(stage) {
 }
 
 function buildDealFocusHTML(deal, stage) {
-  const ragLabel = deal.rag === 'green' ? 'Good' : deal.rag === 'amber' ? 'At Risk' : 'Broken';
+  const sLabel = statusLabel(deal.rag);
+  const sColor = statusColor(deal.rag);
+  const sBg    = STATUS_BG[deal.rag] || 'rgba(85,85,85,0.12)';
   return `
     <div class="panel-shell deal-focus-panel">
       <div class="deal-focus-header">
@@ -1192,7 +1214,7 @@ function buildDealFocusHTML(deal, stage) {
         </div>
         <div class="deal-focus-name-row">
           <span class="deal-focus-name">${deal.name}</span>
-          <span class="deal-focus-rag-pill ${deal.rag}">${ragLabel}</span>
+          <span class="deal-focus-status-pill" style="background:${sBg};border-color:${sColor};color:${sColor}">${sLabel}</span>
           <span class="deal-focus-actions">
             <button class="deal-chip-btn" onclick="openEditDeal(${deal.id})">Edit</button>
             <button class="deal-chip-btn" onclick="openMoveDeal(${deal.id})">Move stage</button>
@@ -1271,12 +1293,7 @@ function updateStats() {
   document.getElementById('stat-total').textContent = DEALS.length;
   document.getElementById('stat-pre').textContent = DEALS.filter(d => d.stage <= 4).length;
   document.getElementById('stat-comm').textContent = DEALS.filter(d => d.stage >= 5).length;
-
-  // Broken stages = stages where any RAG is 'red' (from stage config)
-  const brokenCount = STAGES.filter(s =>
-    s.rag.perf === 'red' || s.rag.def === 'red' || s.rag.effort === 'red'
-  ).length;
-  document.getElementById('stat-broken').textContent = brokenCount;
+  document.getElementById('stat-atrisk').textContent = DEALS.filter(d => ['stalled','blocked','at-risk','lost'].includes(d.rag)).length;
 }
 
 function updateLastUpdated() {
@@ -1349,27 +1366,22 @@ function clearSearch() {
    RAG FILTER
 ═══════════════════════════════════════════════════ */
 
-function toggleRagFilter(color) {
-  const btn = document.getElementById(`filter-${color}`);
-  if (activeRagFilter === color) {
+function toggleRagFilter(status) {
+  const btn = document.getElementById(`filter-${status}`);
+  if (activeRagFilter === status) {
     activeRagFilter = null;
-    btn.className = 'rag-filter-btn';
+    document.querySelectorAll('.rag-filter-btn').forEach(b => b.className = 'rag-filter-btn');
     document.querySelectorAll('.stage-card').forEach(c => c.classList.remove('search-hidden'));
   } else {
-    activeRagFilter = color;
-    ['green','amber','red'].forEach(c => {
-      document.getElementById(`filter-${c}`).className = 'rag-filter-btn' + (c === color ? ` active-${c}` : '');
-    });
+    activeRagFilter = status;
+    document.querySelectorAll('.rag-filter-btn').forEach(b => b.className = 'rag-filter-btn');
+    btn.style.cssText = `background:${STATUS_BG[status]};border-color:${statusColor(status)};color:${statusColor(status)}`;
+    btn.className = 'rag-filter-btn active-status';
     STAGES.forEach(stage => {
       const card = document.getElementById(`card-${stage.id}`);
       if (!card) return;
-      const rag = stage.rag;
-      const matches = color === 'green'
-        ? (rag.perf === 'good' && rag.def === 'good' && rag.effort === 'good')
-        : color === 'red'
-        ? (rag.perf === 'red' || rag.def === 'red' || rag.effort === 'red')
-        : (rag.perf === 'amber' || rag.def === 'amber' || rag.effort === 'amber');
-      card.classList.toggle('search-hidden', !matches);
+      const hasMatch = DEALS.some(d => d.stage === stage.id && d.rag === status);
+      card.classList.toggle('search-hidden', !hasMatch);
     });
   }
 }
@@ -1384,7 +1396,7 @@ function openAddDeal(stageId) {
   document.getElementById('dealSaveBtn').textContent = 'Add Deal';
   document.getElementById('dealName').value = '';
   document.getElementById('dealStage').value = stageId || 1;
-  document.getElementById('dealRag').value = 'green';
+  document.getElementById('dealRag').value = 'active';
   document.getElementById('dealNotes').value = '';
   document.getElementById('dealNextAction').value = '';
   document.getElementById('dealOwner').value = '';
