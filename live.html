@@ -1132,14 +1132,8 @@ function renderDealList(stage, deals) {
   const items = deals.map(d => `
     <div class="deal-chip ${focusedDeal === d.id ? 'active' : ''}" data-deal="${d.id}"
          onclick="event.stopPropagation(); selectDeal(${d.id})">
-      <span class="deal-chip-rag ${d.rag}"></span>
       <span class="deal-chip-name">${d.name}</span>
       <span class="deal-chip-time">${relTime(d.updated)}</span>
-      <span class="deal-chip-actions">
-        <button class="deal-chip-btn" onclick="event.stopPropagation(); openEditDeal(${d.id})">Edit</button>
-        <button class="deal-chip-btn" onclick="event.stopPropagation(); openMoveDeal(${d.id})">Move</button>
-        <button class="deal-chip-btn del" onclick="event.stopPropagation(); deleteDeal(${d.id})">✕</button>
-      </span>
     </div>
   `).join('');
   return `<div class="deal-list">${items}</div>`;
@@ -1156,14 +1150,12 @@ function buildDealListPanel(stage) {
     ? `<div class="panel-empty">No active deals in this stage — <button class="inline-add" onclick="openAddDeal(${stage.id})">add one</button></div>`
     : deals.map(d => `
       <div class="deal-list-row ${focusedDeal === d.id ? 'focused' : ''}" onclick="selectDeal(${d.id})">
-        <div class="deal-list-rag ${d.rag}"></div>
         <div class="deal-list-name">${d.name}</div>
         <div class="deal-list-owner">
           <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
           ${d.owner || '—'}
         </div>
         <div class="deal-list-date">${relTime(d.updated)}</div>
-        <div class="deal-list-rag-pill ${d.rag}">${d.rag === 'green' ? 'Good' : d.rag === 'amber' ? 'At Risk' : 'Broken'}</div>
         <div class="deal-list-chevron">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
         </div>
