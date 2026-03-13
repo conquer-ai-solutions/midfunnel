@@ -1109,9 +1109,6 @@ function buildCard(stage, deals) {
   card.id = `card-${stage.id}`;
   card.style.setProperty('--stripe-color', stage.stripe);
 
-  const rag = stage.rag;
-  const dotMap = v => v === 'good' ? 'green' : v === 'amber' ? 'amber' : 'red';
-
   card.innerHTML = `
     <div class="card-stripe"></div>
     <div class="card-body">
@@ -1123,11 +1120,6 @@ function buildCard(stage, deals) {
         <span class="count-num">${deals.length}</span> deal${deals.length !== 1 ? 's' : ''}
       </div>
       ${renderDealList(stage, deals)}
-      <div class="dot-grid">
-        <div class="dot-cell"><span class="dot ${dotMap(rag.perf)}"></span>Perf</div>
-        <div class="dot-cell"><span class="dot ${dotMap(rag.def)}"></span>Def</div>
-        <div class="dot-cell"><span class="dot ${dotMap(rag.effort)}"></span>Out</div>
-      </div>
     </div>
   `;
   return card;
