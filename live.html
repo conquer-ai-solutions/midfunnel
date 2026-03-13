@@ -531,7 +531,27 @@ body {
   display: flex; align-items: center; justify-content: space-between;
   font-size: 10px; color: var(--text-dim);
 }
-.data-mode-toggle {
+.csv-drop-zone {
+  border: 2px dashed var(--border-light);
+  border-radius: 8px;
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  font-size: 12px; color: var(--text-dim);
+}
+.csv-drop-zone:hover, .csv-drop-zone.drag-active {
+  border-color: var(--brand);
+  background: var(--brand-dim);
+  color: var(--text);
+}
+.csv-drop-zone.loaded {
+  border-color: var(--green);
+  background: rgba(51,160,90,0.08);
+  color: var(--green);
+}
+
   display: flex; align-items: center; gap: 6px;
 }
 .data-mode-label {
@@ -811,26 +831,20 @@ body {
       <button class="modal-close" onclick="closeAirtableModal()">✕</button>
     </div>
     <div class="sheets-info">
-      Paste your <strong style="color:var(--text)">Airtable shared view URL</strong>.<br><br>
-      In Airtable: open your view → <code>Share view</code> → enable <strong>Allow anyone to view</strong> → copy the link and paste it below. (No need to add <code>/csv</code> — handled automatically.)
+      Export your Airtable view as CSV, then drop it below or click to upload.<br><br>
+      In Airtable: open your view → <code>Download CSV</code> (or use the <code>...</code> menu → Download).
     </div>
-    <div class="form-group">
-      <label class="form-label">Shared View CSV URL</label>
-      <input type="text" class="form-input" id="airtableUrl" placeholder="https://airtable.com/shr…/csv">
+
+    <div class="csv-drop-zone" id="csvDropZone" onclick="document.getElementById('csvFileInput').click()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--text-dim)"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <span id="csvDropLabel">Drop CSV here or click to browse</span>
+      <input type="file" id="csvFileInput" accept=".csv" style="display:none" onchange="handleCsvFile(this.files[0])">
     </div>
-    <div class="form-group">
-      <label class="form-label">Auto-refresh interval</label>
-      <select class="form-select" id="airtableInterval">
-        <option value="0">Manual only</option>
-        <option value="300">Every 5 minutes</option>
-        <option value="900">Every 15 minutes</option>
-        <option value="1800">Every 30 minutes</option>
-      </select>
-    </div>
-    <div id="airtableStatus" style="font-size:11px;min-height:18px;margin-top:4px;"></div>
+
+    <div id="airtableStatus" style="font-size:11px;min-height:18px;margin-top:10px;"></div>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closeAirtableModal()">Cancel</button>
-      <button class="btn-primary" onclick="saveAirtableCfg()">Save &amp; Import Now</button>
+      <button class="btn-primary" id="csvImportBtn" onclick="confirmCsvImport()" disabled style="opacity:0.4">Import</button>
     </div>
   </div>
 </div>
@@ -1688,10 +1702,83 @@ function confirmDragMove() {
 
 
 /* ═══════════════════════════════════════════════════
-   AIRTABLE IMPORT
+   AIRTABLE CSV IMPORT
 ═══════════════════════════════════════════════════ */
 
-// Maps Airtable "Company Account Status" → { stage, rag }
+let pendingCsvData = null;
+
+function openAirtableModal() {
+  pendingCsvData = null;
+  document.getElementById('airtableStatus').textContent = '';
+  document.getElementById('airtableStatus').style.color = 'var(--text-dim)';
+  document.getElementById('csvDropLabel').textContent = 'Drop CSV here or click to browse';
+  document.getElementById('csvDropZone').classList.remove('loaded');
+  document.getElementById('csvImportBtn').disabled = true;
+  document.getElementById('csvImportBtn').style.opacity = '0.4';
+  document.getElementById('csvFileInput').value = '';
+  document.getElementById('airtableModal').classList.add('open');
+
+  // Wire drag-drop
+  const zone = document.getElementById('csvDropZone');
+  zone.ondragover = e => { e.preventDefault(); zone.classList.add('drag-active'); };
+  zone.ondragleave = () => zone.classList.remove('drag-active');
+  zone.ondrop = e => {
+    e.preventDefault();
+    zone.classList.remove('drag-active');
+    const file = e.dataTransfer.files[0];
+    if (file) handleCsvFile(file);
+  };
+}
+
+function closeAirtableModal() {
+  document.getElementById('airtableModal').classList.remove('open');
+}
+
+function handleCsvFile(file) {
+  if (!file || !file.name.endsWith('.csv')) {
+    showAirtableStatus('✗ Please select a .csv file', 'var(--red)');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const text = e.target.result;
+    try {
+      const preview = parseAirtableCSV(text);
+      if (preview.length === 0) throw new Error('No valid rows found in CSV');
+      pendingCsvData = text;
+      document.getElementById('csvDropLabel').textContent = `✓ ${file.name} — ${preview.length} companies ready`;
+      document.getElementById('csvDropZone').classList.add('loaded');
+      document.getElementById('csvImportBtn').disabled = false;
+      document.getElementById('csvImportBtn').style.opacity = '1';
+      showAirtableStatus(`${preview.length} companies parsed — click Import to load`, 'var(--green)');
+    } catch(err) {
+      showAirtableStatus(`✗ ${err.message}`, 'var(--red)');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function confirmCsvImport() {
+  if (!pendingCsvData) return;
+  const imported = parseAirtableCSV(pendingCsvData);
+  LIVE_DEALS = imported;
+  localStorage.setItem('cq-live-deals', JSON.stringify(LIVE_DEALS));
+  setDataMode('live');
+  showAirtableStatus(`✓ Imported ${imported.length} companies`, 'var(--green)');
+  setTimeout(closeAirtableModal, 1000);
+}
+
+function showAirtableStatus(msg, color) {
+  const el = document.getElementById('airtableStatus');
+  el.textContent = msg;
+  el.style.color = color;
+}
+
+function getAirtableCfg() {
+  try { return JSON.parse(localStorage.getItem('cq-airtable') || '{}'); } catch { return {}; }
+}
+
+
 function mapAirtableStatus(status) {
   const s = (status || '').toLowerCase();
   if (s.includes('prospect') || s.includes('mining'))
@@ -1776,88 +1863,6 @@ function parseAirtableCSV(text) {
   return imported;
 }
 
-function openAirtableModal() {
-  const cfg = getAirtableCfg();
-  document.getElementById('airtableUrl').value = cfg.url || '';
-  document.getElementById('airtableInterval').value = cfg.interval || 0;
-  document.getElementById('airtableStatus').textContent = '';
-  document.getElementById('airtableModal').classList.add('open');
-}
-
-function closeAirtableModal() {
-  document.getElementById('airtableModal').classList.remove('open');
-}
-
-function getAirtableCfg() {
-  try { return JSON.parse(localStorage.getItem('cq-airtable') || '{}'); } catch { return {}; }
-}
-
-function saveAirtableCfg() {
-  const url      = document.getElementById('airtableUrl').value.trim();
-  const interval = +document.getElementById('airtableInterval').value;
-  localStorage.setItem('cq-airtable', JSON.stringify({ url, interval }));
-  if (url) importFromAirtable(url, true);
-  setupAirtableTimer(url, interval);
-}
-
-function setupAirtableTimer(url, interval) {
-  if (airtableTimer) clearInterval(airtableTimer);
-  if (url && interval > 0) {
-    airtableTimer = setInterval(() => importFromAirtable(url, false), interval * 1000);
-  }
-}
-
-async function importFromAirtable(url, closeAfter) {
-  const statusEl = document.getElementById('airtableStatus');
-  const btn = document.querySelector('.sync-btn');
-  if (btn) btn.classList.add('syncing');
-  if (statusEl) { statusEl.style.color = 'var(--text-dim)'; statusEl.textContent = 'Importing…'; }
-
-  // Auto-append /csv if missing
-  let csvUrl = url.replace(/\/csv$/, ''); // normalise
-  csvUrl = csvUrl + '/csv';
-
-  // Try proxies in order
-  const proxies = [
-    u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-    u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
-    u => `https://thingproxy.freeboard.io/fetch/${u}`,
-  ];
-
-  let text = null;
-  let lastErr = '';
-  for (const proxy of proxies) {
-    try {
-      const res = await fetch(proxy(csvUrl), { signal: AbortSignal.timeout(8000) });
-      if (!res.ok) { lastErr = `HTTP ${res.status}`; continue; }
-      text = await res.text();
-      if (text && text.includes(',')) break; // looks like CSV
-      lastErr = 'Response was not CSV';
-      text = null;
-    } catch(e) { lastErr = e.message; }
-  }
-
-  if (!text) {
-    if (statusEl) { statusEl.style.color = 'var(--red)'; statusEl.textContent = `✗ ${lastErr} — try making the view public and ensure the URL is a shared view link`; }
-    if (btn) btn.classList.remove('syncing');
-    return;
-  }
-
-  try {
-    const imported = parseAirtableCSV(text);
-    if (imported.length === 0) throw new Error('No rows found — check the view has data');
-
-    LIVE_DEALS = imported;
-    localStorage.setItem('cq-live-deals', JSON.stringify(LIVE_DEALS));
-    setDataMode('live');
-    if (statusEl) { statusEl.style.color = 'var(--green)'; statusEl.textContent = `✓ Imported ${imported.length} companies`; }
-    if (closeAfter) setTimeout(closeAirtableModal, 1400);
-  } catch(err) {
-    if (statusEl) { statusEl.style.color = 'var(--red)'; statusEl.textContent = `✗ ${err.message}`; }
-  }
-  if (btn) btn.classList.remove('syncing');
-}
-
 /* ═══════════════════════════════════════════════════
    LIVE / DEMO TOGGLE
 ═══════════════════════════════════════════════════ */
@@ -1930,11 +1935,7 @@ document.addEventListener('keydown', e => {
 ═══════════════════════════════════════════════════ */
 
 (function init() {
-  // Restore Airtable config + timer
-  const atCfg = getAirtableCfg();
-  if (atCfg.url && atCfg.interval) setupAirtableTimer(atCfg.url, atCfg.interval);
-
-  // If we have saved live data, restore it
+  // Restore saved live data if available
   const savedLive = localStorage.getItem('cq-live-deals');
   if (savedLive) {
     try { LIVE_DEALS = JSON.parse(savedLive); } catch {}
