@@ -347,10 +347,34 @@ body {
 .deal-chip:hover { border-color: var(--brand); color: var(--text); }
 .deal-chip.active { border-color: var(--brand); background: var(--brand-dim); color: var(--text); }
 .deal-chip-name { font-weight: 500; color: var(--text); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
 .deal-chip-time { font-size: 9px; color: var(--text-dim); flex-shrink: 0; }
 
-.deal-chip-actions {
+/* drag states */
+.deal-chip[draggable="true"] { cursor: grab; }
+.deal-chip[draggable="true"]:active { cursor: grabbing; }
+.deal-chip.dragging { opacity: 0.35; pointer-events: none; }
+.stage-card.drag-over .card-body {
+  outline: 2px dashed var(--brand);
+  outline-offset: -3px;
+  background: var(--brand-dim);
+  border-radius: 8px;
+}
+.drag-modal-summary {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.drag-modal-arrow {
+  color: var(--text-dim); font-size: 14px; flex-shrink: 0;
+}
+.drag-modal-deal { font-weight: 600; color: var(--text); }
+.drag-modal-stage { font-size: 11px; color: var(--text-mid); }
+.drag-modal-stage strong { color: var(--brand); }
+
+
   display: none;
   gap: 4px;
   position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
@@ -828,9 +852,37 @@ body {
     </div>
   </div>
 </div>
+<!-- ─── DRAG-DROP CONFIRM MODAL ─── -->
+<div class="modal-overlay" id="dragModal">
+  <div class="modal" style="width:380px">
+    <div class="modal-title">
+      <span>Confirm Move</span>
+      <button class="modal-close" onclick="closeDragModal()">✕</button>
+    </div>
+    <div class="drag-modal-summary" id="dragModalSummary"></div>
+    <div class="form-group" style="margin-top:14px">
+      <label class="form-label">Update status</label>
+      <select class="form-select" id="dragStatus">
+        <option value="active">Active</option>
+        <option value="awaiting">Awaiting Response</option>
+        <option value="stalled">Stalled</option>
+        <option value="blocked">Blocked</option>
+        <option value="at-risk">At Risk</option>
+        <option value="lost">Lost</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Notes <span style="color:var(--text-dim);font-weight:400">(optional)</span></label>
+      <textarea class="form-input" id="dragNotes" rows="3" placeholder="What's changed? Any context for this move…" style="resize:vertical;min-height:72px"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeDragModal()">Cancel</button>
+      <button class="btn-primary" onclick="confirmDragMove()">Confirm Move</button>
+    </div>
+  </div>
+</div>
 
 
-<script>
 /* ═══════════════════════════════════════════════════
    DATA
 ═══════════════════════════════════════════════════ */
@@ -1118,6 +1170,9 @@ function buildCard(stage, deals) {
   card.className = 'stage-card' + (stage.id >= 5 ? ' commercial-stage' : '');
   card.id = `card-${stage.id}`;
   card.style.setProperty('--stripe-color', stage.stripe);
+  card.addEventListener('dragover',  e => onCardDragOver(e, stage.id));
+  card.addEventListener('dragleave', e => onCardDragLeave(e, stage.id));
+  card.addEventListener('drop',      e => onCardDrop(e, stage.id));
 
   card.innerHTML = `
     <div class="card-stripe"></div>
@@ -1141,6 +1196,9 @@ function renderDealList(stage, deals) {
   }
   const items = deals.map(d => `
     <div class="deal-chip ${focusedDeal === d.id ? 'active' : ''}" data-deal="${d.id}"
+         draggable="true"
+         ondragstart="onChipDragStart(event, ${d.id})"
+         ondragend="onChipDragEnd(event)"
          onclick="event.stopPropagation(); selectDeal(${d.id})">
       <span class="deal-chip-name">${d.name}</span>
       <span class="deal-chip-time">${relTime(d.updated)}</span>
@@ -1513,8 +1571,95 @@ function confirmMove() {
 }
 
 /* ═══════════════════════════════════════════════════
-   GOOGLE SHEETS SYNC
+   DRAG AND DROP
 ═══════════════════════════════════════════════════ */
+
+let dragDealId = null;
+let dragTargetStageId = null;
+
+function onChipDragStart(e, dealId) {
+  dragDealId = dealId;
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', dealId);
+  // slight delay so the chip doesn't look hidden before grab
+  setTimeout(() => {
+    const el = document.querySelector(`.deal-chip[data-deal="${dealId}"]`);
+    if (el) el.classList.add('dragging');
+  }, 0);
+}
+
+function onChipDragEnd(e) {
+  document.querySelectorAll('.deal-chip.dragging').forEach(el => el.classList.remove('dragging'));
+  document.querySelectorAll('.stage-card.drag-over').forEach(el => el.classList.remove('drag-over'));
+}
+
+function onCardDragOver(e, stageId) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  const deal = DEALS.find(d => d.id === dragDealId);
+  if (deal && deal.stage === stageId) return; // same stage — no highlight
+  const card = document.getElementById(`card-${stageId}`);
+  if (card) card.classList.add('drag-over');
+}
+
+function onCardDragLeave(e, stageId) {
+  // only remove if leaving the card entirely (not a child element)
+  const card = document.getElementById(`card-${stageId}`);
+  if (card && !card.contains(e.relatedTarget)) {
+    card.classList.remove('drag-over');
+  }
+}
+
+function onCardDrop(e, stageId) {
+  e.preventDefault();
+  document.querySelectorAll('.stage-card.drag-over').forEach(el => el.classList.remove('drag-over'));
+  if (!dragDealId) return;
+  const deal = DEALS.find(d => d.id === dragDealId);
+  if (!deal || deal.stage === stageId) return;
+  dragTargetStageId = stageId;
+  openDragModal(deal, stageId);
+}
+
+function openDragModal(deal, toStageId) {
+  const fromStage = STAGES.find(s => s.id === deal.stage);
+  const toStage   = STAGES.find(s => s.id === toStageId);
+  document.getElementById('dragModalSummary').innerHTML = `
+    <div style="flex:1">
+      <div class="drag-modal-deal">${deal.name}</div>
+      <div class="drag-modal-stage" style="margin-top:4px">
+        Stage ${String(deal.stage).padStart(2,'0')} · ${fromStage.name}
+        <span class="drag-modal-arrow"> → </span>
+        <strong>Stage ${String(toStageId).padStart(2,'0')} · ${toStage.name}</strong>
+      </div>
+    </div>
+  `;
+  document.getElementById('dragStatus').value = deal.rag;
+  document.getElementById('dragNotes').value = '';
+  document.getElementById('dragModal').classList.add('open');
+}
+
+function closeDragModal() {
+  document.getElementById('dragModal').classList.remove('open');
+  dragDealId = null;
+  dragTargetStageId = null;
+}
+
+function confirmDragMove() {
+  const deal = DEALS.find(d => d.id === dragDealId);
+  if (deal && dragTargetStageId) {
+    deal.stage   = dragTargetStageId;
+    deal.rag     = document.getElementById('dragStatus').value;
+    const notes  = document.getElementById('dragNotes').value.trim();
+    if (notes) deal.notes = notes;
+    deal.updated = new Date().toISOString().split('T')[0];
+    if (focusedDeal === deal.id) closeDealFocus();
+  }
+  closeDragModal();
+  renderAll();
+  saveDealsLocal();
+}
+
+
 
 function openSheetsModal() {
   const cfg = getSheetsConfig();
