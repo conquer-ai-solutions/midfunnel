@@ -389,16 +389,8 @@ body {
 .deal-chip-btn:hover { border-color: var(--brand); color: var(--brand); }
 .deal-chip-btn.del:hover { border-color: var(--red); color: var(--red); }
 
-/* ─── EXPANDED PANEL ─── */
-.panel-wrap {
-  grid-column: 1 / -1;
-  overflow: hidden;
-  max-height: 0;
-  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
-}
-.panel-wrap.open { max-height: 2000px; }
-
-.panel-shell {
+/* ─── EXPANDED DEAL PANEL ─── */
+.panel-shell.deal-panel {
   background: var(--surface);
   border: 1px solid var(--border-light);
   border-radius: 10px;
@@ -406,124 +398,100 @@ body {
   margin-bottom: 10px;
 }
 
-/* RAG bar */
-.rag-bar {
-  display: flex; gap: 8px;
+.deal-panel-header {
+  display: flex; align-items: center; gap: 10px;
   padding: 10px 16px;
   background: rgba(255,255,255,0.02);
   border-bottom: 1px solid var(--border);
 }
-.rag-pill {
-  display: flex; align-items: center; gap: 6px;
-  padding: 4px 10px;
-  border-radius: 20px; border: 1px solid;
-  font-size: 10px; font-weight: 500;
+.deal-panel-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 600; color: var(--text);
+  flex: 1;
 }
-.rag-pill.good { background: var(--green-bg); border-color: var(--green); color: var(--green); }
-.rag-pill.at-risk { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
-.rag-pill.broken { background: var(--red-bg); border-color: var(--red); color: var(--red); }
-.rag-pill .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.deal-panel-stripe {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.deal-panel-count {
+  font-size: 10px; color: var(--text-dim);
+  background: var(--surface-2); border: 1px solid var(--border);
+  padding: 2px 8px; border-radius: 10px;
+}
+.deal-panel-add {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 5px;
+  background: var(--brand-dim); border: 1px solid var(--brand-glow);
+  font-family: var(--font); font-size: 10px; font-weight: 600;
+  color: var(--brand); cursor: pointer; transition: all 0.15s;
+}
+.deal-panel-add:hover { background: var(--brand); color: white; }
 
-/* panel grid */
-.panel {
-  display: grid;
-  grid-template-columns: 160px 1fr 190px 190px;
-  gap: 0;
-}
-.panel-accent {
-  background: var(--accent-color, #333);
-  padding: 20px 16px;
-  display: flex; flex-direction: column; justify-content: space-between;
-}
-.panel-accent-stage { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
-.panel-accent-name { font-size: 15px; font-weight: 700; color: white; line-height: 1.2; }
-.panel-output-pill {
-  margin-top: 12px;
-  display: inline-flex; align-items: center;
-  font-size: 9px; font-weight: 600; letter-spacing: 0.06em;
-  text-transform: uppercase; color: rgba(255,255,255,0.7);
-  background: rgba(0,0,0,0.2); padding: 3px 8px; border-radius: 3px;
-  width: fit-content;
-}
+.deal-rows { display: flex; flex-direction: column; }
 
-.panel-col {
-  padding: 16px;
-  border-left: 1px solid var(--border);
+.deal-row {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
 }
-.panel-col-title {
-  font-size: 9px; font-weight: 600; letter-spacing: 0.1em;
+.deal-row:last-child { border-bottom: none; }
+.deal-row:hover { background: rgba(255,255,255,0.02); }
+
+.deal-row-rag {
+  width: 3px; flex-shrink: 0;
+}
+.deal-row-rag.green { background: var(--green); }
+.deal-row-rag.amber { background: var(--amber); }
+.deal-row-rag.red   { background: var(--red); }
+
+.deal-row-body {
+  flex: 1; padding: 12px 16px;
+}
+.deal-row-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+}
+.deal-row-name {
+  font-size: 13px; font-weight: 600; color: var(--text); flex: 1;
+}
+.deal-row-owner {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 10px; color: var(--text-dim);
+}
+.deal-row-date {
+  font-size: 10px; color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+.deal-row-rag-pill {
+  font-size: 9px; font-weight: 600; padding: 2px 7px;
+  border-radius: 10px; border: 1px solid;
+}
+.deal-row-rag-pill.green { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+.deal-row-rag-pill.amber { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
+.deal-row-rag-pill.red   { background: var(--red-bg);   border-color: var(--red);   color: var(--red); }
+
+.deal-row-actions {
+  display: flex; gap: 4px;
+  opacity: 0; transition: opacity 0.15s;
+}
+.deal-row:hover .deal-row-actions { opacity: 1; }
+
+.deal-row-meta {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+}
+.deal-row-field { display: flex; flex-direction: column; gap: 2px; }
+.deal-row-label {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--text-dim);
-  margin-bottom: 10px;
 }
-.panel-col p {
-  font-size: 11px; color: var(--text-mid); line-height: 1.6;
-  margin-bottom: 8px;
-}
-
-/* gates */
-.gate-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
-.gate-item {
-  display: flex; align-items: flex-start; gap: 7px;
+.deal-row-label.next { color: var(--brand); opacity: 0.7; }
+.deal-row-value {
   font-size: 11px; color: var(--text-mid); line-height: 1.4;
 }
-.gate-tick { color: var(--green); flex-shrink: 0; margin-top: 1px; }
+.deal-row-value.next { color: var(--text); }
 
-/* callout */
-.callout {
-  background: var(--brand-dim); border: 1px solid var(--brand-glow);
-  border-radius: 6px; padding: 8px 10px;
-  font-size: 10px; color: var(--text-mid); margin-top: 8px;
+.panel-empty {
+  padding: 20px 16px;
+  font-size: 11px; color: var(--text-dim); font-style: italic;
 }
-.callout a { color: var(--brand); text-decoration: none; }
-.callout a:hover { text-decoration: underline; }
-
-/* players */
-.player-list { display: flex; flex-direction: column; gap: 5px; }
-.player-card {
-  display: flex; align-items: center; gap: 8px;
-  background: var(--surface-2); border: 1px solid var(--border);
-  border-radius: 6px; padding: 7px 9px;
-}
-.player-icon {
-  width: 24px; height: 24px; border-radius: 5px;
-  background: var(--brand-dim); border: 1px solid var(--brand-glow);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px; flex-shrink: 0;
-}
-.player-name { font-size: 11px; font-weight: 500; color: var(--text); }
-.player-role { font-size: 9px; color: var(--text-dim); }
-
-/* inputs/outputs */
-.io-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
-.io-item {
-  display: flex; align-items: flex-start; gap: 6px;
-  font-size: 10px; color: var(--text-mid); line-height: 1.4;
-}
-.io-bullet { font-size: 9px; color: var(--text-dim); flex-shrink: 0; margin-top: 1px; }
-
-/* retro bar */
-.retro-bar {
-  display: grid; grid-template-columns: repeat(3,1fr);
-  gap: 0;
-  border-top: 1px solid var(--border);
-}
-.retro-col {
-  padding: 12px 16px;
-  border-right: 1px solid var(--border);
-}
-.retro-col:last-child { border-right: none; }
-.retro-col-title {
-  font-size: 9px; font-weight: 600; letter-spacing: 0.1em;
-  text-transform: uppercase; margin-bottom: 6px;
-}
-.retro-col:nth-child(1) .retro-col-title { color: var(--green); }
-.retro-col:nth-child(2) .retro-col-title { color: var(--amber); }
-.retro-col:nth-child(3) .retro-col-title { color: var(--brand); }
-.retro-item {
-  display: flex; align-items: flex-start; gap: 5px;
-  font-size: 10px; color: var(--text-dim); margin-bottom: 3px; line-height: 1.4;
-}
-.retro-item::before { content: '·'; flex-shrink: 0; }
 
 /* ─── FOOTER ─── */
 .footer {
@@ -775,8 +743,18 @@ body.advisor-mode .sync-btn { display: none !important; }
       </div>
     </div>
     <div class="form-group">
-      <label class="form-label">Notes (optional)</label>
-      <input type="text" class="form-input" id="dealNotes" placeholder="Brief context…">
+      <label class="form-label">Notes / Current Situation</label>
+      <input type="text" class="form-input" id="dealNotes" placeholder="What's the current situation?">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Next Action / Blocker</label>
+      <input type="text" class="form-input" id="dealNextAction" placeholder="What needs to happen next?">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Owner</label>
+        <input type="text" class="form-input" id="dealOwner" placeholder="e.g. Bolaji">
+      </div>
     </div>
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closeDealModal()">Cancel</button>
@@ -1044,19 +1022,19 @@ const STAGES = [
 ];
 
 // ── Deal data (editable JSON — modify here or via UI) ──
-// Format: { id, name, stage (1-7), rag ("green"|"amber"|"red"), notes, updated }
+// Format: { id, name, stage (1-7), rag, notes, owner, nextAction, updated }
 let DEALS = [
-  { id: 1,  name: "Alpha Industries",    stage: 1, rag: "green", notes: "Warm intro via partner", updated: "2026-03-12" },
-  { id: 2,  name: "Beacon Health",       stage: 1, rag: "amber", notes: "C-level engaged",        updated: "2026-03-11" },
-  { id: 3,  name: "Cascade Logistics",   stage: 2, rag: "red",   notes: "Discovery booked",       updated: "2026-03-13" },
-  { id: 4,  name: "Delta Pharma",        stage: 2, rag: "amber", notes: "SME involved",            updated: "2026-03-10" },
-  { id: 5,  name: "Echo Finance",        stage: 3, rag: "green", notes: "POC underway",            updated: "2026-03-13" },
-  { id: 6,  name: "Fortis Energy",       stage: 3, rag: "amber", notes: "Feedback pending",        updated: "2026-03-09" },
-  { id: 7,  name: "Granite Legal",       stage: 4, rag: "red",   notes: "DM not yet confirmed",    updated: "2026-03-12" },
-  { id: 8,  name: "Helix Bio",           stage: 4, rag: "amber", notes: "Alignment session set",   updated: "2026-03-11" },
-  { id: 9,  name: "Iris Technology",     stage: 5, rag: "red",   notes: "Proposal in draft",       updated: "2026-03-13" },
-  { id: 10, name: "Juniper Retail",      stage: 6, rag: "amber", notes: "Procurement started",     updated: "2026-03-08" },
-  { id: 11, name: "Kelvin Manufacturing",stage: 7, rag: "green", notes: "Contract review",         updated: "2026-03-13" }
+  { id: 1,  name: "Alpha Industries",     stage: 1, rag: "green", notes: "Warm intro via partner network, strong AI interest signalled", owner: "Bolaji",  nextAction: "Send intro deck and book discovery call",          updated: "2026-03-12" },
+  { id: 2,  name: "Beacon Health",        stage: 1, rag: "amber", notes: "C-level engaged but timeline unclear",                         owner: "Jonny",   nextAction: "Follow up with C-suite on readiness timeline",        updated: "2026-03-11" },
+  { id: 3,  name: "Cascade Logistics",    stage: 2, rag: "red",   notes: "Discovery session scheduled but team unprepared",             owner: "Bolaji",  nextAction: "Prep whiteboard template before Thursday session",     updated: "2026-03-13" },
+  { id: 4,  name: "Delta Pharma",         stage: 2, rag: "amber", notes: "SME involved, NDA pending signature",                        owner: "Bolaji",  nextAction: "Chase NDA sign-off from legal",                       updated: "2026-03-10" },
+  { id: 5,  name: "Echo Finance",         stage: 3, rag: "green", notes: "POC underway, positive early feedback from end users",       owner: "Bolaji",  nextAction: "Finalise Figma site and book alignment session",       updated: "2026-03-13" },
+  { id: 6,  name: "Fortis Energy",        stage: 3, rag: "amber", notes: "POC delivered, awaiting structured feedback",                owner: "Bolaji",  nextAction: "Send feedback form and chase champion",               updated: "2026-03-09" },
+  { id: 7,  name: "Granite Legal",        stage: 4, rag: "red",   notes: "DM not confirmed for alignment session — at risk of slipping",owner: "Jonny",   nextAction: "Champion to confirm DM attendance before EOW",        updated: "2026-03-12" },
+  { id: 8,  name: "Helix Bio",            stage: 4, rag: "amber", notes: "Alignment session booked, requirements partially captured",  owner: "Bolaji",  nextAction: "Complete requirements doc before session",             updated: "2026-03-11" },
+  { id: 9,  name: "Iris Technology",      stage: 5, rag: "red",   notes: "Proposal in draft, capacity constrained",                   owner: "Jonny",   nextAction: "Unblock Solutions resource to complete proposal",      updated: "2026-03-13" },
+  { id: 10, name: "Juniper Retail",       stage: 6, rag: "amber", notes: "Procurement started, vendor onboarding pack submitted",     owner: "Bolaji",  nextAction: "Follow up with procurement lead on timeline",          updated: "2026-03-08" },
+  { id: 11, name: "Kelvin Manufacturing", stage: 7, rag: "green", notes: "Contract in final review, both parties aligned",            owner: "Jonny",   nextAction: "Confirm signatory and send final contract version",    updated: "2026-03-13" }
 ];
 
 let nextId = 100;
@@ -1179,91 +1157,56 @@ function buildPanel(stage) {
   pw.className = 'panel-wrap';
   pw.id = `panel-${stage.id}`;
 
-  const rag = stage.rag;
-  const pillHtml = (label, val) =>
-    `<span class="rag-pill ${ragClass(val)}"><span class="dot"></span>${label}: ${ragLabel(val)}</span>`;
+  const deals = DEALS.filter(d => d.stage === stage.id);
 
-  const gatesHtml = stage.gates.map(g =>
-    `<div class="gate-item"><span class="gate-tick">✓</span>${g}</div>`
-  ).join('');
-
-  const playersHtml = stage.players.map(p => `
-    <div class="player-card">
-      <div class="player-icon">${p.icon}</div>
-      <div><div class="player-name">${p.name}</div><div class="player-role">${p.role}</div></div>
-    </div>
-  `).join('');
-
-  const inputsHtml = stage.inputs.map(i =>
-    `<div class="io-item"><span class="io-bullet">→</span>${i}</div>`
-  ).join('');
-  const outputsHtml = stage.outputs.map(o =>
-    `<div class="io-item"><span class="io-bullet">←</span>${o}</div>`
-  ).join('');
-
-  const figmaLinksHtml = stage.figmaLinks ? stage.figmaLinks.map(l =>
-    `<div class="io-item"><span class="io-bullet">↗</span><a href="${l.url}" style="color:var(--brand)">${l.label}</a></div>`
-  ).join('') : '';
-
-  const bookingHtml = stage.booking ? `
-    <div class="callout">
-      📅 <a href="https://calendar.app.google/qqYGLRGDRmh5Mn1v5" target="_blank">Book session</a>
-      — avoids double-booking, confirms availability
-    </div>
-  ` : '';
-
-  const retroHtml = stage.retro ? `
-    <div class="retro-bar internal-only">
-      <div class="retro-col">
-        <div class="retro-col-title">What's working</div>
-        ${stage.retro.working.map(i => `<div class="retro-item">${i}</div>`).join('')}
+  const dealsHtml = deals.length === 0
+    ? `<div class="panel-empty">No active deals in this stage</div>`
+    : deals.map(d => `
+      <div class="deal-row">
+        <div class="deal-row-rag ${d.rag}"></div>
+        <div class="deal-row-body">
+          <div class="deal-row-header">
+            <span class="deal-row-name">${d.name}</span>
+            <span class="deal-row-owner">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              ${d.owner || '—'}
+            </span>
+            <span class="deal-row-date">${relTime(d.updated)}</span>
+            <span class="deal-row-rag-pill ${d.rag}">${d.rag === 'green' ? 'Good' : d.rag === 'amber' ? 'At Risk' : 'Broken'}</span>
+            <span class="deal-row-actions internal-only">
+              <button class="deal-chip-btn" onclick="openEditDeal(${d.id})">Edit</button>
+              <button class="deal-chip-btn" onclick="openMoveDeal(${d.id})">Move</button>
+              <button class="deal-chip-btn del" onclick="deleteDeal(${d.id})">✕</button>
+            </span>
+          </div>
+          <div class="deal-row-meta">
+            <div class="deal-row-field">
+              <span class="deal-row-label">Situation</span>
+              <span class="deal-row-value">${d.notes || '—'}</span>
+            </div>
+            <div class="deal-row-field">
+              <span class="deal-row-label next">Next action</span>
+              <span class="deal-row-value next">${d.nextAction || '—'}</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="retro-col">
-        <div class="retro-col-title">What needs to change</div>
-        ${stage.retro.change.map(i => `<div class="retro-item">${i}</div>`).join('')}
-      </div>
-      <div class="retro-col">
-        <div class="retro-col-title">Already in motion</div>
-        ${stage.retro.motion.map(i => `<div class="retro-item">${i}</div>`).join('')}
-      </div>
-    </div>
-  ` : '';
+    `).join('');
 
   pw.innerHTML = `
-    <div class="panel-shell">
-      <div class="rag-bar internal-only">
-        ${pillHtml('Performance', rag.perf)}
-        ${pillHtml('Definition', rag.def)}
-        ${pillHtml('Effort / Output', rag.effort)}
+    <div class="panel-shell deal-panel">
+      <div class="deal-panel-header">
+        <span class="deal-panel-title">
+          <span class="deal-panel-stripe" style="background:${stage.stripe}"></span>
+          Stage ${String(stage.id).padStart(2,'0')} · ${stage.name}
+        </span>
+        <span class="deal-panel-count">${deals.length} deal${deals.length !== 1 ? 's' : ''}</span>
+        <button class="deal-panel-add internal-only" onclick="openAddDeal(${stage.id})">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          Add deal
+        </button>
       </div>
-      <div class="panel" style="--accent-color:${stage.accent}">
-        <div class="panel-accent">
-          <div>
-            <div class="panel-accent-stage">Stage ${String(stage.id).padStart(2,'0')}</div>
-            <div class="panel-accent-name">${stage.name}${stage.subtitle ? `<br><span style="font-weight:400;font-size:11px;opacity:0.6">${stage.subtitle}</span>` : ''}</div>
-          </div>
-          <div class="panel-output-pill">Output defined</div>
-        </div>
-        <div class="panel-col">
-          <div class="panel-col-title">Success looks like</div>
-          <p>${stage.success}</p>
-          <div class="panel-col-title" style="margin-top:10px">Exit Gates</div>
-          <div class="gate-list">${gatesHtml}</div>
-          ${bookingHtml}
-        </div>
-        <div class="panel-col io-col">
-          <div class="panel-col-title">Key Players</div>
-          <div class="player-list">${playersHtml}</div>
-        </div>
-        <div class="panel-col gate-col">
-          <div class="panel-col-title">Key Inputs</div>
-          <div class="io-list">${inputsHtml}</div>
-          <div class="panel-col-title" style="margin-top:10px">Key Outputs</div>
-          <div class="io-list">${outputsHtml}</div>
-          ${figmaLinksHtml}
-        </div>
-      </div>
-      ${retroHtml}
+      <div class="deal-rows">${dealsHtml}</div>
     </div>
   `;
   return pw;
@@ -1417,6 +1360,8 @@ function openAddDeal(stageId) {
   document.getElementById('dealStage').value = stageId || 1;
   document.getElementById('dealRag').value = 'green';
   document.getElementById('dealNotes').value = '';
+  document.getElementById('dealNextAction').value = '';
+  document.getElementById('dealOwner').value = '';
   document.getElementById('dealModal').classList.add('open');
   setTimeout(() => document.getElementById('dealName').focus(), 100);
 }
@@ -1431,6 +1376,8 @@ function openEditDeal(id) {
   document.getElementById('dealStage').value = deal.stage;
   document.getElementById('dealRag').value = deal.rag;
   document.getElementById('dealNotes').value = deal.notes || '';
+  document.getElementById('dealNextAction').value = deal.nextAction || '';
+  document.getElementById('dealOwner').value = deal.owner || '';
   document.getElementById('dealModal').classList.add('open');
 }
 
@@ -1445,13 +1392,15 @@ function saveDeal() {
   const stage = +document.getElementById('dealStage').value;
   const rag = document.getElementById('dealRag').value;
   const notes = document.getElementById('dealNotes').value.trim();
+  const nextAction = document.getElementById('dealNextAction').value.trim();
+  const owner = document.getElementById('dealOwner').value.trim();
   const today = new Date().toISOString().split('T')[0];
 
   if (editingDealId !== null) {
     const deal = DEALS.find(d => d.id === editingDealId);
-    if (deal) { deal.name = name; deal.stage = stage; deal.rag = rag; deal.notes = notes; deal.updated = today; }
+    if (deal) { deal.name = name; deal.stage = stage; deal.rag = rag; deal.notes = notes; deal.nextAction = nextAction; deal.owner = owner; deal.updated = today; }
   } else {
-    DEALS.push({ id: nextId++, name, stage, rag, notes, updated: today });
+    DEALS.push({ id: nextId++, name, stage, rag, notes, nextAction, owner, updated: today });
   }
 
   closeDealModal();
