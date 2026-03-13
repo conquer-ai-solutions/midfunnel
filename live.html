@@ -268,14 +268,9 @@ body {
   border: 1px solid var(--border);
   border-radius: 10px;
   overflow: hidden;
-  cursor: pointer;
-  transition: border-color 0.2s, transform 0.15s;
   position: relative;
 }
-.stage-card:hover { border-color: var(--border-light); transform: translateY(-1px); }
-.stage-card.expanded { border-color: var(--border-light); }
 .stage-card.commercial-stage { background: var(--commercial-bg); }
-
 .stage-card.search-hidden { opacity: 0.25; pointer-events: none; }
 .stage-card.search-match { border-color: var(--brand); }
 
@@ -359,11 +354,12 @@ body {
   border: 1px solid var(--border);
   border-radius: 5px;
   font-size: 10px; color: var(--text-mid);
-  cursor: default;
+  cursor: pointer;
   transition: all 0.15s;
   position: relative;
 }
-.deal-chip:hover { border-color: var(--border-light); color: var(--text); }
+.deal-chip:hover { border-color: var(--brand); color: var(--text); }
+.deal-chip.active { border-color: var(--brand); background: var(--brand-dim); color: var(--text); }
 .deal-chip-name { font-weight: 500; color: var(--text); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .deal-chip-rag { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 .deal-chip-rag.green { background: var(--green); }
@@ -1117,36 +1113,22 @@ function renderAll() {
 
 function renderGrid(gridId, stages) {
   const grid = document.getElementById(gridId);
-  const openPanels = new Set(
-    [...grid.querySelectorAll('.panel-wrap.open')].map(el => +el.dataset.stage)
-  );
-
   grid.innerHTML = '';
 
-  // Row 1: all cards
+  // Row 1: all cards — not clickable, chips inside are
   stages.forEach((stage, i) => {
     const deals = DEALS.filter(d => d.stage === stage.id);
-    const card = buildCard(stage, deals, openPanels.has(stage.id));
+    const card = buildCard(stage, deals);
     card.style.gridRow = '1';
     card.style.gridColumn = String(i + 1);
     grid.appendChild(card);
   });
 
-  // Row 2: compact deal list panels (one per stage, full width)
-  stages.forEach(stage => {
-    const pw = buildDealListPanel(stage);
-    pw.dataset.stage = stage.id;
-    pw.style.gridRow = '2';
-    pw.style.gridColumn = '1 / -1';
-    if (openPanels.has(stage.id)) pw.classList.add('open');
-    grid.appendChild(pw);
-  });
-
-  // Row 3: single focused deal panel (shared, full width)
+  // Row 2: single shared focused deal panel
   const focusPanel = document.createElement('div');
   focusPanel.id = 'deal-focus-panel';
   focusPanel.className = 'panel-wrap' + (focusedDeal ? ' open' : '');
-  focusPanel.style.gridRow = '3';
+  focusPanel.style.gridRow = '2';
   focusPanel.style.gridColumn = '1 / -1';
   if (focusedDeal) {
     const deal = DEALS.find(d => d.id === focusedDeal);
@@ -1156,12 +1138,11 @@ function renderGrid(gridId, stages) {
   grid.appendChild(focusPanel);
 }
 
-function buildCard(stage, deals, expanded) {
+function buildCard(stage, deals) {
   const card = document.createElement('div');
-  card.className = 'stage-card' + (stage.id >= 5 ? ' commercial-stage' : '') + (expanded ? ' expanded' : '');
+  card.className = 'stage-card' + (stage.id >= 5 ? ' commercial-stage' : '');
   card.id = `card-${stage.id}`;
   card.style.setProperty('--stripe-color', stage.stripe);
-  card.onclick = () => togglePanel(stage.id);
 
   const rag = stage.rag;
   const dotMap = v => v === 'good' ? 'green' : v === 'amber' ? 'amber' : 'red';
@@ -1183,9 +1164,6 @@ function buildCard(stage, deals, expanded) {
         <div class="dot-cell"><span class="dot ${dotMap(rag.effort)}"></span>Out</div>
       </div>
     </div>
-    <div class="card-expand">
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
-    </div>
   `;
   return card;
 }
@@ -1195,14 +1173,15 @@ function renderDealList(stage, deals) {
     return `<div class="deal-list"><div class="empty-stage">No active deals</div></div>`;
   }
   const items = deals.map(d => `
-    <div class="deal-chip" data-deal="${d.id}" onclick="event.stopPropagation()">
+    <div class="deal-chip ${focusedDeal === d.id ? 'active' : ''}" data-deal="${d.id}"
+         onclick="event.stopPropagation(); selectDeal(${d.id})">
       <span class="deal-chip-rag ${d.rag}"></span>
       <span class="deal-chip-name">${d.name}</span>
       <span class="deal-chip-time">${relTime(d.updated)}</span>
       <span class="deal-chip-actions internal-only">
-        <button class="deal-chip-btn" onclick="openEditDeal(${d.id})">Edit</button>
-        <button class="deal-chip-btn" onclick="openMoveDeal(${d.id})">Move</button>
-        <button class="deal-chip-btn del" onclick="deleteDeal(${d.id})">✕</button>
+        <button class="deal-chip-btn" onclick="event.stopPropagation(); openEditDeal(${d.id})">Edit</button>
+        <button class="deal-chip-btn" onclick="event.stopPropagation(); openMoveDeal(${d.id})">Move</button>
+        <button class="deal-chip-btn del" onclick="event.stopPropagation(); deleteDeal(${d.id})">✕</button>
       </span>
     </div>
   `).join('');
@@ -1301,53 +1280,34 @@ function buildDealFocusHTML(deal, stage) {
    PANEL TOGGLE
 ═══════════════════════════════════════════════════ */
 
-function togglePanel(stageId) {
-  const card = document.getElementById(`card-${stageId}`);
-  const panel = document.getElementById(`panel-${stageId}`);
-  const isOpen = panel.classList.contains('open');
-
-  // Close all other panels
-  document.querySelectorAll('.panel-wrap[data-stage]').forEach(p => p.classList.remove('open'));
-  document.querySelectorAll('.stage-card').forEach(c => c.classList.remove('expanded'));
-
-  if (!isOpen) {
-    panel.classList.add('open');
-    card.classList.add('expanded');
-  } else {
-    // closing — also clear deal focus
-    closeDealFocus(false);
-  }
-}
-
 function selectDeal(dealId) {
-  focusedDeal = dealId;
+  // Toggle off if already selected
+  if (focusedDeal === dealId) {
+    closeDealFocus();
+    return;
+  }
 
+  focusedDeal = dealId;
   const deal = DEALS.find(d => d.id === dealId);
   const stage = deal ? STAGES.find(s => s.id === deal.stage) : null;
   if (!deal || !stage) return;
 
-  // Highlight selected row
-  document.querySelectorAll('.deal-list-row').forEach(r => r.classList.remove('focused'));
-  const rows = document.querySelectorAll(`.deal-list-row`);
-  rows.forEach(r => {
-    if (r.querySelector('.deal-list-name') &&
-        r.querySelector('.deal-list-name').textContent === deal.name) {
-      r.classList.add('focused');
-    }
-  });
+  // Update chip highlights
+  document.querySelectorAll('.deal-chip').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll(`.deal-chip[data-deal="${dealId}"]`).forEach(c => c.classList.add('active'));
 
-  // Inject into focus panel and open it
+  // Inject and open focus panel
   const fp = document.getElementById('deal-focus-panel');
   if (!fp) return;
   fp.innerHTML = buildDealFocusHTML(deal, stage);
   fp.classList.add('open');
 }
 
-function closeDealFocus(rerender = true) {
+function closeDealFocus() {
   focusedDeal = null;
+  document.querySelectorAll('.deal-chip').forEach(c => c.classList.remove('active'));
   const fp = document.getElementById('deal-focus-panel');
   if (fp) { fp.classList.remove('open'); fp.innerHTML = ''; }
-  document.querySelectorAll('.deal-list-row').forEach(r => r.classList.remove('focused'));
 }
 
 /* ═══════════════════════════════════════════════════
