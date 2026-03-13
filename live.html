@@ -811,8 +811,8 @@ body {
       <button class="modal-close" onclick="closeAirtableModal()">✕</button>
     </div>
     <div class="sheets-info">
-      Paste your <strong style="color:var(--text)">Airtable shared view CSV URL</strong>.<br><br>
-      In Airtable: open your view → <code>Share view</code> → enable <strong>Allow anyone to view</strong> → copy the link, then add <code>/csv</code> to the end of the URL.
+      Paste your <strong style="color:var(--text)">Airtable shared view URL</strong>.<br><br>
+      In Airtable: open your view → <code>Share view</code> → enable <strong>Allow anyone to view</strong> → copy the link and paste it below. (No need to add <code>/csv</code> — handled automatically.)
     </div>
     <div class="form-group">
       <label class="form-label">Shared View CSV URL</label>
@@ -1813,24 +1813,46 @@ async function importFromAirtable(url, closeAfter) {
   if (btn) btn.classList.add('syncing');
   if (statusEl) { statusEl.style.color = 'var(--text-dim)'; statusEl.textContent = 'Importing…'; }
 
-  // Airtable shared view URLs need a CORS proxy in browser context
-  const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+  // Auto-append /csv if missing
+  let csvUrl = url.replace(/\/csv$/, ''); // normalise
+  csvUrl = csvUrl + '/csv';
+
+  // Try proxies in order
+  const proxies = [
+    u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+    u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+    u => `https://thingproxy.freeboard.io/fetch/${u}`,
+  ];
+
+  let text = null;
+  let lastErr = '';
+  for (const proxy of proxies) {
+    try {
+      const res = await fetch(proxy(csvUrl), { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) { lastErr = `HTTP ${res.status}`; continue; }
+      text = await res.text();
+      if (text && text.includes(',')) break; // looks like CSV
+      lastErr = 'Response was not CSV';
+      text = null;
+    } catch(e) { lastErr = e.message; }
+  }
+
+  if (!text) {
+    if (statusEl) { statusEl.style.color = 'var(--red)'; statusEl.textContent = `✗ ${lastErr} — try making the view public and ensure the URL is a shared view link`; }
+    if (btn) btn.classList.remove('syncing');
+    return;
+  }
 
   try {
-    const res = await fetch(proxyUrl);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const text = await res.text();
     const imported = parseAirtableCSV(text);
-    if (imported.length === 0) throw new Error('No rows found — check your URL or view has data');
+    if (imported.length === 0) throw new Error('No rows found — check the view has data');
 
-    // Switch to live mode and load
     LIVE_DEALS = imported;
     localStorage.setItem('cq-live-deals', JSON.stringify(LIVE_DEALS));
     setDataMode('live');
     if (statusEl) { statusEl.style.color = 'var(--green)'; statusEl.textContent = `✓ Imported ${imported.length} companies`; }
-    if (closeAfter) setTimeout(closeAirtableModal, 1200);
+    if (closeAfter) setTimeout(closeAirtableModal, 1400);
   } catch(err) {
-    console.warn('Airtable import failed:', err);
     if (statusEl) { statusEl.style.color = 'var(--red)'; statusEl.textContent = `✗ ${err.message}`; }
   }
   if (btn) btn.classList.remove('syncing');
