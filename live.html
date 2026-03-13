@@ -255,6 +255,9 @@ body {
   border-radius: 10px;
   overflow: hidden;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 380px; /* fixed — cards never grow */
 }
 .stage-card.commercial-stage { background: var(--commercial-bg); }
 .stage-card.search-hidden { opacity: 0.25; pointer-events: none; }
@@ -263,9 +266,16 @@ body {
 .card-stripe {
   height: 3px;
   background: var(--stripe-color, var(--s1));
+  flex-shrink: 0;
 }
 
-.card-body { padding: 14px 14px 12px; }
+.card-body {
+  padding: 14px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0; /* essential for flex child scroll */
+}
 
 .card-number {
   font-size: 36px; font-weight: 700; line-height: 1;
@@ -352,8 +362,9 @@ body {
 .deal-list {
   margin-top: 4px;
   display: flex; flex-direction: column; gap: 3px;
-  max-height: 240px;
+  flex: 1;
   overflow-y: auto;
+  min-height: 0;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
 }
@@ -1238,7 +1249,8 @@ function renderGrid(gridId, stages) {
   grid.appendChild(focusPanel);
 }
 
-const CARD_PAGE_SIZE = 50; // chips rendered per page
+const CARD_PAGE_SIZE = 15; // chips rendered per page
+const CARD_SEARCH_THRESHOLD = 5; // show search input only above this count
 const cardSearchState = {}; // { [stageId]: { query, page } }
 
 function buildCard(stage, deals) {
@@ -1262,7 +1274,7 @@ function buildCard(stage, deals) {
       <div class="deal-count ${deals.length > 0 ? 'has-deals' : ''}" id="deal-count-${stage.id}">
         <span class="count-num">${deals.length}</span> deal${deals.length !== 1 ? 's' : ''}
       </div>
-      ${deals.length > 0 ? `
+      ${deals.length > CARD_SEARCH_THRESHOLD ? `
       <div class="card-search-wrap">
         <svg class="card-search-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
         <input class="card-search-input" id="card-search-${stage.id}"
@@ -1319,10 +1331,10 @@ function renderDealChips(stageId, deals, forceQuery) {
   `).join('');
 
   const moreBtn = hasMore
-    ? `<div class="deal-list-more" onclick="loadMoreDeals(${stageId})">Show ${Math.min(CARD_PAGE_SIZE, total - limit)} more of ${total - limit} remaining ↓</div>`
+    ? `<div class="deal-list-more" onclick="loadMoreDeals(${stageId})">↓ ${Math.min(CARD_PAGE_SIZE, total - limit)} more (${total - limit} remaining)</div>`
     : (total === 0 && q ? `<div class="empty-stage" style="padding:4px 0">No matches</div>` : '');
 
-  return `<div class="deal-list">${chips}</div>${moreBtn}`;
+  return `<div class="deal-list">${chips}${moreBtn}</div>`;
 }
 
 function filterCardDeals(stageId, query) {
