@@ -329,10 +329,43 @@ body {
 .stage-card.expanded .card-expand { transform: rotate(180deg); }
 
 /* ─── DEAL LIST (inside card) ─── */
-.deal-list {
-  margin-top: 8px;
-  display: flex; flex-direction: column; gap: 3px;
+.card-search-wrap {
+  position: relative; margin-top: 8px; margin-bottom: 4px;
 }
+.card-search-input {
+  width: 100%; box-sizing: border-box;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 5px; padding: 4px 8px 4px 24px;
+  font-family: var(--font); font-size: 10px; color: var(--text);
+  outline: none; transition: border-color 0.15s;
+}
+.card-search-input::placeholder { color: var(--text-dim); }
+.card-search-input:focus { border-color: var(--brand); }
+.card-search-icon {
+  position: absolute; left: 7px; top: 50%; transform: translateY(-50%);
+  color: var(--text-dim); pointer-events: none;
+}
+.card-search-count {
+  position: absolute; right: 7px; top: 50%; transform: translateY(-50%);
+  font-size: 9px; color: var(--text-dim); pointer-events: none;
+}
+.deal-list {
+  margin-top: 4px;
+  display: flex; flex-direction: column; gap: 3px;
+  max-height: 240px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.deal-list::-webkit-scrollbar { width: 4px; }
+.deal-list::-webkit-scrollbar-track { background: transparent; }
+.deal-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.deal-list-more {
+  font-size: 10px; color: var(--text-dim); text-align: center;
+  padding: 6px 0 2px; cursor: pointer;
+  transition: color 0.15s;
+}
+.deal-list-more:hover { color: var(--brand); }
 .deal-chip {
   display: flex; align-items: center; gap: 6px;
   padding: 4px 7px;
@@ -1205,6 +1238,9 @@ function renderGrid(gridId, stages) {
   grid.appendChild(focusPanel);
 }
 
+const CARD_PAGE_SIZE = 50; // chips rendered per page
+const cardSearchState = {}; // { [stageId]: { query, page } }
+
 function buildCard(stage, deals) {
   const card = document.createElement('div');
   card.className = 'stage-card' + (stage.id >= 5 ? ' commercial-stage' : '');
@@ -1214,6 +1250,8 @@ function buildCard(stage, deals) {
   card.addEventListener('dragleave', e => onCardDragLeave(e, stage.id));
   card.addEventListener('drop',      e => onCardDrop(e, stage.id));
 
+  if (!cardSearchState[stage.id]) cardSearchState[stage.id] = { query: '', page: 1 };
+
   card.innerHTML = `
     <div class="card-stripe"></div>
     <div class="card-body">
@@ -1221,20 +1259,55 @@ function buildCard(stage, deals) {
       <div class="card-stage-label">Stage ${String(stage.id).padStart(2,'0')}</div>
       <div class="card-title">${stage.name}</div>
       ${stage.subtitle ? `<div class="card-subtitle">${stage.subtitle}</div>` : ''}
-      <div class="deal-count ${deals.length > 0 ? 'has-deals' : ''}">
+      <div class="deal-count ${deals.length > 0 ? 'has-deals' : ''}" id="deal-count-${stage.id}">
         <span class="count-num">${deals.length}</span> deal${deals.length !== 1 ? 's' : ''}
       </div>
-      ${renderDealList(stage, deals)}
+      ${deals.length > 0 ? `
+      <div class="card-search-wrap">
+        <svg class="card-search-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="card-search-input" id="card-search-${stage.id}"
+          placeholder="Filter ${deals.length} deals…"
+          value="${cardSearchState[stage.id].query}"
+          oninput="filterCardDeals(${stage.id}, this.value)">
+        <span class="card-search-count" id="card-search-count-${stage.id}"></span>
+      </div>` : ''}
+      <div id="deal-list-${stage.id}">${renderDealChips(stage.id, deals)}</div>
     </div>
   `;
   return card;
 }
 
-function renderDealList(stage, deals) {
+function renderDealChips(stageId, deals, forceQuery) {
   if (deals.length === 0) {
     return `<div class="deal-list"><div class="empty-stage">No active deals</div></div>`;
   }
-  const items = deals.map(d => `
+  const state = cardSearchState[stageId] || { query: '', page: 1 };
+  const query = forceQuery !== undefined ? forceQuery : state.query;
+  const q = query.toLowerCase().trim();
+
+  const filtered = q
+    ? deals.filter(d => d.name.toLowerCase().includes(q) || (d.owner||'').toLowerCase().includes(q) || (d.notes||'').toLowerCase().includes(q))
+    : deals;
+
+  const total = filtered.length;
+  const page  = state.page || 1;
+  const limit = page * CARD_PAGE_SIZE;
+  const visible = filtered.slice(0, limit);
+  const hasMore = total > limit;
+
+  // Update count badge
+  const countEl = document.getElementById(`deal-count-${stageId}`);
+  if (countEl) {
+    const shown = q ? `${total} of ${deals.length}` : deals.length;
+    countEl.innerHTML = `<span class="count-num">${shown}</span> deal${deals.length !== 1 ? 's' : ''}`;
+    countEl.className = `deal-count ${deals.length > 0 ? 'has-deals' : ''}`;
+  }
+
+  // Update search count hint
+  const searchCountEl = document.getElementById(`card-search-count-${stageId}`);
+  if (searchCountEl) searchCountEl.textContent = q ? `${total}` : '';
+
+  const chips = visible.map(d => `
     <div class="deal-chip ${focusedDeal === d.id ? 'active' : ''}" data-deal="${d.id}"
          draggable="true"
          ondragstart="onChipDragStart(event, ${d.id})"
@@ -1244,7 +1317,34 @@ function renderDealList(stage, deals) {
       <span class="deal-chip-time">${relTime(d.updated)}</span>
     </div>
   `).join('');
-  return `<div class="deal-list">${items}</div>`;
+
+  const moreBtn = hasMore
+    ? `<div class="deal-list-more" onclick="loadMoreDeals(${stageId})">Show ${Math.min(CARD_PAGE_SIZE, total - limit)} more of ${total - limit} remaining ↓</div>`
+    : (total === 0 && q ? `<div class="empty-stage" style="padding:4px 0">No matches</div>` : '');
+
+  return `<div class="deal-list">${chips}</div>${moreBtn}`;
+}
+
+function filterCardDeals(stageId, query) {
+  if (!cardSearchState[stageId]) cardSearchState[stageId] = { query: '', page: 1 };
+  cardSearchState[stageId].query = query;
+  cardSearchState[stageId].page  = 1;
+  const deals = DEALS.filter(d => d.stage === stageId);
+  const container = document.getElementById(`deal-list-${stageId}`);
+  if (container) container.innerHTML = renderDealChips(stageId, deals, query);
+}
+
+function loadMoreDeals(stageId) {
+  if (!cardSearchState[stageId]) cardSearchState[stageId] = { query: '', page: 1 };
+  cardSearchState[stageId].page++;
+  const deals = DEALS.filter(d => d.stage === stageId);
+  const container = document.getElementById(`deal-list-${stageId}`);
+  if (container) container.innerHTML = renderDealChips(stageId, deals);
+}
+
+function renderDealList(stage, deals) {
+  // legacy shim — used by buildDealListPanel
+  return renderDealChips(stage.id, deals);
 }
 
 function buildDealListPanel(stage) {
@@ -1880,6 +1980,7 @@ function setDataMode(mode) {
   } else {
     DEALS = DEMO_DEALS.map(d => ({...d})); // fresh copy of demo data
   }
+  Object.keys(cardSearchState).forEach(k => { cardSearchState[k] = { query: '', page: 1 }; });
   closeDealFocus();
   renderAll();
   saveDealsLocal();
