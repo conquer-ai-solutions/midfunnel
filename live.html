@@ -389,107 +389,150 @@ body {
 .deal-chip-btn:hover { border-color: var(--brand); color: var(--brand); }
 .deal-chip-btn.del:hover { border-color: var(--red); color: var(--red); }
 
-/* ─── EXPANDED DEAL PANEL ─── */
-.panel-shell.deal-panel {
+/* ─── DEAL LIST PANEL (row 2) ─── */
+.panel-shell.deal-list-panel {
   background: var(--surface);
   border: 1px solid var(--border-light);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.deal-list-rows { display: flex; flex-direction: column; }
+
+.deal-list-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.12s;
+  position: relative;
+}
+.deal-list-row:last-child { border-bottom: none; }
+.deal-list-row:hover { background: rgba(255,255,255,0.03); }
+.deal-list-row.focused {
+  background: var(--brand-dim);
+  border-left: 2px solid var(--brand);
+}
+
+.deal-list-rag {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+}
+.deal-list-rag.green { background: var(--green); box-shadow: 0 0 4px rgba(51,160,90,0.5); }
+.deal-list-rag.amber { background: var(--amber); box-shadow: 0 0 4px rgba(212,150,12,0.5); }
+.deal-list-rag.red   { background: var(--red);   box-shadow: 0 0 4px rgba(224,57,43,0.5); }
+
+.deal-list-name {
+  font-size: 12px; font-weight: 600; color: var(--text);
+  flex: 1; min-width: 0;
+}
+.deal-list-owner {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 10px; color: var(--text-dim); flex-shrink: 0;
+}
+.deal-list-date {
+  font-size: 10px; color: var(--text-dim); flex-shrink: 0;
+  font-variant-numeric: tabular-nums; min-width: 44px; text-align: right;
+}
+.deal-list-rag-pill {
+  font-size: 9px; font-weight: 600; padding: 2px 7px;
+  border-radius: 10px; border: 1px solid; flex-shrink: 0;
+}
+.deal-list-rag-pill.green { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+.deal-list-rag-pill.amber { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
+.deal-list-rag-pill.red   { background: var(--red-bg);   border-color: var(--red);   color: var(--red); }
+
+.deal-list-chevron {
+  color: var(--text-dim); flex-shrink: 0;
+  transition: transform 0.15s, color 0.15s;
+}
+.deal-list-row:hover .deal-list-chevron { color: var(--brand); transform: translateX(2px); }
+.deal-list-row.focused .deal-list-chevron { color: var(--brand); transform: rotate(90deg); }
+
+/* ─── FOCUSED DEAL PANEL (row 3) ─── */
+.panel-shell.deal-focus-panel {
+  background: var(--surface);
+  border: 1px solid var(--brand-glow);
+  border-top: 2px solid var(--brand);
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 10px;
 }
 
-.deal-panel-header {
+.deal-focus-header {
+  padding: 14px 20px 12px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(81,95,252,0.04);
+}
+.deal-focus-title-row {
+  display: flex; align-items: center; gap: 7px;
+  margin-bottom: 8px;
+}
+.deal-focus-stage-dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+}
+.deal-focus-stage-label {
+  font-size: 10px; font-weight: 500; color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+.deal-focus-name-row {
   display: flex; align-items: center; gap: 10px;
-  padding: 10px 16px;
-  background: rgba(255,255,255,0.02);
-  border-bottom: 1px solid var(--border);
 }
-.deal-panel-title {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 11px; font-weight: 600; color: var(--text);
-  flex: 1;
+.deal-focus-name {
+  font-size: 18px; font-weight: 700; color: var(--text);
+  letter-spacing: -0.3px; flex: 1;
 }
-.deal-panel-stripe {
-  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+.deal-focus-rag-pill {
+  font-size: 10px; font-weight: 600; padding: 3px 10px;
+  border-radius: 12px; border: 1px solid; flex-shrink: 0;
 }
-.deal-panel-count {
-  font-size: 10px; color: var(--text-dim);
-  background: var(--surface-2); border: 1px solid var(--border);
-  padding: 2px 8px; border-radius: 10px;
-}
-.deal-panel-add {
-  display: flex; align-items: center; gap: 5px;
-  padding: 4px 10px; border-radius: 5px;
-  background: var(--brand-dim); border: 1px solid var(--brand-glow);
-  font-family: var(--font); font-size: 10px; font-weight: 600;
-  color: var(--brand); cursor: pointer; transition: all 0.15s;
-}
-.deal-panel-add:hover { background: var(--brand); color: white; }
+.deal-focus-rag-pill.green { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+.deal-focus-rag-pill.amber { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
+.deal-focus-rag-pill.red   { background: var(--red-bg);   border-color: var(--red);   color: var(--red); }
 
-.deal-rows { display: flex; flex-direction: column; }
+.deal-focus-actions { display: flex; gap: 5px; }
 
-.deal-row {
-  display: flex;
-  border-bottom: 1px solid var(--border);
-  transition: background 0.12s;
+.deal-focus-close {
+  background: none; border: 1px solid var(--border);
+  border-radius: 5px; padding: 4px 6px;
+  color: var(--text-dim); cursor: pointer;
+  display: flex; align-items: center;
+  transition: all 0.15s; flex-shrink: 0;
 }
-.deal-row:last-child { border-bottom: none; }
-.deal-row:hover { background: rgba(255,255,255,0.02); }
+.deal-focus-close:hover { border-color: var(--red); color: var(--red); }
 
-.deal-row-rag {
-  width: 3px; flex-shrink: 0;
+.deal-focus-body {
+  display: grid; grid-template-columns: 1fr 1fr 160px 140px;
+  gap: 0;
 }
-.deal-row-rag.green { background: var(--green); }
-.deal-row-rag.amber { background: var(--amber); }
-.deal-row-rag.red   { background: var(--red); }
+.deal-focus-field {
+  padding: 16px 20px;
+  border-right: 1px solid var(--border);
+}
+.deal-focus-field:last-child { border-right: none; }
+.deal-focus-field.highlight { background: rgba(81,95,252,0.03); }
 
-.deal-row-body {
-  flex: 1; padding: 12px 16px;
-}
-.deal-row-header {
-  display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
-}
-.deal-row-name {
-  font-size: 13px; font-weight: 600; color: var(--text); flex: 1;
-}
-.deal-row-owner {
-  display: flex; align-items: center; gap: 4px;
-  font-size: 10px; color: var(--text-dim);
-}
-.deal-row-date {
-  font-size: 10px; color: var(--text-dim);
-  font-variant-numeric: tabular-nums;
-}
-.deal-row-rag-pill {
-  font-size: 9px; font-weight: 600; padding: 2px 7px;
-  border-radius: 10px; border: 1px solid;
-}
-.deal-row-rag-pill.green { background: var(--green-bg); border-color: var(--green); color: var(--green); }
-.deal-row-rag-pill.amber { background: var(--amber-bg); border-color: var(--amber); color: var(--amber); }
-.deal-row-rag-pill.red   { background: var(--red-bg);   border-color: var(--red);   color: var(--red); }
-
-.deal-row-actions {
-  display: flex; gap: 4px;
-  opacity: 0; transition: opacity 0.15s;
-}
-.deal-row:hover .deal-row-actions { opacity: 1; }
-
-.deal-row-meta {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-}
-.deal-row-field { display: flex; flex-direction: column; gap: 2px; }
-.deal-row-label {
-  font-size: 9px; font-weight: 600; letter-spacing: 0.08em;
+.deal-focus-label {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.1em;
   text-transform: uppercase; color: var(--text-dim);
+  margin-bottom: 6px;
 }
-.deal-row-label.next { color: var(--brand); opacity: 0.7; }
-.deal-row-value {
-  font-size: 11px; color: var(--text-mid); line-height: 1.4;
+.deal-focus-label.next { color: var(--brand); opacity: 0.8; }
+.deal-focus-value {
+  font-size: 12px; color: var(--text-mid); line-height: 1.5;
 }
-.deal-row-value.next { color: var(--text); }
+.deal-focus-value.next {
+  font-size: 13px; font-weight: 500; color: var(--text);
+}
 
+/* inline add link */
+.inline-add {
+  background: none; border: none; color: var(--brand);
+  font-family: var(--font); font-size: 11px; cursor: pointer;
+  padding: 0; text-decoration: underline;
+}
 .panel-empty {
-  padding: 20px 16px;
+  padding: 16px 20px;
   font-size: 11px; color: var(--text-dim); font-style: italic;
 }
 
@@ -1041,6 +1084,7 @@ let nextId = 100;
 let editingDealId = null;
 let movingDealId = null;
 let activeRagFilter = null;
+let focusedDeal = null;
 let sheetsInterval = null;
 let currentMode = 'internal';
 
@@ -1079,7 +1123,7 @@ function renderGrid(gridId, stages) {
 
   grid.innerHTML = '';
 
-  // Row 1: all cards with explicit column placement
+  // Row 1: all cards
   stages.forEach((stage, i) => {
     const deals = DEALS.filter(d => d.stage === stage.id);
     const card = buildCard(stage, deals, openPanels.has(stage.id));
@@ -1088,15 +1132,28 @@ function renderGrid(gridId, stages) {
     grid.appendChild(card);
   });
 
-  // Row 2: all panels, each spanning full width
+  // Row 2: compact deal list panels (one per stage, full width)
   stages.forEach(stage => {
-    const pw = buildPanel(stage);
+    const pw = buildDealListPanel(stage);
     pw.dataset.stage = stage.id;
     pw.style.gridRow = '2';
     pw.style.gridColumn = '1 / -1';
     if (openPanels.has(stage.id)) pw.classList.add('open');
     grid.appendChild(pw);
   });
+
+  // Row 3: single focused deal panel (shared, full width)
+  const focusPanel = document.createElement('div');
+  focusPanel.id = 'deal-focus-panel';
+  focusPanel.className = 'panel-wrap' + (focusedDeal ? ' open' : '');
+  focusPanel.style.gridRow = '3';
+  focusPanel.style.gridColumn = '1 / -1';
+  if (focusedDeal) {
+    const deal = DEALS.find(d => d.id === focusedDeal);
+    const stage = deal ? STAGES.find(s => s.id === deal.stage) : null;
+    if (deal && stage) focusPanel.innerHTML = buildDealFocusHTML(deal, stage);
+  }
+  grid.appendChild(focusPanel);
 }
 
 function buildCard(stage, deals, expanded) {
@@ -1152,49 +1209,33 @@ function renderDealList(stage, deals) {
   return `<div class="deal-list">${items}</div>`;
 }
 
-function buildPanel(stage) {
+function buildDealListPanel(stage) {
   const pw = document.createElement('div');
   pw.className = 'panel-wrap';
   pw.id = `panel-${stage.id}`;
 
   const deals = DEALS.filter(d => d.stage === stage.id);
 
-  const dealsHtml = deals.length === 0
-    ? `<div class="panel-empty">No active deals in this stage</div>`
+  const rowsHtml = deals.length === 0
+    ? `<div class="panel-empty">No active deals in this stage — <button class="inline-add internal-only" onclick="openAddDeal(${stage.id})">add one</button></div>`
     : deals.map(d => `
-      <div class="deal-row">
-        <div class="deal-row-rag ${d.rag}"></div>
-        <div class="deal-row-body">
-          <div class="deal-row-header">
-            <span class="deal-row-name">${d.name}</span>
-            <span class="deal-row-owner">
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-              ${d.owner || '—'}
-            </span>
-            <span class="deal-row-date">${relTime(d.updated)}</span>
-            <span class="deal-row-rag-pill ${d.rag}">${d.rag === 'green' ? 'Good' : d.rag === 'amber' ? 'At Risk' : 'Broken'}</span>
-            <span class="deal-row-actions internal-only">
-              <button class="deal-chip-btn" onclick="openEditDeal(${d.id})">Edit</button>
-              <button class="deal-chip-btn" onclick="openMoveDeal(${d.id})">Move</button>
-              <button class="deal-chip-btn del" onclick="deleteDeal(${d.id})">✕</button>
-            </span>
-          </div>
-          <div class="deal-row-meta">
-            <div class="deal-row-field">
-              <span class="deal-row-label">Situation</span>
-              <span class="deal-row-value">${d.notes || '—'}</span>
-            </div>
-            <div class="deal-row-field">
-              <span class="deal-row-label next">Next action</span>
-              <span class="deal-row-value next">${d.nextAction || '—'}</span>
-            </div>
-          </div>
+      <div class="deal-list-row ${focusedDeal === d.id ? 'focused' : ''}" onclick="selectDeal(${d.id})">
+        <div class="deal-list-rag ${d.rag}"></div>
+        <div class="deal-list-name">${d.name}</div>
+        <div class="deal-list-owner">
+          <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          ${d.owner || '—'}
+        </div>
+        <div class="deal-list-date">${relTime(d.updated)}</div>
+        <div class="deal-list-rag-pill ${d.rag}">${d.rag === 'green' ? 'Good' : d.rag === 'amber' ? 'At Risk' : 'Broken'}</div>
+        <div class="deal-list-chevron">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
         </div>
       </div>
     `).join('');
 
   pw.innerHTML = `
-    <div class="panel-shell deal-panel">
+    <div class="panel-shell deal-list-panel">
       <div class="deal-panel-header">
         <span class="deal-panel-title">
           <span class="deal-panel-stripe" style="background:${stage.stripe}"></span>
@@ -1206,10 +1247,54 @@ function buildPanel(stage) {
           Add deal
         </button>
       </div>
-      <div class="deal-rows">${dealsHtml}</div>
+      <div class="deal-list-rows">${rowsHtml}</div>
     </div>
   `;
   return pw;
+}
+
+function buildDealFocusHTML(deal, stage) {
+  const ragLabel = deal.rag === 'green' ? 'Good' : deal.rag === 'amber' ? 'At Risk' : 'Broken';
+  return `
+    <div class="panel-shell deal-focus-panel">
+      <div class="deal-focus-header">
+        <div class="deal-focus-title-row">
+          <span class="deal-focus-stage-dot" style="background:${stage.stripe}"></span>
+          <span class="deal-focus-stage-label">Stage ${String(stage.id).padStart(2,'0')} · ${stage.name}</span>
+        </div>
+        <div class="deal-focus-name-row">
+          <span class="deal-focus-name">${deal.name}</span>
+          <span class="deal-focus-rag-pill ${deal.rag}">${ragLabel}</span>
+          <span class="deal-focus-actions internal-only">
+            <button class="deal-chip-btn" onclick="openEditDeal(${deal.id})">Edit</button>
+            <button class="deal-chip-btn" onclick="openMoveDeal(${deal.id})">Move stage</button>
+            <button class="deal-chip-btn del" onclick="deleteDeal(${deal.id})">Remove</button>
+          </span>
+          <button class="deal-focus-close" onclick="closeDealFocus()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="deal-focus-body">
+        <div class="deal-focus-field">
+          <div class="deal-focus-label">Situation</div>
+          <div class="deal-focus-value">${deal.notes || '—'}</div>
+        </div>
+        <div class="deal-focus-field highlight">
+          <div class="deal-focus-label next">Next action</div>
+          <div class="deal-focus-value next">${deal.nextAction || '—'}</div>
+        </div>
+        <div class="deal-focus-field">
+          <div class="deal-focus-label">Owner</div>
+          <div class="deal-focus-value">${deal.owner || '—'}</div>
+        </div>
+        <div class="deal-focus-field">
+          <div class="deal-focus-label">Last updated</div>
+          <div class="deal-focus-value">${deal.updated ? new Date(deal.updated).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'}) : '—'}</div>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1220,8 +1305,49 @@ function togglePanel(stageId) {
   const card = document.getElementById(`card-${stageId}`);
   const panel = document.getElementById(`panel-${stageId}`);
   const isOpen = panel.classList.contains('open');
-  panel.classList.toggle('open', !isOpen);
-  card.classList.toggle('expanded', !isOpen);
+
+  // Close all other panels
+  document.querySelectorAll('.panel-wrap[data-stage]').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.stage-card').forEach(c => c.classList.remove('expanded'));
+
+  if (!isOpen) {
+    panel.classList.add('open');
+    card.classList.add('expanded');
+  } else {
+    // closing — also clear deal focus
+    closeDealFocus(false);
+  }
+}
+
+function selectDeal(dealId) {
+  focusedDeal = dealId;
+
+  const deal = DEALS.find(d => d.id === dealId);
+  const stage = deal ? STAGES.find(s => s.id === deal.stage) : null;
+  if (!deal || !stage) return;
+
+  // Highlight selected row
+  document.querySelectorAll('.deal-list-row').forEach(r => r.classList.remove('focused'));
+  const rows = document.querySelectorAll(`.deal-list-row`);
+  rows.forEach(r => {
+    if (r.querySelector('.deal-list-name') &&
+        r.querySelector('.deal-list-name').textContent === deal.name) {
+      r.classList.add('focused');
+    }
+  });
+
+  // Inject into focus panel and open it
+  const fp = document.getElementById('deal-focus-panel');
+  if (!fp) return;
+  fp.innerHTML = buildDealFocusHTML(deal, stage);
+  fp.classList.add('open');
+}
+
+function closeDealFocus(rerender = true) {
+  focusedDeal = null;
+  const fp = document.getElementById('deal-focus-panel');
+  if (fp) { fp.classList.remove('open'); fp.innerHTML = ''; }
+  document.querySelectorAll('.deal-list-row').forEach(r => r.classList.remove('focused'));
 }
 
 /* ═══════════════════════════════════════════════════
