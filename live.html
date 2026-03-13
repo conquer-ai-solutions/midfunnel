@@ -1095,17 +1095,27 @@ function renderAll() {
 
 function renderGrid(gridId, stages) {
   const grid = document.getElementById(gridId);
-  // Preserve open panels
   const openPanels = new Set(
     [...grid.querySelectorAll('.panel-wrap.open')].map(el => +el.dataset.stage)
   );
 
   grid.innerHTML = '';
-  stages.forEach(stage => {
+
+  // Row 1: all cards with explicit column placement
+  stages.forEach((stage, i) => {
     const deals = DEALS.filter(d => d.stage === stage.id);
-    grid.appendChild(buildCard(stage, deals, openPanels.has(stage.id)));
+    const card = buildCard(stage, deals, openPanels.has(stage.id));
+    card.style.gridRow = '1';
+    card.style.gridColumn = String(i + 1);
+    grid.appendChild(card);
+  });
+
+  // Row 2: all panels, each spanning full width
+  stages.forEach(stage => {
     const pw = buildPanel(stage);
     pw.dataset.stage = stage.id;
+    pw.style.gridRow = '2';
+    pw.style.gridColumn = '1 / -1';
     if (openPanels.has(stage.id)) pw.classList.add('open');
     grid.appendChild(pw);
   });
