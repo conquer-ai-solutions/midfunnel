@@ -392,6 +392,47 @@ body {
 .deal-chip.active { border-color: var(--brand); background: var(--brand-dim); color: var(--text); }
 .deal-chip-name { font-weight: 500; color: var(--text); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .deal-chip-time { font-size: 9px; color: var(--text-dim); flex-shrink: 0; }
+.deal-chip-advisor {
+  font-size: 9px; color: var(--brand); font-weight: 500;
+  background: var(--brand-dim); border-radius: 3px;
+  padding: 1px 5px; flex-shrink: 0;
+}
+
+/* advisor filter dropdown */
+.advisor-filter {
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text-mid); border-radius: 6px;
+  font-family: var(--font); font-size: 11px;
+  padding: 4px 8px; cursor: pointer; outline: none;
+  transition: border-color 0.15s;
+  max-width: 160px;
+}
+.advisor-filter:focus { border-color: var(--brand); color: var(--text); }
+
+/* focus panel new fields */
+.deal-focus-days {
+  font-size: 10px; color: var(--text-dim);
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 10px; padding: 2px 8px; margin-left: 4px;
+}
+.deal-focus-domain {
+  font-size: 11px; color: var(--brand); text-decoration: none;
+  flex-shrink: 0;
+}
+.deal-focus-domain:hover { text-decoration: underline; }
+.deal-focus-opportunity {
+  font-size: 12px; color: var(--text-mid); margin-top: 2px;
+  font-style: italic;
+}
+.advisor-val { color: var(--brand) !important; font-weight: 600 !important; }
+.advisor-update {
+  font-size: 11px; line-height: 1.6;
+  color: var(--text-mid);
+  max-height: 120px; overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
 
 /* drag states */
 .deal-chip[draggable="true"] { cursor: grab; }
@@ -730,13 +771,17 @@ body {
   </div>
 
   <div class="rag-filters">
-    <button class="rag-filter-btn" id="filter-active"            onclick="toggleRagFilter('active')"><span class="dot" style="background:#33A05A"></span> Active</button>
-    <button class="rag-filter-btn" id="filter-awaiting"          onclick="toggleRagFilter('awaiting')"><span class="dot" style="background:#515FFC"></span> Awaiting</button>
-    <button class="rag-filter-btn" id="filter-stalled"           onclick="toggleRagFilter('stalled')"><span class="dot" style="background:#D4960C"></span> Stalled</button>
-    <button class="rag-filter-btn" id="filter-blocked"           onclick="toggleRagFilter('blocked')"><span class="dot" style="background:#E0392B"></span> Blocked</button>
-    <button class="rag-filter-btn" id="filter-at-risk"           onclick="toggleRagFilter('at-risk')"><span class="dot" style="background:#E07010"></span> At Risk</button>
-    <button class="rag-filter-btn" id="filter-lost"              onclick="toggleRagFilter('lost')"><span class="dot" style="background:#555555"></span> Lost</button>
+    <button class="rag-filter-btn" id="filter-active"   onclick="toggleRagFilter('active')"><span class="dot" style="background:#33A05A"></span> Active</button>
+    <button class="rag-filter-btn" id="filter-awaiting" onclick="toggleRagFilter('awaiting')"><span class="dot" style="background:#515FFC"></span> Awaiting</button>
+    <button class="rag-filter-btn" id="filter-stalled"  onclick="toggleRagFilter('stalled')"><span class="dot" style="background:#D4960C"></span> Stalled</button>
+    <button class="rag-filter-btn" id="filter-blocked"  onclick="toggleRagFilter('blocked')"><span class="dot" style="background:#E0392B"></span> Blocked</button>
+    <button class="rag-filter-btn" id="filter-at-risk"  onclick="toggleRagFilter('at-risk')"><span class="dot" style="background:#E07010"></span> At Risk</button>
+    <button class="rag-filter-btn" id="filter-lost"     onclick="toggleRagFilter('lost')"><span class="dot" style="background:#555555"></span> Lost</button>
   </div>
+
+  <select class="advisor-filter" id="advisorFilter" onchange="filterByAdvisor(this.value)">
+    <option value="">All Advisors</option>
+  </select>
 
   <button class="sync-btn" onclick="openAirtableModal()" title="Import from Airtable">
     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -1129,17 +1174,17 @@ const STAGES = [
 // ── Deal data (editable JSON — modify here or via UI) ──
 // Status: active | awaiting | stalled | blocked | at-risk | lost
 const DEMO_DEALS = [
-  { id: 1,  name: "Alpha Industries",     stage: 1, rag: "active",   notes: "Warm intro via partner network, strong AI interest signalled", owner: "Bolaji", nextAction: "Send intro deck and book discovery call",           updated: "2026-03-12" },
-  { id: 2,  name: "Beacon Health",        stage: 1, rag: "awaiting", notes: "C-level engaged but timeline unclear",                         owner: "Jonny",  nextAction: "Follow up with C-suite on readiness timeline",        updated: "2026-03-11" },
-  { id: 3,  name: "Cascade Logistics",    stage: 2, rag: "active",   notes: "Discovery session scheduled, team prepping",                   owner: "Bolaji", nextAction: "Prep whiteboard template before Thursday session",     updated: "2026-03-13" },
-  { id: 4,  name: "Delta Pharma",         stage: 2, rag: "blocked",  notes: "SME involved, NDA pending signature from their legal team",    owner: "Bolaji", nextAction: "Chase NDA sign-off from legal",                       updated: "2026-03-10" },
-  { id: 5,  name: "Echo Finance",         stage: 3, rag: "active",   notes: "POC underway, positive early feedback from end users",        owner: "Bolaji", nextAction: "Finalise Figma site and book alignment session",       updated: "2026-03-13" },
-  { id: 6,  name: "Fortis Energy",        stage: 3, rag: "awaiting", notes: "POC delivered, awaiting structured feedback from champion",    owner: "Bolaji", nextAction: "Send feedback form and chase champion",               updated: "2026-03-09" },
-  { id: 7,  name: "Granite Legal",        stage: 3, rag: "at-risk",  notes: "DM not confirmed for alignment session — at risk of slipping", owner: "Jonny",  nextAction: "Champion to confirm DM attendance before EOW",        updated: "2026-03-12" },
-  { id: 8,  name: "Helix Bio",            stage: 3, rag: "active",   notes: "Alignment session booked, requirements partially captured",   owner: "Bolaji", nextAction: "Complete requirements doc before session",             updated: "2026-03-11" },
-  { id: 9,  name: "Iris Technology",      stage: 4, rag: "blocked",  notes: "Proposal in draft, capacity constrained on Solutions side",   owner: "Jonny",  nextAction: "Unblock Solutions resource to complete proposal",      updated: "2026-03-13" },
-  { id: 10, name: "Juniper Retail",       stage: 5, rag: "stalled",  notes: "Procurement started but no response in 5 days",               owner: "Bolaji", nextAction: "Follow up with procurement lead on timeline",          updated: "2026-03-08" },
-  { id: 11, name: "Kelvin Manufacturing", stage: 6, rag: "active",   notes: "Contract in final review, both parties aligned",              owner: "Jonny",  nextAction: "Confirm signatory and send final contract version",    updated: "2026-03-13" }
+  { id: 1,  name: "Alpha Industries",     stage: 1, rag: "active",   advisor: "Bolaji",  contact: "Sarah Chen",      opportunity: "AI Operations Suite",       notes: "Warm intro via partner network, strong AI interest signalled", owner: "Bolaji", nextAction: "Send intro deck and book discovery call",          updated: "2026-03-12" },
+  { id: 2,  name: "Beacon Health",        stage: 1, rag: "awaiting", advisor: "Jonny",   contact: "Mark Davies",     opportunity: "Clinical AI Workflow",       notes: "C-level engaged but timeline unclear",                        owner: "Jonny",  nextAction: "Follow up with C-suite on readiness timeline",       updated: "2026-03-11" },
+  { id: 3,  name: "Cascade Logistics",    stage: 2, rag: "active",   advisor: "Bolaji",  contact: "Priya Nair",      opportunity: "Supply Chain Intelligence",  notes: "Discovery session scheduled, team prepping",                  owner: "Bolaji", nextAction: "Prep whiteboard template before Thursday session",    updated: "2026-03-13" },
+  { id: 4,  name: "Delta Pharma",         stage: 2, rag: "blocked",  advisor: "Bolaji",  contact: "Tom Hughes",      opportunity: "Regulatory AI Assistant",    notes: "SME involved, NDA pending signature from their legal team",   owner: "Bolaji", nextAction: "Chase NDA sign-off from legal",                      updated: "2026-03-10" },
+  { id: 5,  name: "Echo Finance",         stage: 3, rag: "active",   advisor: "Bolaji",  contact: "Lucy Park",       opportunity: "FX Risk Automation",         notes: "POC underway, positive early feedback from end users",        owner: "Bolaji", nextAction: "Finalise Figma site and book alignment session",      updated: "2026-03-13" },
+  { id: 6,  name: "Fortis Energy",        stage: 3, rag: "awaiting", advisor: "Bolaji",  contact: "James Okafor",    opportunity: "Grid Management AI",         notes: "POC delivered, awaiting structured feedback from champion",   owner: "Bolaji", nextAction: "Send feedback form and chase champion",              updated: "2026-03-09" },
+  { id: 7,  name: "Granite Legal",        stage: 3, rag: "at-risk",  advisor: "Jonny",   contact: "Rachel Adams",    opportunity: "Contract Review AI",         notes: "DM not confirmed for alignment session — at risk of slipping",owner: "Jonny",  nextAction: "Champion to confirm DM attendance before EOW",       updated: "2026-03-12" },
+  { id: 8,  name: "Helix Bio",            stage: 3, rag: "active",   advisor: "Bolaji",  contact: "Dr. Amit Rao",    opportunity: "Clinical Trial Analytics",   notes: "Alignment session booked, requirements partially captured",  owner: "Bolaji", nextAction: "Complete requirements doc before session",            updated: "2026-03-11" },
+  { id: 9,  name: "Iris Technology",      stage: 4, rag: "blocked",  advisor: "Jonny",   contact: "Nina Walsh",      opportunity: "DevOps Intelligence",        notes: "Proposal in draft, capacity constrained on Solutions side",  owner: "Jonny",  nextAction: "Unblock Solutions resource to complete proposal",     updated: "2026-03-13" },
+  { id: 10, name: "Juniper Retail",       stage: 5, rag: "stalled",  advisor: "Bolaji",  contact: "Chris Tan",       opportunity: "Inventory Forecasting AI",   notes: "Procurement started but no response in 5 days",              owner: "Bolaji", nextAction: "Follow up with procurement lead on timeline",         updated: "2026-03-08" },
+  { id: 11, name: "Kelvin Manufacturing", stage: 6, rag: "active",   advisor: "Jonny",   contact: "Sandra Blake",    opportunity: "Factory Floor Automation",   notes: "Contract in final review, both parties aligned",             owner: "Jonny",  nextAction: "Confirm signatory and send final contract version",   updated: "2026-03-13" }
 ];
 
 let DEALS = DEMO_DEALS.map(d => ({...d})); // working copy
@@ -1197,7 +1242,34 @@ function renderAll() {
   renderGrid('stage-grid', STAGES);
   updateStats();
   updateLastUpdated();
+  populateAdvisorFilter();
 }
+
+function populateAdvisorFilter() {
+  const sel = document.getElementById('advisorFilter');
+  if (!sel) return;
+  const current = sel.value;
+  const advisors = [...new Set(DEALS.map(d => d.advisor || d.owner).filter(Boolean))].sort();
+  sel.innerHTML = '<option value="">All Advisors</option>' +
+    advisors.map(a => `<option value="${a}" ${a === current ? 'selected' : ''}>${a}</option>`).join('');
+}
+
+let activeAdvisorFilter = '';
+
+function filterByAdvisor(advisor) {
+  activeAdvisorFilter = advisor;
+  STAGES.forEach(stage => {
+    const card = document.getElementById(`card-${stage.id}`);
+    if (!card) return;
+    if (!advisor) {
+      card.classList.remove('search-hidden');
+      return;
+    }
+    const hasMatch = DEALS.some(d => d.stage === stage.id && (d.advisor || d.owner) === advisor);
+    card.classList.toggle('search-hidden', !hasMatch);
+  });
+}
+
 
 function renderGrid(gridId, stages) {
   const grid = document.getElementById(gridId);
@@ -1303,6 +1375,7 @@ function renderDealChips(stageId, deals, forceQuery) {
          ondragend="onChipDragEnd(event)"
          onclick="event.stopPropagation(); selectDeal(${d.id})">
       <span class="deal-chip-name">${d.name}</span>
+      ${d.advisor ? `<span class="deal-chip-advisor">${d.advisor.split(' ')[0]}</span>` : ''}
       <span class="deal-chip-time">${relTime(d.updated)}</span>
     </div>
   `).join('');
@@ -1382,15 +1455,32 @@ function buildDealFocusHTML(deal, stage) {
   const sLabel = statusLabel(deal.rag);
   const sColor = statusColor(deal.rag);
   const sBg    = STATUS_BG[deal.rag] || 'rgba(85,85,85,0.12)';
+
+  const introDateStr = deal.introDate ? new Date(deal.introDate).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'}) : null;
+  const updatedStr   = deal.updated   ? new Date(deal.updated).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'}) : '—';
+
+  // Days in pipeline
+  let daysInPipeline = '';
+  if (deal.introDate) {
+    const days = Math.floor((new Date() - new Date(deal.introDate)) / 86400000);
+    daysInPipeline = `${days}d in pipeline`;
+  }
+
+  const domainLink = deal.domain
+    ? `<a href="https://${deal.domain}" target="_blank" class="deal-focus-domain">${deal.domain} ↗</a>`
+    : '';
+
   return `
     <div class="panel-shell deal-focus-panel">
       <div class="deal-focus-header">
         <div class="deal-focus-title-row">
           <span class="deal-focus-stage-dot" style="background:${stage.stripe}"></span>
           <span class="deal-focus-stage-label">Stage ${String(stage.id).padStart(2,'0')} · ${stage.name}</span>
+          ${daysInPipeline ? `<span class="deal-focus-days">${daysInPipeline}</span>` : ''}
         </div>
         <div class="deal-focus-name-row">
           <span class="deal-focus-name">${deal.name}</span>
+          ${domainLink}
           <span class="deal-focus-status-pill" style="background:${sBg};border-color:${sColor};color:${sColor}">${sLabel}</span>
           <span class="deal-focus-actions">
             <button class="deal-chip-btn" onclick="openEditDeal(${deal.id})">Edit</button>
@@ -1401,9 +1491,23 @@ function buildDealFocusHTML(deal, stage) {
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
           </button>
         </div>
+        ${deal.opportunity ? `<div class="deal-focus-opportunity">${deal.opportunity}</div>` : ''}
       </div>
       <div class="deal-focus-body">
         <div class="deal-focus-field">
+          <div class="deal-focus-label">Advisor</div>
+          <div class="deal-focus-value advisor-val">${deal.advisor || deal.owner || '—'}</div>
+        </div>
+        <div class="deal-focus-field">
+          <div class="deal-focus-label">Contact</div>
+          <div class="deal-focus-value">${deal.contact || '—'}</div>
+        </div>
+        ${deal.summary ? `
+        <div class="deal-focus-field" style="grid-column:1/-1">
+          <div class="deal-focus-label">Company Background</div>
+          <div class="deal-focus-value">${deal.summary}</div>
+        </div>` : ''}
+        <div class="deal-focus-field ${deal.notes ? '' : ''}">
           <div class="deal-focus-label">Situation</div>
           <div class="deal-focus-value">${deal.notes || '—'}</div>
         </div>
@@ -1411,13 +1515,18 @@ function buildDealFocusHTML(deal, stage) {
           <div class="deal-focus-label next">Next action</div>
           <div class="deal-focus-value next">${deal.nextAction || '—'}</div>
         </div>
+        ${deal.advisorUpdate ? `
+        <div class="deal-focus-field" style="grid-column:1/-1">
+          <div class="deal-focus-label">Advisor Update</div>
+          <div class="deal-focus-value advisor-update">${deal.advisorUpdate.replace(/\n/g,'<br>')}</div>
+        </div>` : ''}
         <div class="deal-focus-field">
-          <div class="deal-focus-label">Owner</div>
-          <div class="deal-focus-value">${deal.owner || '—'}</div>
+          <div class="deal-focus-label">Introduced</div>
+          <div class="deal-focus-value">${introDateStr || '—'}</div>
         </div>
         <div class="deal-focus-field">
-          <div class="deal-focus-label">Last updated</div>
-          <div class="deal-focus-value">${deal.updated ? new Date(deal.updated).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'}) : '—'}</div>
+          <div class="deal-focus-label">Last activity</div>
+          <div class="deal-focus-value">${updatedStr}</div>
         </div>
       </div>
     </div>
@@ -1913,11 +2022,20 @@ function parseAirtableCSV(text) {
   }
 
   const headers = parseRow(lines[0]).map(h => h.replace(/^\uFEFF/, '').toLowerCase());
-  const idxName    = headers.findIndex(h => h === 'company name');
-  const idxStatus  = headers.findIndex(h => h === 'company account status');
-  const idxAdvisor = headers.findIndex(h => h === 'key advisor');
-  const idxModified= headers.findIndex(h => h === 'record last modified');
-  const idxComment = headers.findIndex(h => h === 'comment tracking');
+  const idx = h => headers.findIndex(x => x === h);
+
+  const idxName      = idx('company name');
+  const idxStatus    = idx('company account status');
+  const idxAdvisor   = idx('key advisor');
+  const idxModified  = idx('record last modified');
+  const idxComment   = idx('comment tracking');
+  const idxContacts  = idx('contacts');
+  const idxOpps      = idx('opportunities');
+  const idxDomain    = idx('company domain');
+  const idxSummary   = idx('executive summary');
+  const idxIntroDate = idx('introduction date');
+  const idxAdvUpdate = idx('advisor status update');
+  const idxLastMotion= idx('last comment motion');
 
   const imported = [];
   lines.slice(1).forEach((line, i) => {
@@ -1928,15 +2046,30 @@ function parseAirtableCSV(text) {
 
     const { stage, rag } = mapAirtableStatus(cols[idxStatus]);
 
-    // Parse date: "24/2/2026 5:31am" → YYYY-MM-DD
-    let updated = new Date().toISOString().split('T')[0];
-    const rawDate = cols[idxModified] || '';
-    const dm = rawDate.match(/(\d+)\/(\d+)\/(\d+)/);
-    if (dm) updated = `${dm[3]}-${String(dm[2]).padStart(2,'0')}-${String(dm[1]).padStart(2,'0')}`;
+    // Parse date helper: "24/2/2026 5:31am" → YYYY-MM-DD
+    function parseDate(raw) {
+      const dm = (raw || '').match(/(\d+)\/(\d+)\/(\d+)/);
+      return dm ? `${dm[3]}-${String(dm[2]).padStart(2,'0')}-${String(dm[1]).padStart(2,'0')}` : '';
+    }
+
+    // Use last comment motion as updated if available, else record modified
+    const updated = parseDate(cols[idxLastMotion]) || parseDate(cols[idxModified]) || new Date().toISOString().split('T')[0];
+    const introDate = parseDate(cols[idxIntroDate]);
 
     // Strip auto-scan prefix from comment for notes
-    let notes = (cols[idxComment] || '').replace(/\[\d{4}-\d{2}-\d{2}\]\s*AUTO-SCAN:\s*/gi, '').trim();
-    if (notes.length > 200) notes = notes.slice(0, 200) + '…';
+    let notes = (cols[idxComment] || '').replace(/\[\d{4}-\d{2}-\d{2}\]\s*(AUTO-SCAN|SENT):\s*/gi, '').trim();
+    if (notes.length > 300) notes = notes.slice(0, 300) + '…';
+
+    // Clean advisor update
+    let advisorUpdate = (cols[idxAdvUpdate] || '').trim();
+    if (advisorUpdate.length > 500) advisorUpdate = advisorUpdate.slice(0, 500) + '…';
+
+    // Clean executive summary
+    let summary = (cols[idxSummary] || '').trim();
+    if (summary.length > 300) summary = summary.slice(0, 300) + '…';
+
+    // Clean domain
+    let domain = (cols[idxDomain] || '').trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
 
     imported.push({
       id: 300 + i,
@@ -1945,7 +2078,14 @@ function parseAirtableCSV(text) {
       rag,
       notes,
       nextAction: '',
-      owner: cols[idxAdvisor] || '',
+      advisor:       cols[idxAdvisor]  || '',
+      owner:         cols[idxAdvisor]  || '', // keep owner in sync
+      contact:       cols[idxContacts] || '',
+      opportunity:   cols[idxOpps]     || '',
+      domain,
+      summary,
+      introDate,
+      advisorUpdate,
       updated
     });
   });
