@@ -32,8 +32,8 @@
   --commercial-bg:#111108;
 
   /* heatmap */
-  --s1: #CC2200; --s2: #E05010; --s3: #D4880C; --s4: #C8B020;
-  --s5: #88B830; --s6: #40A840; --s7: #1A9A50;
+  --s1: #CC2200; --s2: #E05010; --s3: #D4A010;
+  --s4: #88B830; --s5: #40A840; --s6: #1A9A50;
 
   --radius: 8px;
   --font: 'Geist', sans-serif;
@@ -225,7 +225,7 @@ body {
 /* ─── STAGE GRID ─── */
 .stage-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 10px;
   padding: 0 28px 28px;
 }
@@ -233,7 +233,7 @@ body {
 /* zone label row above grid */
 .zone-header {
   display: grid;
-  grid-template-columns: 4fr 3fr;
+  grid-template-columns: 3fr 3fr;
   gap: 10px;
   padding: 16px 28px 8px;
 }
@@ -244,8 +244,8 @@ body {
   padding-bottom: 6px;
   border-bottom: 2px solid transparent;
 }
-.zone-header-item.pre { border-image: linear-gradient(to right, var(--s1), var(--s2), var(--s3), var(--s4)) 1; }
-.zone-header-item.commercial { border-image: linear-gradient(to right, var(--s5), var(--s6), var(--s7)) 1; }
+.zone-header-item.pre { border-image: linear-gradient(to right, var(--s1), var(--s2), var(--s3)) 1; }
+.zone-header-item.commercial { border-image: linear-gradient(to right, var(--s4), var(--s5), var(--s6)) 1; }
 .zone-header-item .timer { font-size: 10px; color: var(--text-dim); font-weight: 400; }
 
 /* ─── STAGE CARD ─── */
@@ -827,11 +827,10 @@ body {
         <select class="form-select" id="dealStage">
           <option value="1">01 · Intro</option>
           <option value="2">02 · Discovery</option>
-          <option value="3">03 · POC Initial</option>
-          <option value="4">04 · POC Alignment</option>
-          <option value="5">05 · Proposal</option>
-          <option value="6">06 · Procurement</option>
-          <option value="7">07 · Contract Signed</option>
+          <option value="3">03 · POC</option>
+          <option value="4">04 · Proposal</option>
+          <option value="5">05 · Procurement</option>
+          <option value="6">06 · Contract Signed</option>
         </select>
       </div>
       <div class="form-group">
@@ -909,11 +908,10 @@ body {
         <select class="form-select" id="moveStage">
           <option value="1">01 · Intro</option>
           <option value="2">02 · Discovery</option>
-          <option value="3">03 · POC Initial</option>
-          <option value="4">04 · POC Alignment</option>
-          <option value="5">05 · Proposal</option>
-          <option value="6">06 · Procurement</option>
-          <option value="7">07 · Contract Signed</option>
+          <option value="3">03 · POC</option>
+          <option value="4">04 · Proposal</option>
+          <option value="5">05 · Procurement</option>
+          <option value="6">06 · Contract Signed</option>
         </select>
       </div>
       <div class="form-group">
@@ -1021,62 +1019,41 @@ const STAGES = [
     }
   },
   {
-    id: 3, name: "POC Initial", subtitle: "Whiteboard",
-    stripe: "#D4880C", accent: "#a06008",
+    id: 3, name: "POC", subtitle: "Initial & Alignment",
+    stripe: "#D4A010", accent: "#a07008",
     rag: { perf: "good", def: "good", effort: "amber" },
     booking: true,
     players: [
       { icon: "👥", name: "End Users", role: "Workflow owners" },
       { icon: "🏆", name: "Champion (client)", role: "Internal advocate" },
-      { icon: "⚡", name: "Conquer Solutions Team", role: "POC delivery" }
+      { icon: "🎯", name: "Decision-Maker", role: "Must be present for alignment" },
+      { icon: "⚡", name: "Conquer Solutions Team", role: "POC delivery & requirements" }
     ],
-    success: "POC delivered in clickable Figma format. Feedback gathered. Alignment session booked.",
+    success: "POC delivered in clickable Figma format. Feedback gathered. Decision-Maker engaged. Requirements documented. Proposal path confirmed.",
     gates: [
-      "POC produced using SOP (materials, not delivery)",
+      "POC produced using SOP",
       "Figma site delivered and walkthrough complete",
       "Structured feedback captured",
-      "POC Alignment session booked"
+      "Decision-Maker confirmed and engaged",
+      "POC refinements agreed",
+      "Requirements documented",
+      "Commercial conversation opened"
     ],
-    inputs: ["POC Direction doc", "Figma SOP", "Booked session slot"],
-    outputs: ["Clickable Figma POC site", "Feedback summary", "Booked POC Alignment session"],
+    inputs: ["POC Direction doc", "Figma SOP", "Booked session slot", "DM confirmation"],
+    outputs: ["Clickable Figma POC site", "Feedback summary", "Confirmed requirements doc", "Proposal brief"],
     figmaLinks: [
       { label: "POC Example A", url: "#" },
       { label: "POC Example B", url: "#" },
       { label: "POC Example C", url: "#" }
     ],
     retro: {
-      working: ["POC quality consistent", "SOP enables material production", "Clickable format lands well"],
-      change: ["Follow-up after delivery inconsistent", "Refinement loops skipped", "Feedback not structured"],
-      motion: ["SOP documented", "Team calendar in place", "Figma site examples"]
+      working: ["POC quality consistent", "SOP enables material production", "Demo format works with DMs"],
+      change: ["Follow-up after delivery inconsistent", "DM not always present", "Too slow to convert to proposal"],
+      motion: ["SOP documented", "Team calendar in place", "Confirmed POC + requirements doc template"]
     }
   },
   {
-    id: 4, name: "POC Alignment", subtitle: "Whiteboard",
-    stripe: "#C8B020", accent: "#8c7a14",
-    rag: { perf: "amber", def: "amber", effort: "red" },
-    booking: true,
-    players: [
-      { icon: "🎯", name: "Decision-Maker", role: "Must be present" },
-      { icon: "🏆", name: "Champion (client)", role: "Internal advocate" },
-      { icon: "⚡", name: "Conquer Solutions Team", role: "Requirements capture" }
-    ],
-    success: "Decision-Maker engaged. Finer requirements documented. Proposal path confirmed.",
-    gates: [
-      "Decision-Maker confirmed present",
-      "POC refinements agreed",
-      "Requirements documented",
-      "Commercial conversation opened"
-    ],
-    inputs: ["Figma POC site", "Feedback summary", "DM confirmation"],
-    outputs: ["Confirmed requirements doc", "Pilot delivery plan", "Proposal brief"],
-    retro: {
-      working: ["Demo format works with DMs", "Finer requirements emerge clearly", "Structured path to proposal"],
-      change: ["Too much prep effort", "DM not always present", "Too slow to convert to proposal"],
-      motion: ["Confirmed POC + requirements doc", "Team calendar", "Pilot delivery plan template"]
-    }
-  },
-  {
-    id: 5, name: "Proposal", subtitle: null,
+    id: 4, name: "Proposal", subtitle: null,
     stripe: "#88B830", accent: "#547020",
     rag: { perf: "red", def: "red", effort: "red" },
     players: [
@@ -1100,7 +1077,7 @@ const STAGES = [
     }
   },
   {
-    id: 6, name: "Procurement", subtitle: null,
+    id: 5, name: "Procurement", subtitle: null,
     stripe: "#40A840", accent: "#286828",
     rag: { perf: "amber", def: "amber", effort: "red" },
     players: [
@@ -1124,7 +1101,7 @@ const STAGES = [
     }
   },
   {
-    id: 7, name: "Contract Signed", subtitle: null,
+    id: 6, name: "Contract Signed", subtitle: null,
     stripe: "#1A9A50", accent: "#0f6030",
     rag: { perf: "amber", def: "good", effort: "red" },
     players: [
@@ -1158,11 +1135,11 @@ const DEMO_DEALS = [
   { id: 4,  name: "Delta Pharma",         stage: 2, rag: "blocked",  notes: "SME involved, NDA pending signature from their legal team",    owner: "Bolaji", nextAction: "Chase NDA sign-off from legal",                       updated: "2026-03-10" },
   { id: 5,  name: "Echo Finance",         stage: 3, rag: "active",   notes: "POC underway, positive early feedback from end users",        owner: "Bolaji", nextAction: "Finalise Figma site and book alignment session",       updated: "2026-03-13" },
   { id: 6,  name: "Fortis Energy",        stage: 3, rag: "awaiting", notes: "POC delivered, awaiting structured feedback from champion",    owner: "Bolaji", nextAction: "Send feedback form and chase champion",               updated: "2026-03-09" },
-  { id: 7,  name: "Granite Legal",        stage: 4, rag: "at-risk",  notes: "DM not confirmed for alignment session — at risk of slipping", owner: "Jonny",  nextAction: "Champion to confirm DM attendance before EOW",        updated: "2026-03-12" },
-  { id: 8,  name: "Helix Bio",            stage: 4, rag: "active",   notes: "Alignment session booked, requirements partially captured",   owner: "Bolaji", nextAction: "Complete requirements doc before session",             updated: "2026-03-11" },
-  { id: 9,  name: "Iris Technology",      stage: 5, rag: "blocked",  notes: "Proposal in draft, capacity constrained on Solutions side",   owner: "Jonny",  nextAction: "Unblock Solutions resource to complete proposal",      updated: "2026-03-13" },
-  { id: 10, name: "Juniper Retail",       stage: 6, rag: "stalled",  notes: "Procurement started but no response in 5 days",               owner: "Bolaji", nextAction: "Follow up with procurement lead on timeline",          updated: "2026-03-08" },
-  { id: 11, name: "Kelvin Manufacturing", stage: 7, rag: "active",   notes: "Contract in final review, both parties aligned",              owner: "Jonny",  nextAction: "Confirm signatory and send final contract version",    updated: "2026-03-13" }
+  { id: 7,  name: "Granite Legal",        stage: 3, rag: "at-risk",  notes: "DM not confirmed for alignment session — at risk of slipping", owner: "Jonny",  nextAction: "Champion to confirm DM attendance before EOW",        updated: "2026-03-12" },
+  { id: 8,  name: "Helix Bio",            stage: 3, rag: "active",   notes: "Alignment session booked, requirements partially captured",   owner: "Bolaji", nextAction: "Complete requirements doc before session",             updated: "2026-03-11" },
+  { id: 9,  name: "Iris Technology",      stage: 4, rag: "blocked",  notes: "Proposal in draft, capacity constrained on Solutions side",   owner: "Jonny",  nextAction: "Unblock Solutions resource to complete proposal",      updated: "2026-03-13" },
+  { id: 10, name: "Juniper Retail",       stage: 5, rag: "stalled",  notes: "Procurement started but no response in 5 days",               owner: "Bolaji", nextAction: "Follow up with procurement lead on timeline",          updated: "2026-03-08" },
+  { id: 11, name: "Kelvin Manufacturing", stage: 6, rag: "active",   notes: "Contract in final review, both parties aligned",              owner: "Jonny",  nextAction: "Confirm signatory and send final contract version",    updated: "2026-03-13" }
 ];
 
 let DEALS = DEMO_DEALS.map(d => ({...d})); // working copy
@@ -1491,8 +1468,8 @@ function updateStats() {
     : DEALS;
 
   document.getElementById('stat-total').textContent = DEALS.length;
-  document.getElementById('stat-pre').textContent = DEALS.filter(d => d.stage <= 4).length;
-  document.getElementById('stat-comm').textContent = DEALS.filter(d => d.stage >= 5).length;
+  document.getElementById('stat-pre').textContent = DEALS.filter(d => d.stage <= 3).length;
+  document.getElementById('stat-comm').textContent = DEALS.filter(d => d.stage >= 4).length;
   document.getElementById('stat-atrisk').textContent = DEALS.filter(d => ['stalled','blocked','at-risk','lost'].includes(d.rag)).length;
 }
 
@@ -1595,8 +1572,8 @@ function toggleStatFilter(type) {
     if (!card) return;
     let show = false;
     if (type === 'all')       show = DEALS.some(d => d.stage === s.id);
-    if (type === 'pre')       show = s.id <= 4;
-    if (type === 'comm')      show = s.id >= 5;
+    if (type === 'pre')       show = s.id <= 3;
+    if (type === 'comm')      show = s.id >= 4;
     if (type === 'attention') show = DEALS.some(d => d.stage === s.id && ['stalled','blocked','at-risk','lost'].includes(d.rag));
     card.classList.toggle('search-hidden', !show);
   });
@@ -1906,9 +1883,9 @@ function mapAirtableStatus(status) {
   if (s.includes('asked advisor help'))
     return { stage: 3, rag: 'blocked' };
   if (s.includes('client - active'))
-    return { stage: 7, rag: 'active' };
+    return { stage: 6, rag: 'active' };
   if (s.includes('client - no active'))
-    return { stage: 7, rag: 'stalled' };
+    return { stage: 6, rag: 'stalled' };
   if (s.includes('come back') || s.includes('shelved'))
     return { stage: 1, rag: 'stalled' };
   if (s.includes('dead') || s.includes('not icp') || s.includes('not biting') || s.includes('fell flat'))
