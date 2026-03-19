@@ -240,7 +240,7 @@
             padding: 10px 14px;
             transition: all 0.15s ease;
             display: grid;
-            grid-template-columns: minmax(180px, 1.5fr) minmax(200px, 2fr) 55px 60px minmax(100px, 1fr) 60px 8px;
+            grid-template-columns: minmax(160px, 1.4fr) minmax(180px, 2fr) 50px 55px minmax(90px, 1fr) 50px 65px 8px;
             align-items: center;
             gap: 12px;
         }
@@ -304,6 +304,22 @@
             white-space: nowrap;
         }
 
+        .source-pill {
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            text-align: center;
+        }
+        .source-pill.intel { background: rgba(81,95,252,0.15); color: #7B87FF; }
+        .source-pill.email { background: rgba(212,150,12,0.15); color: #D4960C; }
+        .source-pill.airtable { background: rgba(51,160,90,0.15); color: #33A05A; }
+        .source-pill.whatsapp { background: rgba(37,211,102,0.15); color: #25D366; }
+        .source-pill.call { background: rgba(204,34,0,0.12); color: #E05A3A; }
+        .source-pill.other { background: rgba(255,255,255,0.06); color: #888; }
+
         .status-dot {
             width: 7px;
             height: 7px;
@@ -333,7 +349,7 @@
 
         .row-header {
             display: grid;
-            grid-template-columns: minmax(180px, 1.5fr) minmax(200px, 2fr) 55px 60px minmax(100px, 1fr) 60px 8px;
+            grid-template-columns: minmax(160px, 1.4fr) minmax(180px, 2fr) 50px 55px minmax(90px, 1fr) 50px 65px 8px;
             gap: 12px;
             padding: 6px 14px;
             font-size: 9px;
@@ -571,49 +587,49 @@
         // ====================
         const accounts = [
             // STAGE 05 - PROCUREMENT
-            { name: 'SAI MedPartners', project: 'Security & knowledge graph platform', stage: 5, region: 'US', status: 'active', champion: 'Jennifer Preston', value: '£250K', lastActivity: '18 Mar', note: 'PE firm sign-off pending. Tom sending security doc.' },
-            { name: 'Sensata', project: 'Vendor onboarding in progress', stage: 5, region: 'UK', status: 'active', champion: 'Catherine', value: '£100K', lastActivity: '18 Mar', note: 'Submitted over a week ago. Finance approval parallel.' },
-            { name: 'News UK', project: 'Editorial AI workflows — The Sun & The Times', stage: 5, region: 'UK', status: 'active', champion: 'Thomas Gardham-Pallister', value: '£1.2M', lastActivity: '18 Mar', note: 'Contract pending signature. Rate card sent.' },
+            { name: 'SAI MedPartners', project: 'Security & knowledge graph platform', stage: 5, region: 'US', status: 'active', champion: 'Jennifer Preston', value: '£250K', lastActivity: '18 Mar', source: 'Intel', note: 'PE firm sign-off pending. Tom sending security doc.' },
+            { name: 'Sensata', project: 'Vendor onboarding in progress', stage: 5, region: 'UK', status: 'active', champion: 'Catherine', value: '£100K', lastActivity: '18 Mar', source: 'Intel', note: 'Submitted over a week ago. Finance approval parallel.' },
+            { name: 'News UK', project: 'Editorial AI workflows — The Sun & The Times', stage: 5, region: 'UK', status: 'active', champion: 'Thomas Gardham-Pallister', value: '£1.2M', lastActivity: '18 Mar', source: 'Intel', note: 'Contract pending signature. Rate card sent.' },
 
             // STAGE 04 - PROPOSAL
-            { name: 'Lingotto', project: 'Portfolio management & LP reporting platform', stage: 4, region: 'UK', status: 'active', champion: 'Deepak Mishra', value: 'TBC', lastActivity: '18 Mar', note: 'Whiteboard session 2 done. CSO meeting Thursday.' },
-            { name: 'Lamanity', project: 'Proposal + POC journey doc delivered', stage: 4, region: 'UK', status: 'at-risk', champion: 'Anthony', value: 'TBC', lastActivity: '18 Mar', note: 'Anthony gone quiet 2 weeks. In-person meeting next week.' },
-            { name: 'Gibraltar / Prospiant', project: 'POC complete — proposal stage', stage: 4, region: 'UK', status: 'active', champion: 'Board advisor (Atley)', value: 'TBC', lastActivity: '18 Mar', note: 'Conflict of interest being resolved. NDA clear.' },
-            { name: 'Itaú BBA', project: 'Pitch book + research use cases', stage: 4, region: 'Brazil', status: 'active', champion: 'Carolina (internal)', value: '£300K+', lastActivity: '18 Mar', note: 'Pricing being reworked upward from £200K. Multiple use cases.' },
-            { name: 'Royal Free', project: 'AI platform — finance review stage', stage: 4, region: 'UK', status: 'active', champion: 'Pav (board member)', value: 'TBC', lastActivity: '18 Mar', note: 'Expected April close. Board review today.' },
+            { name: 'Lingotto', project: 'Portfolio management & LP reporting platform', stage: 4, region: 'UK', status: 'active', champion: 'Deepak Mishra', value: 'TBC', lastActivity: '18 Mar', source: 'Intel', note: 'Whiteboard session 2 done. CSO meeting Thursday.' },
+            { name: 'Lamanity', project: 'Proposal + POC journey doc delivered', stage: 4, region: 'UK', status: 'at-risk', champion: 'Anthony', value: 'TBC', lastActivity: '18 Mar', source: 'Intel', note: 'Anthony gone quiet 2 weeks. In-person meeting next week.' },
+            { name: 'Gibraltar / Prospiant', project: 'POC complete — proposal stage', stage: 4, region: 'UK', status: 'active', champion: 'Board advisor (Atley)', value: 'TBC', lastActivity: '18 Mar', source: 'Call transcript', note: 'Conflict of interest being resolved. NDA clear.' },
+            { name: 'Itaú BBA', project: 'Pitch book + research use cases', stage: 4, region: 'Brazil', status: 'active', champion: 'Carolina (internal)', value: '£300K+', lastActivity: '18 Mar', source: 'Intel', note: 'Pricing being reworked upward from £200K. Multiple use cases.' },
+            { name: 'Royal Free', project: 'AI platform — finance review stage', stage: 4, region: 'UK', status: 'active', champion: 'Pav (board member)', value: 'TBC', lastActivity: '18 Mar', source: 'Intel', note: 'Expected April close. Board review today.' },
 
             // STAGE 03 - POC
-            { name: 'ACV Auctions', project: 'AI-powered operations dashboard', stage: 3, region: 'US', status: 'active', champion: 'John Coles', value: '~$100K', lastActivity: '18 Mar', note: 'POC demo delivered. Support model question raised.' },
-            { name: '3zBrands (FreeZ Brands)', project: 'POC demoed — finance approval next', stage: 3, region: 'US', status: 'active', champion: 'Jennifer / Debenretta (advisor)', value: 'TBC', lastActivity: '18 Mar', note: 'Well-received. Deb driving deal, Jen dependent.' },
-            { name: 'Masterbrand', project: '2 POCs already demoed', stage: 3, region: 'US', status: 'active', champion: 'Joe', value: 'TBC', lastActivity: '18 Mar', note: 'Incorrectly listed in discovery. Should be further along.' },
-            { name: 'TransUnion', project: 'Sales dashboard / pipeline use case', stage: 3, region: 'US', status: 'active', champion: 'Justin Murray', value: 'TBC', lastActivity: '18 Mar', note: 'Scope shifted. Whiteboard/POC session Friday.' },
-            { name: 'USSC / Arsenal Capital', project: 'AI testing for portfolio companies', stage: 3, region: 'US', status: 'active', champion: 'Nick / Joe', value: 'TBC', lastActivity: '18 Mar', note: '2 POCs built. Joe appears to be a buyer.' },
+            { name: 'ACV Auctions', project: 'AI-powered operations dashboard', stage: 3, region: 'US', status: 'active', champion: 'John Coles', value: '~$100K', lastActivity: '18 Mar', source: 'Intel', note: 'POC demo delivered. Support model question raised.' },
+            { name: '3zBrands (FreeZ Brands)', project: 'POC demoed — finance approval next', stage: 3, region: 'US', status: 'active', champion: 'Jennifer / Debenretta (advisor)', value: 'TBC', lastActivity: '18 Mar', source: 'Intel', note: 'Well-received. Deb driving deal, Jen dependent.' },
+            { name: 'Masterbrand', project: '2 POCs already demoed', stage: 3, region: 'US', status: 'active', champion: 'Joe', value: 'TBC', lastActivity: '18 Mar', source: 'Intel', note: 'Incorrectly listed in discovery. Should be further along.' },
+            { name: 'TransUnion', project: 'Sales dashboard / pipeline use case', stage: 3, region: 'US', status: 'active', champion: 'Justin Murray', value: 'TBC', lastActivity: '18 Mar', source: 'Intel', note: 'Scope shifted. Whiteboard/POC session Friday.' },
+            { name: 'USSC / Arsenal Capital', project: 'AI testing for portfolio companies', stage: 3, region: 'US', status: 'active', champion: 'Nick / Joe', value: 'TBC', lastActivity: '18 Mar', source: 'Intel', note: '2 POCs built. Joe appears to be a buyer.' },
 
             // STAGE 02 - DISCOVERY
-            { name: 'Playtech', project: 'Technical whiteboard — agentic platform architecture', stage: 2, region: 'UK', status: 'active', champion: 'Leon / Adam Mitchell', value: 'TBC', lastActivity: 'Mar 2026', note: 'In-person London session. MCP, governance, AI security.' },
-            { name: 'Morgan Stanley', project: 'SLT presentation — portfolio management', stage: 2, region: 'UK', status: 'active', champion: 'Trevor', value: 'TBC', lastActivity: '18 Mar', note: 'Procurement progressing. UK billing arm. Multiple placeholders.' },
-            { name: 'Loganair', project: 'AI transformation — CEO engaged', stage: 2, region: 'UK', status: 'active', champion: 'Richard / CEO Luke', value: 'TBC', lastActivity: '18 Mar', note: 'CEO: "Excellent news, hopefully meet up soon." Scotland visit.' },
-            { name: 'Manchester Airport Group', project: '60 AI use cases identified — CTO engaged', stage: 2, region: 'UK', status: 'active', champion: 'Andy Leadbetter (CTO)', value: 'TBC', lastActivity: '10 Mar', note: 'CEO wants 2x ROI. NDA stage. Middle layer gap.' },
-            { name: 'Goodman Properties', project: 'AI solutions — Philadelphia visit', stage: 2, region: 'US', status: 'active', champion: 'David Carter', value: 'TBC', lastActivity: '18 Mar', note: 'Moving along well. David visited in person.' },
-            { name: 'SSA', project: 'Crisis management consulting — AI for failing businesses', stage: 2, region: 'US', status: 'active', champion: 'NY contact', value: 'TBC', lastActivity: '18 Mar', note: 'Weekly contact. David to be looped in (NY-based).' },
-            { name: 'MMU', project: 'Significant piece of work — re-engaged', stage: 2, region: 'UK', status: 'active', champion: 'TBC', value: 'TBC', lastActivity: '18 Mar', note: 'Contact since 2024. Procurement could slow things.' },
-            { name: 'Mango Sciences', project: 'Cancer data platform — NLP & data harmonisation', stage: 2, region: 'US', status: 'active', champion: 'Mohit (CEO)', value: 'TBC', lastActivity: '16 Mar', note: 'NDA executed. Whiteboard/discovery stage.' },
-            { name: 'Rumo', project: 'Taking work away from McKinsey', stage: 2, region: 'Brazil', status: 'active', champion: 'Renato', value: 'TBC', lastActivity: '18 Mar', note: 'Engaging via WhatsApp. Promising signal.' },
+            { name: 'Playtech', project: 'Technical whiteboard — agentic platform architecture', stage: 2, region: 'UK', status: 'active', champion: 'Leon / Adam Mitchell', value: 'TBC', lastActivity: 'Mar 2026', source: 'Email', note: 'In-person London session. MCP, governance, AI security.' },
+            { name: 'Morgan Stanley', project: 'SLT presentation — portfolio management', stage: 2, region: 'UK', status: 'active', champion: 'Trevor', value: 'TBC', lastActivity: '18 Mar', source: 'Intel', note: 'Procurement progressing. UK billing arm. Multiple placeholders.' },
+            { name: 'Loganair', project: 'AI transformation — CEO engaged', stage: 2, region: 'UK', status: 'active', champion: 'Richard / CEO Luke', value: 'TBC', lastActivity: '18 Mar', source: 'Intel', note: 'CEO: "Excellent news, hopefully meet up soon." Scotland visit.' },
+            { name: 'Manchester Airport Group', project: '60 AI use cases identified — CTO engaged', stage: 2, region: 'UK', status: 'active', champion: 'Andy Leadbetter (CTO)', value: 'TBC', lastActivity: '10 Mar', source: 'Intel', note: 'CEO wants 2x ROI. NDA stage. Middle layer gap.' },
+            { name: 'Goodman Properties', project: 'AI solutions — Philadelphia visit', stage: 2, region: 'US', status: 'active', champion: 'David Carter', value: 'TBC', lastActivity: '18 Mar', source: 'Call transcript', note: 'Moving along well. David visited in person.' },
+            { name: 'SSA', project: 'Crisis management consulting — AI for failing businesses', stage: 2, region: 'US', status: 'active', champion: 'NY contact', value: 'TBC', lastActivity: '18 Mar', source: 'Call transcript', note: 'Weekly contact. David to be looped in (NY-based).' },
+            { name: 'MMU', project: 'Significant piece of work — re-engaged', stage: 2, region: 'UK', status: 'active', champion: 'TBC', value: 'TBC', lastActivity: '18 Mar', source: 'Intel', note: 'Contact since 2024. Procurement could slow things.' },
+            { name: 'Mango Sciences', project: 'Cancer data platform — NLP & data harmonisation', stage: 2, region: 'US', status: 'active', champion: 'Mohit (CEO)', value: 'TBC', lastActivity: '16 Mar', source: 'Intel', note: 'NDA executed. Whiteboard/discovery stage.' },
+            { name: 'Rumo', project: 'Taking work away from McKinsey', stage: 2, region: 'Brazil', status: 'active', champion: 'Renato', value: 'TBC', lastActivity: '18 Mar', source: 'WhatsApp', note: 'Engaging via WhatsApp. Promising signal.' },
 
             // STAGE 01 - INTRO
-            { name: 'Ardelyx', project: 'AI transformation for pharma — CEO engaged', stage: 1, region: 'US', status: 'active', champion: 'Mike Raab (CEO)', value: 'TBC', lastActivity: '18 Mar', note: 'Tom + David presented. Muna advising. OLT session target.' },
-            { name: 'Baxter', project: 'KPI use case via Angel Mendez', stage: 1, region: 'US', status: 'active', champion: 'Olga / Angel Mendez', value: 'TBC', lastActivity: '18 Mar', note: 'Internal AI restructure. Olga now has AI team.' },
-            { name: 'Volt Balva Line', project: 'NDA received after months of quiet', stage: 1, region: 'UK', status: 'active', champion: 'John Locke (advisor)', value: 'TBC', lastActivity: '18 Mar', note: 'Advisor John Locke unlocked it.' },
-            { name: 'SNC Electric', project: 'Luke building agenda + unbranded POC', stage: 1, region: 'UK', status: 'active', champion: 'Atley (advisor)', value: 'TBC', lastActivity: '18 Mar', note: 'Similar to Prospiant/Gibraltar POC.' },
-            { name: 'Press Box PR', project: 'High appetite from John Bet', stage: 1, region: 'UK', status: 'at-risk', champion: 'John Bet / Danny', value: 'TBC', lastActivity: '18 Mar', note: 'Nobody focused on it. Danny pulled into calls.' },
-            { name: 'Klabin', project: 'Brazil — need WhatsApp + Portuguese speaker', stage: 1, region: 'Brazil', status: 'stalled', champion: 'Carolina', value: 'TBC', lastActivity: '18 Mar', note: 'Communication challenges. Portuguese only.' },
-            { name: 'Wisco', project: 'CEO on WhatsApp', stage: 1, region: 'Brazil', status: 'active', champion: 'CEO (WhatsApp)', value: 'TBC', lastActivity: '18 Mar', note: 'Brazil account. Active on WhatsApp.' },
-            { name: 'RRD', project: 'Use case emerging', stage: 1, region: 'US', status: 'active', champion: 'TBC', value: 'TBC', lastActivity: 'Mar 2026', note: 'Coming up with a use case to look at.' },
+            { name: 'Ardelyx', project: 'AI transformation for pharma — CEO engaged', stage: 1, region: 'US', status: 'active', champion: 'Mike Raab (CEO)', value: 'TBC', lastActivity: '18 Mar', source: 'Intel', note: 'Tom + David presented. Muna advising. OLT session target.' },
+            { name: 'Baxter', project: 'KPI use case via Angel Mendez', stage: 1, region: 'US', status: 'active', champion: 'Olga / Angel Mendez', value: 'TBC', lastActivity: '18 Mar', source: 'Call transcript', note: 'Internal AI restructure. Olga now has AI team.' },
+            { name: 'Volt Balva Line', project: 'NDA received after months of quiet', stage: 1, region: 'UK', status: 'active', champion: 'John Locke (advisor)', value: 'TBC', lastActivity: '18 Mar', source: 'Call transcript', note: 'Advisor John Locke unlocked it.' },
+            { name: 'SNC Electric', project: 'Luke building agenda + unbranded POC', stage: 1, region: 'UK', status: 'active', champion: 'Atley (advisor)', value: 'TBC', lastActivity: '18 Mar', source: 'Call transcript', note: 'Similar to Prospiant/Gibraltar POC.' },
+            { name: 'Press Box PR', project: 'High appetite from John Bet', stage: 1, region: 'UK', status: 'at-risk', champion: 'John Bet / Danny', value: 'TBC', lastActivity: '18 Mar', source: 'Call transcript', note: 'Nobody focused on it. Danny pulled into calls.' },
+            { name: 'Klabin', project: 'Brazil — need WhatsApp + Portuguese speaker', stage: 1, region: 'Brazil', status: 'stalled', champion: 'Carolina', value: 'TBC', lastActivity: '18 Mar', source: 'WhatsApp', note: 'Communication challenges. Portuguese only.' },
+            { name: 'Wisco', project: 'CEO on WhatsApp', stage: 1, region: 'Brazil', status: 'active', champion: 'CEO (WhatsApp)', value: 'TBC', lastActivity: '18 Mar', source: 'WhatsApp', note: 'Brazil account. Active on WhatsApp.' },
+            { name: 'RRD', project: 'Use case emerging', stage: 1, region: 'US', status: 'active', champion: 'TBC', value: 'TBC', lastActivity: 'Mar 2026', source: 'Call transcript', note: 'Coming up with a use case to look at.' },
 
             // DEAD / STALLED
-            { name: 'Elra', project: '~£20K opportunity — unreasonable scope', stage: 0, region: 'UK', status: 'dead', champion: 'N/A', value: '£20K', lastActivity: 'Mar 2026', note: 'Dead. Wanted Noah\'s ark for £20K.' },
-            { name: 'Pradiko', project: 'Needs resurrection — long gap', stage: 0, region: 'UK', status: 'stalled', champion: 'Cathle', value: 'TBC', lastActivity: 'Mar 2026', note: 'Friendly contact but ship may have sailed.' },
-            { name: 'Sintana', project: 'Jeff postponed meeting', stage: 0, region: 'US', status: 'stalled', champion: 'Jeff', value: '£100K', lastActivity: '18 Mar', note: 'Danny chasing. Meeting postponed to another week.' },
+            { name: 'Elra', project: '~£20K opportunity — unreasonable scope', stage: 0, region: 'UK', status: 'dead', champion: 'N/A', value: '£20K', lastActivity: 'Mar 2026', source: 'Intel', note: 'Dead. Wanted Noah\'s ark for £20K.' },
+            { name: 'Pradiko', project: 'Needs resurrection — long gap', stage: 0, region: 'UK', status: 'stalled', champion: 'Cathle', value: 'TBC', lastActivity: 'Mar 2026', source: 'Intel', note: 'Friendly contact but ship may have sailed.' },
+            { name: 'Sintana', project: 'Jeff postponed meeting', stage: 0, region: 'US', status: 'stalled', champion: 'Jeff', value: '£100K', lastActivity: '18 Mar', source: 'Call transcript', note: 'Danny chasing. Meeting postponed to another week.' },
         ];
 
         const otherAccounts = [
@@ -700,7 +716,7 @@
                             <div class="stage-count">${stageAccounts.length} ${stageAccounts.length === 1 ? 'account' : 'accounts'}</div>
                         </div>
                         <div class="row-header">
-                            <span>Account</span><span>Project</span><span>Region</span><span>Value</span><span>Advisor</span><span>Last</span><span></span>
+                            <span>Account</span><span>Project</span><span>Region</span><span>Value</span><span>Advisor</span><span>Last</span><span>Source</span><span></span>
                         </div>
                         <div class="accounts-grid">
                             ${stageAccounts.map(account => renderAccountCard(account)).join('')}
@@ -719,6 +735,8 @@
         function renderAccountCard(account) {
             const statusDotClass = account.status === 'at-risk' || account.status === 'stalled' ? 'at-risk' : account.status;
             const valueDisplay = account.value !== 'TBC' ? account.value : '—';
+            const src = (account.source || 'Other').toLowerCase();
+            const srcClass = src.includes('intel') ? 'intel' : src.includes('email') ? 'email' : src.includes('airtable') ? 'airtable' : src.includes('whatsapp') ? 'whatsapp' : src.includes('call') ? 'call' : 'other';
 
             return `
                 <div class="account-card">
@@ -728,6 +746,7 @@
                     <div class="value-cell">${valueDisplay}</div>
                     <div class="advisor-cell" title="${account.champion}">${account.champion}</div>
                     <div class="activity-cell">${account.lastActivity}</div>
+                    <span class="source-pill ${srcClass}">${account.source || 'Other'}</span>
                     <div class="status-dot ${statusDotClass}"></div>
                 </div>
             `;
