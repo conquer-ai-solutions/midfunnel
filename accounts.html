@@ -226,21 +226,18 @@
             margin-left: 8px;
         }
 
-        /* Table */
+        /* Table — desktop-first, proper table layout */
         .accounts-table {
             width: 100%;
             border-collapse: collapse;
-        }
-
-        .table-header {
-            display: none;
+            table-layout: fixed;
         }
 
         .table-header th {
             background-color: #1A1A1A;
             padding: 12px;
             text-align: left;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.8px;
@@ -249,6 +246,7 @@
             cursor: pointer;
             user-select: none;
             transition: color 0.2s ease;
+            white-space: nowrap;
         }
 
         .table-header th:hover {
@@ -256,118 +254,126 @@
         }
 
         .sort-indicator {
-            margin-left: 6px;
+            margin-left: 4px;
             font-size: 10px;
         }
 
+        /* Column widths */
+        .accounts-table th:nth-child(1),
+        .accounts-table td.account-name { width: 16%; }
+        .accounts-table th:nth-child(2),
+        .accounts-table td.account-project { width: 28%; }
+        .accounts-table th:nth-child(3),
+        .accounts-table td.account-region { width: 8%; }
+        .accounts-table th:nth-child(4),
+        .accounts-table td.account-value { width: 10%; }
+        .accounts-table th:nth-child(5),
+        .accounts-table td.account-advisor { width: 16%; }
+        .accounts-table th:nth-child(6),
+        .accounts-table td.account-last { width: 8%; }
+        .accounts-table th:nth-child(7),
+        .accounts-table td.account-source { width: 10%; }
+
         .account-row {
-            display: flex;
-            flex-direction: column;
-            border: 1px solid #2A2A2A;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            background-color: #161616;
-            overflow: hidden;
-            transition: all 0.3s ease;
             cursor: pointer;
+            transition: background-color 0.2s ease;
         }
 
         .account-row:hover {
-            border-color: #515FFC;
-            box-shadow: 0 0 16px rgba(81, 95, 252, 0.1);
+            background-color: #1A1A1A;
         }
 
-        .row-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            padding: 16px;
+        .account-row td {
+            padding: 12px;
+            border-bottom: 1px solid #1E1E1E;
+            font-size: 13px;
+            vertical-align: middle;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        @media (min-width: 768px) {
+        .account-row td.account-name {
+            font-weight: 600;
+            color: #FFFFFF;
+            white-space: normal;
+        }
+
+        .account-row td.account-project {
+            color: #AAAAAA;
+            white-space: normal;
+            font-size: 12px;
+        }
+
+        .account-row td.account-region {
+            color: #888888;
+            font-size: 12px;
+        }
+
+        .account-row td.account-value {
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+
+        .account-row td.account-advisor {
+            color: #AAAAAA;
+            white-space: normal;
+            font-size: 12px;
+        }
+
+        .account-row td.account-last {
+            color: #888888;
+            font-size: 12px;
+        }
+
+        /* Mobile: convert table to card layout */
+        @media (max-width: 767px) {
+            .accounts-table,
+            .accounts-table thead,
+            .accounts-table tbody,
+            .accounts-table tr,
+            .accounts-table th,
+            .accounts-table td {
+                display: block;
+            }
+
             .table-header {
-                display: table-header-group;
+                display: none !important;
             }
 
             .account-row {
-                display: table-row;
-                border: none;
-                border-bottom: 1px solid #2A2A2A;
-                border-radius: 0;
-                margin-bottom: 0;
-                background-color: transparent;
+                border: 1px solid #2A2A2A;
+                border-radius: 8px;
+                margin-bottom: 10px;
+                background-color: #161616;
+                padding: 12px;
             }
 
-            .account-row:hover {
-                background-color: #1A1A1A;
-                border-color: #515FFC;
-                box-shadow: none;
+            .account-row td {
+                padding: 2px 0;
+                border-bottom: none;
+                white-space: normal;
             }
 
-            .row-content {
-                display: table-cell;
-                padding: 16px 12px;
-                grid-template-columns: unset;
-                gap: 0;
-            }
-
-            .account-name {
-                width: 20%;
-            }
-
-            .account-project {
-                width: 25%;
-            }
-
-            .account-region {
-                width: 10%;
-                display: table-cell;
-            }
-
-            .account-value {
-                width: 12%;
-            }
-
-            .account-advisor {
-                width: 18%;
-            }
-
-            .account-last {
-                width: 10%;
-            }
-
-            .account-source {
-                width: 10%;
-                display: table-cell;
-            }
-        }
-
-        @media (max-width: 767px) {
-            .account-region,
-            .account-source {
+            .account-row td.account-region,
+            .account-row td.account-source {
                 display: none;
             }
 
-            .row-content::before {
+            .account-row td::before {
                 content: attr(data-label);
-                font-size: 11px;
+                font-size: 10px;
                 text-transform: uppercase;
-                letter-spacing: 0.6px;
-                color: #888888;
-                margin-bottom: 4px;
+                letter-spacing: 0.5px;
+                color: #666666;
+                display: block;
+                margin-bottom: 2px;
             }
-        }
 
-        .row-cell {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 4px 0;
-        }
+            .account-row td.account-name::before { content: none; }
 
-        @media (min-width: 768px) {
-            .row-cell {
-                padding: 0;
+            .details-row td {
+                padding: 0 !important;
             }
         }
 
@@ -408,27 +414,7 @@
             background-color: #E0392B;
         }
 
-        .account-name {
-            font-weight: 600;
-            color: #FFFFFF;
-        }
-
-        .account-project {
-            color: #CCCCCC;
-            font-size: 13px;
-        }
-
-        .account-region,
-        .account-advisor,
-        .account-last {
-            color: #999999;
-            font-size: 13px;
-        }
-
-        .account-value {
-            font-weight: 600;
-            color: #FFFFFF;
-        }
+        /* Additional cell styles already defined in table section above */
 
         .source-pill {
             display: inline-block;
@@ -457,6 +443,16 @@
         .source-email {
             background-color: rgba(255, 165, 0, 0.2);
             color: #FFB84D;
+        }
+
+        /* Details row */
+        .details-row {
+            background-color: transparent;
+        }
+
+        .details-row td {
+            padding: 0 !important;
+            border-bottom: none;
         }
 
         /* Expanded Details Panel */
