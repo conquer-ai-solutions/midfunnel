@@ -6,6 +6,30 @@
     <title>Account Pipeline Status — Conquer AI</title>
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* === Conquer Intel Design System v1.0 === */
+        /* Dark Scale */
+        :root {
+            --bg: #0A0A0A;
+            --bg-light: #141414;
+            --pop: #1F1F1F;
+            --pop-on-pop: #2B2B2B;
+            --stroke: #3C3C3C;
+            --shortcut: #616161;
+            /* Light Scale */
+            --white: #FFFFFF;
+            --text: #D3D3D3;
+            --titles: #AEAEAE;
+            --icons: #858585;
+            /* Accents */
+            --accent: #37A584;
+            --accent-hover: #2E8A6E;
+            --red: #EC3540;
+            --grey-blue: #6D7287;
+            /* Radius */
+            --radius: 5px;
+            --radius-pill: 20px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,9 +37,11 @@
         }
 
         body {
-            background-color: #0D0D0D;
-            color: #CCCCCC;
+            background-color: var(--bg);
+            color: var(--text);
             font-family: 'Geist', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
             line-height: 1.6;
         }
 
@@ -35,7 +61,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1.2px;
-            color: #515FFC;
+            color: var(--accent);
             margin-bottom: 12px;
         }
 
@@ -43,12 +69,12 @@
             font-size: 42px;
             font-weight: 700;
             margin-bottom: 8px;
-            color: #FFFFFF;
+            color: var(--white);
         }
 
         .subtitle {
             font-size: 14px;
-            color: #888888;
+            color: var(--titles);
             margin-bottom: 24px;
         }
 
@@ -56,14 +82,14 @@
         nav {
             display: flex;
             gap: 32px;
-            border-bottom: 1px solid #2A2A2A;
+            border-bottom: 1px solid var(--pop);
             padding-bottom: 16px;
             margin-bottom: 40px;
         }
 
         nav a {
             text-decoration: none;
-            color: #888888;
+            color: var(--icons);
             font-size: 14px;
             font-weight: 500;
             transition: color 0.2s ease;
@@ -71,11 +97,11 @@
         }
 
         nav a:hover {
-            color: #CCCCCC;
+            color: var(--text);
         }
 
         nav a.active {
-            color: #515FFC;
+            color: var(--accent);
         }
 
         nav a.active::after {
@@ -85,7 +111,7 @@
             left: 0;
             right: 0;
             height: 2px;
-            background-color: #515FFC;
+            background-color: var(--accent);
         }
 
         /* Stats Bar */
@@ -97,30 +123,30 @@
         }
 
         .stat-card {
-            background-color: #1A1A1A;
-            border: 1px solid #2A2A2A;
-            border-radius: 8px;
+            background-color: var(--bg-light);
+            border: 1px solid var(--stroke);
+            border-radius: var(--radius);
             padding: 20px;
             transition: all 0.3s ease;
         }
 
         .stat-card:hover {
-            border-color: #515FFC;
-            box-shadow: 0 0 20px rgba(81, 95, 252, 0.15);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(55, 165, 132, 0.15);
         }
 
         .stat-label {
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            color: #888888;
+            color: var(--titles);
             margin-bottom: 8px;
         }
 
         .stat-value {
             font-size: 36px;
             font-weight: 700;
-            color: #FFFFFF;
+            color: var(--white);
         }
 
         /* Filters Section */
@@ -136,7 +162,7 @@
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            color: #888888;
+            color: var(--titles);
             margin-bottom: 12px;
             display: block;
         }
@@ -150,10 +176,10 @@
 
         .pill {
             padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid #2A2A2A;
+            border-radius: var(--radius-pill);
+            border: 1px solid var(--stroke);
             background-color: transparent;
-            color: #CCCCCC;
+            color: var(--text);
             font-size: 13px;
             font-weight: 500;
             cursor: pointer;
@@ -161,14 +187,14 @@
         }
 
         .pill:hover {
-            border-color: #515FFC;
-            color: #FFFFFF;
+            border-color: var(--accent);
+            color: var(--white);
         }
 
         .pill.active {
-            background-color: #515FFC;
-            border-color: #515FFC;
-            color: #FFFFFF;
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: var(--white);
         }
 
         /* Search Input */
@@ -176,22 +202,22 @@
             width: 100%;
             max-width: 400px;
             padding: 12px 16px;
-            border: 1px solid #2A2A2A;
-            border-radius: 8px;
-            background-color: #1A1A1A;
-            color: #CCCCCC;
+            border: 1px solid var(--stroke);
+            border-radius: var(--radius);
+            background-color: var(--bg-light);
+            color: var(--text);
             font-size: 14px;
             transition: all 0.2s ease;
         }
 
         .search-input:focus {
             outline: none;
-            border-color: #515FFC;
-            box-shadow: 0 0 12px rgba(81, 95, 252, 0.2);
+            border-color: var(--accent);
+            box-shadow: 0 0 12px rgba(55, 165, 132, 0.2);
         }
 
         .search-input::placeholder {
-            color: #666666;
+            color: var(--shortcut);
         }
 
         /* Stage Sections */
@@ -204,25 +230,25 @@
             align-items: center;
             margin-bottom: 16px;
             padding-bottom: 12px;
-            border-bottom: 2px solid #2A2A2A;
+            border-bottom: 1px solid var(--pop);
         }
 
         .stage-stripe {
-            width: 6px;
-            height: 32px;
-            border-radius: 3px;
+            width: 4px;
+            height: 28px;
+            border-radius: 2px;
             margin-right: 16px;
         }
 
         .stage-title {
             font-size: 16px;
             font-weight: 600;
-            color: #FFFFFF;
+            color: var(--white);
         }
 
         .stage-count {
             font-size: 14px;
-            color: #888888;
+            color: var(--titles);
             margin-left: 8px;
         }
 
@@ -234,15 +260,15 @@
         }
 
         .table-header th {
-            background-color: #1A1A1A;
+            background-color: var(--bg-light);
             padding: 12px;
             text-align: left;
             font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            color: #888888;
-            border-bottom: 1px solid #2A2A2A;
+            color: var(--icons);
+            border-bottom: 1px solid var(--stroke);
             cursor: pointer;
             user-select: none;
             transition: color 0.2s ease;
@@ -250,7 +276,7 @@
         }
 
         .table-header th:hover {
-            color: #CCCCCC;
+            color: var(--text);
         }
 
         .sort-indicator {
@@ -280,12 +306,12 @@
         }
 
         .account-row:hover {
-            background-color: #1A1A1A;
+            background-color: var(--bg-light);
         }
 
         .account-row td {
             padding: 12px;
-            border-bottom: 1px solid #1E1E1E;
+            border-bottom: 1px solid var(--pop);
             font-size: 13px;
             vertical-align: middle;
             overflow: hidden;
@@ -295,34 +321,34 @@
 
         .account-row td.account-name {
             font-weight: 600;
-            color: #FFFFFF;
+            color: var(--white);
             white-space: normal;
         }
 
         .account-row td.account-project {
-            color: #AAAAAA;
+            color: var(--titles);
             white-space: normal;
             font-size: 12px;
         }
 
         .account-row td.account-region {
-            color: #888888;
+            color: var(--icons);
             font-size: 12px;
         }
 
         .account-row td.account-value {
             font-weight: 600;
-            color: #FFFFFF;
+            color: var(--accent);
         }
 
         .account-row td.account-advisor {
-            color: #AAAAAA;
+            color: var(--titles);
             white-space: normal;
             font-size: 12px;
         }
 
         .account-row td.account-last {
-            color: #888888;
+            color: var(--icons);
             font-size: 12px;
         }
 
@@ -342,10 +368,10 @@
             }
 
             .account-row {
-                border: 1px solid #2A2A2A;
-                border-radius: 8px;
+                border: 1px solid var(--stroke);
+                border-radius: var(--radius);
                 margin-bottom: 10px;
-                background-color: #161616;
+                background-color: var(--bg-light);
                 padding: 12px;
             }
 
@@ -365,7 +391,7 @@
                 font-size: 10px;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
-                color: #666666;
+                color: var(--shortcut);
                 display: block;
                 margin-bottom: 2px;
             }
@@ -382,7 +408,7 @@
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.6px;
-            color: #888888;
+            color: var(--icons);
             margin-bottom: 4px;
         }
 
@@ -402,16 +428,16 @@
         }
 
         .status-active {
-            background-color: #40A840;
+            background-color: var(--accent);
         }
 
         .status-at-risk,
         .status-stalled {
-            background-color: #D4A010;
+            background-color: #E5A100;
         }
 
         .status-dead {
-            background-color: #E0392B;
+            background-color: var(--red);
         }
 
         /* Additional cell styles already defined in table section above */
@@ -426,22 +452,22 @@
         }
 
         .source-intel {
-            background-color: rgba(81, 95, 252, 0.2);
-            color: #7B8FFF;
+            background-color: rgba(55, 165, 132, 0.15);
+            color: var(--accent);
         }
 
         .source-call {
-            background-color: rgba(147, 51, 234, 0.2);
-            color: #BB86FC;
+            background-color: rgba(109, 114, 135, 0.2);
+            color: #9DA2B9;
         }
 
         .source-whatsapp {
-            background-color: rgba(64, 168, 64, 0.2);
+            background-color: rgba(55, 165, 132, 0.1);
             color: #5FD35F;
         }
 
         .source-email {
-            background-color: rgba(255, 165, 0, 0.2);
+            background-color: rgba(255, 165, 0, 0.15);
             color: #FFB84D;
         }
 
@@ -460,8 +486,8 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
-            background-color: #1A1A1A;
-            border-top: 1px solid #2A2A2A;
+            background-color: var(--bg-light);
+            border-top: 1px solid var(--pop);
         }
 
         .details-panel.expanded {
@@ -480,12 +506,12 @@
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            color: #888888;
+            color: var(--icons);
             margin-bottom: 8px;
         }
 
         .detail-text {
-            color: #CCCCCC;
+            color: var(--text);
             line-height: 1.6;
         }
 
@@ -507,9 +533,9 @@
             top: 6px;
             width: 8px;
             height: 8px;
-            background-color: #515FFC;
+            background-color: var(--accent);
             border-radius: 50%;
-            border: 2px solid #0D0D0D;
+            border: 2px solid var(--bg);
         }
 
         .timeline-item::after {
@@ -519,7 +545,7 @@
             top: 14px;
             width: 2px;
             height: calc(100% + 8px);
-            background-color: #2A2A2A;
+            background-color: var(--pop-on-pop);
         }
 
         .timeline-item:last-child::after {
@@ -527,19 +553,19 @@
         }
 
         .timeline-text {
-            color: #999999;
+            color: var(--titles);
             font-size: 13px;
         }
 
         .timeline-text strong {
-            color: #CCCCCC;
+            color: var(--text);
         }
 
         /* Other/Unqualified Section */
         .other-section {
             margin-top: 40px;
             padding-top: 40px;
-            border-top: 1px solid #2A2A2A;
+            border-top: 1px solid var(--pop);
         }
 
         .other-toggle {
@@ -555,12 +581,13 @@
             display: inline-block;
             width: 20px;
             height: 20px;
-            background-color: #2A2A2A;
-            border-radius: 4px;
+            background-color: var(--pop-on-pop);
+            border-radius: var(--radius);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 12px;
+            color: var(--icons);
             transition: transform 0.2s ease;
         }
 
@@ -571,12 +598,12 @@
         .other-title {
             font-size: 16px;
             font-weight: 600;
-            color: #FFFFFF;
+            color: var(--white);
         }
 
         .other-count {
             font-size: 14px;
-            color: #888888;
+            color: var(--titles);
         }
 
         .other-pills {
@@ -595,8 +622,8 @@
         .other-pill {
             padding: 6px 12px;
             border-radius: 16px;
-            background-color: #2A2A2A;
-            color: #CCCCCC;
+            background-color: var(--pop-on-pop);
+            color: var(--text);
             font-size: 12px;
             font-weight: 500;
         }
@@ -709,12 +736,12 @@
 
     <script>
         const stageColors = {
-            '05': '#40A840',
-            '04': '#88B830',
-            '03': '#D4A010',
-            '02': '#E05010',
-            '01': '#CC2200',
-            'dead': '#E0392B'
+            '05': '#37A584',
+            '04': '#5AB897',
+            '03': '#E5A100',
+            '02': '#6D7287',
+            '01': '#858585',
+            'dead': '#EC3540'
         };
 
         const stageNames = {
