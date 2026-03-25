@@ -4,25 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Commercial Update — 25 March 2026 — Conquer AI</title>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        /* === Conquer Intel Design System === */
+        /* Principles: Dark-First · Monospace for Data · Subtle Hierarchy · Minimal Color · Density-Aware · Consistent Dividers */
         :root {
+            /* Dark Scale */
             --bg: #0A0A0A;
             --bg-light: #141414;
             --pop: #1F1F1F;
             --pop-on-pop: #2B2B2B;
             --stroke: #3C3C3C;
             --shortcut: #616161;
+            /* Light Scale */
             --white: #FFFFFF;
             --text: #D3D3D3;
             --titles: #AEAEAE;
             --icons: #858585;
+            /* Accents — Minimal Color: only for active states, pills, key indicators */
             --accent: #37A584;
             --accent-hover: #2E8A6E;
-            --purple: #8B5CF6;
-            --purple-light: #A78BFA;
             --amber: #E5A100;
             --red: #EC3540;
+            --grey-blue: #6D7287;
+            /* Radius */
             --radius: 5px;
             --radius-pill: 20px;
         }
@@ -37,45 +42,26 @@
             line-height: 1.6;
         }
 
+        /* Monospace for Data — timestamps, numbers, labels, system text */
+        .mono {
+            font-family: 'Geist Mono', 'Consolas', 'Courier New', monospace;
+        }
+
         .container {
             max-width: 1100px;
             margin: 0 auto;
             padding: 60px 40px;
         }
 
-        /* === COVER SECTION === */
+        /* === COVER === */
         .cover {
-            min-height: 70vh;
+            min-height: 65vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            position: relative;
-            overflow: hidden;
             margin-bottom: 80px;
-        }
-
-        .cover::before {
-            content: '';
-            position: absolute;
-            top: -150px;
-            left: -200px;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.12) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .cover::after {
-            content: '';
-            position: absolute;
-            bottom: -100px;
-            right: -150px;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(55, 165, 132, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
+            border-bottom: 1px solid var(--pop);
+            padding-bottom: 60px;
         }
 
         .cover-eyebrow {
@@ -83,30 +69,32 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 2.5px;
-            color: var(--purple);
-            margin-bottom: 20px;
-            font-family: 'Consolas', 'Courier New', monospace;
+            color: var(--accent);
+            margin-bottom: 24px;
+            font-family: 'Geist Mono', 'Consolas', monospace;
         }
 
         .cover h1 {
-            font-size: 56px;
+            font-size: 52px;
             font-weight: 700;
             color: var(--white);
             line-height: 1.1;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
         .cover h1 span {
-            color: var(--purple-light);
+            color: var(--accent);
         }
 
         .cover-date {
-            font-size: 16px;
+            font-size: 14px;
             color: var(--icons);
-            margin-top: 16px;
+            margin-top: 20px;
+            font-family: 'Geist Mono', 'Consolas', monospace;
+            letter-spacing: 0.5px;
         }
 
-        /* === SECTION STYLES === */
+        /* === SECTIONS === */
         .section {
             margin-bottom: 80px;
         }
@@ -116,13 +104,13 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 2.5px;
-            color: var(--purple);
+            color: var(--accent);
             margin-bottom: 12px;
-            font-family: 'Consolas', 'Courier New', monospace;
+            font-family: 'Geist Mono', 'Consolas', monospace;
         }
 
         .section-title {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 700;
             color: var(--white);
             margin-bottom: 8px;
@@ -131,48 +119,47 @@
         .section-subtitle {
             font-size: 15px;
             color: var(--icons);
-            margin-bottom: 32px;
+            margin-bottom: 28px;
+            max-width: 720px;
         }
 
         .divider {
             height: 1px;
-            background: var(--pop-on-pop);
-            margin-bottom: 32px;
+            background: var(--pop);
+            margin-bottom: 28px;
         }
 
         /* === TEAM CARDS === */
         .team-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 12px;
+            gap: 12px;
         }
 
         .team-card {
             background: var(--bg-light);
             border: 1px solid var(--stroke);
             border-radius: var(--radius);
-            padding: 24px;
-            transition: all 0.3s ease;
+            padding: 20px;
+            transition: border-color 0.2s ease;
         }
 
         .team-card:hover {
-            border-color: var(--purple);
-            box-shadow: 0 0 24px rgba(139, 92, 246, 0.1);
+            border-color: var(--accent);
         }
 
         .team-card-header {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .team-dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-            background: var(--purple);
+            background: var(--accent);
             flex-shrink: 0;
         }
 
@@ -183,9 +170,11 @@
         }
 
         .team-role {
-            font-size: 13px;
-            color: var(--purple-light);
+            font-size: 12px;
+            color: var(--accent);
             margin-bottom: 8px;
+            font-family: 'Geist Mono', 'Consolas', monospace;
+            letter-spacing: 0.3px;
         }
 
         .team-desc {
@@ -198,20 +187,19 @@
         .opt-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
+            gap: 12px;
         }
 
         .opt-card {
             background: var(--bg-light);
             border: 1px solid var(--stroke);
             border-radius: var(--radius);
-            padding: 24px;
-            transition: all 0.3s ease;
+            padding: 20px;
+            transition: border-color 0.2s ease;
         }
 
         .opt-card:hover {
             border-color: var(--accent);
-            box-shadow: 0 0 24px rgba(55, 165, 132, 0.1);
         }
 
         .opt-header {
@@ -222,49 +210,50 @@
         }
 
         .opt-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             color: var(--white);
         }
 
         .pill {
             display: inline-block;
-            padding: 4px 14px;
+            padding: 3px 12px;
             border-radius: var(--radius-pill);
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
+            font-family: 'Geist Mono', 'Consolas', monospace;
         }
 
         .pill-live {
-            background: rgba(55, 165, 132, 0.15);
+            background: rgba(55, 165, 132, 0.12);
             color: var(--accent);
-            border: 1px solid rgba(55, 165, 132, 0.3);
+            border: 1px solid rgba(55, 165, 132, 0.25);
         }
 
         .pill-trial {
-            background: rgba(229, 161, 0, 0.12);
+            background: rgba(229, 161, 0, 0.10);
             color: var(--amber);
-            border: 1px solid rgba(229, 161, 0, 0.25);
+            border: 1px solid rgba(229, 161, 0, 0.20);
         }
 
         .pill-poc {
-            background: rgba(229, 161, 0, 0.12);
+            background: rgba(229, 161, 0, 0.10);
             color: var(--amber);
-            border: 1px solid rgba(229, 161, 0, 0.25);
+            border: 1px solid rgba(229, 161, 0, 0.20);
         }
 
         .pill-proposal {
-            background: rgba(55, 165, 132, 0.15);
+            background: rgba(55, 165, 132, 0.12);
             color: var(--accent);
-            border: 1px solid rgba(55, 165, 132, 0.3);
+            border: 1px solid rgba(55, 165, 132, 0.25);
         }
 
         .pill-discovery {
-            background: rgba(139, 92, 246, 0.12);
-            color: var(--purple-light);
-            border: 1px solid rgba(139, 92, 246, 0.25);
+            background: rgba(109, 114, 135, 0.15);
+            color: var(--grey-blue);
+            border: 1px solid rgba(109, 114, 135, 0.25);
         }
 
         .opt-desc {
@@ -277,22 +266,21 @@
         .opp-list {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
 
         .opp-card {
             background: var(--bg-light);
             border: 1px solid var(--stroke);
             border-radius: var(--radius);
-            padding: 28px 28px 28px 32px;
+            padding: 24px 24px 24px 28px;
             position: relative;
-            transition: all 0.3s ease;
+            transition: border-color 0.2s ease;
             overflow: hidden;
         }
 
         .opp-card:hover {
-            border-color: var(--purple);
-            box-shadow: 0 0 30px rgba(139, 92, 246, 0.08);
+            border-color: var(--accent);
         }
 
         .opp-card::before {
@@ -301,27 +289,27 @@
             left: 0;
             top: 0;
             bottom: 0;
-            width: 4px;
-            background: var(--purple);
+            width: 3px;
+            background: var(--accent);
         }
 
         .opp-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .opp-name {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             color: var(--white);
         }
 
         .opp-headline {
-            font-size: 14px;
-            color: var(--purple-light);
-            margin-bottom: 12px;
+            font-size: 13px;
+            color: var(--accent);
+            margin-bottom: 10px;
             font-weight: 500;
         }
 
@@ -335,55 +323,44 @@
         .stats-bar {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-top: 40px;
+            gap: 12px;
+            margin-top: 32px;
         }
 
         .stat-card {
             background: var(--bg-light);
             border: 1px solid var(--stroke);
             border-radius: var(--radius);
-            padding: 24px;
+            padding: 20px;
             text-align: center;
         }
 
         .stat-value {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: 700;
-            color: var(--purple-light);
+            color: var(--white);
             line-height: 1;
             margin-bottom: 6px;
+            font-family: 'Geist Mono', 'Consolas', monospace;
         }
 
         .stat-label {
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
+            letter-spacing: 1px;
             color: var(--icons);
+            font-family: 'Geist Mono', 'Consolas', monospace;
         }
 
         /* === CLOSING === */
         .closing {
             text-align: center;
             padding: 80px 0 40px;
-            position: relative;
-        }
-
-        .closing::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
+            border-top: 1px solid var(--pop);
         }
 
         .closing-title {
-            font-size: 40px;
+            font-size: 36px;
             font-weight: 700;
             color: var(--white);
             margin-bottom: 24px;
@@ -396,13 +373,15 @@
         }
 
         .closing-lines .highlight {
-            color: var(--purple-light);
+            color: var(--accent);
         }
 
         .closing-cta {
-            font-size: 15px;
+            font-size: 14px;
             color: var(--icons);
             margin-top: 32px;
+            font-family: 'Geist Mono', 'Consolas', monospace;
+            letter-spacing: 0.5px;
         }
 
         /* === FOOTER === */
@@ -411,13 +390,13 @@
             padding: 24px 0;
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
-            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 11px;
+            font-family: 'Geist Mono', 'Consolas', monospace;
             color: var(--shortcut);
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
         }
 
-        /* === NAV DOTS (scroll indicator) === */
+        /* === SCROLL NAV === */
         .scroll-nav {
             position: fixed;
             right: 28px;
@@ -430,30 +409,29 @@
         }
 
         .scroll-dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: var(--stroke);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .scroll-dot.active {
-            background: var(--purple);
-            box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+            background: var(--accent);
+            box-shadow: 0 0 6px rgba(55, 165, 132, 0.4);
         }
 
         .scroll-dot:hover {
-            background: var(--purple-light);
+            background: var(--accent);
         }
 
-        /* Smooth scroll */
         html { scroll-behavior: smooth; }
 
         @media (max-width: 768px) {
             .container { padding: 32px 20px; }
-            .cover h1 { font-size: 36px; }
-            .section-title { font-size: 28px; }
+            .cover h1 { font-size: 32px; }
+            .section-title { font-size: 24px; }
             .team-grid { grid-template-columns: 1fr; }
             .opt-grid { grid-template-columns: 1fr; }
             .stats-bar { grid-template-columns: repeat(2, 1fr); }
@@ -479,7 +457,7 @@
         <div class="cover-eyebrow">MONTHLY ADVISOR UPDATE</div>
         <h1>Conquer AI</h1>
         <h1>Commercial <span>Update</span></h1>
-        <div class="cover-date">25 March 2026 &nbsp;·&nbsp; Bolaji Olatoye</div>
+        <div class="cover-date">25 March 2026 · Bolaji Olatoye</div>
     </section>
 
     <!-- ===== TEAM STRUCTURE ===== -->
@@ -527,7 +505,7 @@
                     <div class="team-dot"></div>
                     <div class="team-name">Bernardo</div>
                 </div>
-                <div class="team-role">Brazil Focus & Sales Operations</div>
+                <div class="team-role">Brazil Focus & Sales Ops</div>
                 <div class="team-desc">Dedicated Brazil market focus and sales operations support. Enabling the LATAM pipeline alongside global deal flow.</div>
             </div>
         </div>
@@ -567,7 +545,7 @@
                     <div class="opt-title">Pipeline Dashboard</div>
                     <span class="pill pill-live">Live</span>
                 </div>
-                <div class="opt-desc">Real-time view of every account by stage, region, and commercial territory. Advisor and process views available. The page you're looking at now was built with the same system.</div>
+                <div class="opt-desc">Real-time view of every account by stage, region, and commercial territory. Advisor and process views available. Built with the same design system.</div>
             </div>
         </div>
     </section>
@@ -581,7 +559,6 @@
 
         <div class="opp-list">
 
-            <!-- Ares -->
             <div class="opp-card">
                 <div class="opp-top">
                     <div class="opp-name">Ares Management</div>
@@ -591,7 +568,6 @@
                 <div class="opp-detail">Ares went quiet for two months while they reset their internal AI strategy. They've come back to us with a clear brief: they want a head-to-head benchmark — our POC against their internal single-developer build on a live deal. NDA is signed, real deal materials have been shared, and we're piloting the Client Engagement Pack with them this week. This is a genuine competitive proof point.</div>
             </div>
 
-            <!-- YBS -->
             <div class="opp-card">
                 <div class="opp-top">
                     <div class="opp-name">Yorkshire Building Society</div>
@@ -601,7 +577,6 @@
                 <div class="opp-detail">A strong signal — the Chairman sat in on the most recent deep-dive, which tells you the level of internal buy-in. Two major use cases are now confirmed: Charlie Change, an agentic change management tool, and a portfolio oversight platform. We're refining prototypes and the alignment document is due Monday. This has moved quickly from intro to real substance.</div>
             </div>
 
-            <!-- Masterbrand -->
             <div class="opp-card">
                 <div class="opp-top">
                     <div class="opp-name">Masterbrand</div>
@@ -611,7 +586,6 @@
                 <div class="opp-detail">We're running targeted POC sessions with individual department heads — Misti Hays and Anil Hingle this week. A security concern was raised and resolved within the same week, which helped build trust. The stakeholder group is expanding across their finance shared services division, which is exactly the pattern we want to see.</div>
             </div>
 
-            <!-- Goodman -->
             <div class="opp-card">
                 <div class="opp-top">
                     <div class="opp-name">Goodman Properties</div>
@@ -621,7 +595,6 @@
                 <div class="opp-detail">Leasing, maintenance, and accounting — all three POCs were signed off by Adam Goodman in a single call. We're now producing a unified proposal due this week. The platform vision is an AI companion with role-based access, mobile-first for their field teams. This is transitioning from proof-of-concept into a real commercial engagement.</div>
             </div>
 
-            <!-- Lingotto -->
             <div class="opp-card">
                 <div class="opp-top">
                     <div class="opp-name">Lingotto</div>
@@ -631,7 +604,6 @@
                 <div class="opp-detail">Portfolio management and LP reporting platform. Two whiteboard sessions completed, four user personas identified. Deepak Mishra is championing internally, and we're meeting with their CSO Rachele this week in London. The scope is locked and we're moving into formal proposal territory.</div>
             </div>
 
-            <!-- Lumanity -->
             <div class="opp-card">
                 <div class="opp-top">
                     <div class="opp-name">Lumanity</div>
@@ -641,19 +613,17 @@
                 <div class="opp-detail">Three meetings in quick succession — intro, discovery, and an onsite session in early March. Lumanity have shared their prioritised use cases, particularly around document generation and integration with Word and PowerPoint. We're now preparing a meta-analysis of shared components and looking at what can be built once and reused across their workflows. London workshop being scheduled.</div>
             </div>
 
-            <!-- Itaú BBA -->
             <div class="opp-card">
                 <div class="opp-top">
-                    <div class="opp-name">Itaú BBA</div>
+                    <div class="opp-name">Itau BBA</div>
                     <span class="pill pill-proposal">Proposal</span>
                 </div>
                 <div class="opp-headline">Commercial proposal sent with POC walkthrough — awaiting response</div>
-                <div class="opp-detail">Brazil's largest investment bank. Tom ran a live demo of our pitchbook automation POC and the Loom recording was shared alongside the commercial proposal on 20 March. The use case is automating ~500 pitchbooks per month with estimated ongoing costs of $400–800/month. Bernardo is leading the relationship alongside the broader team. Awaiting their response — follow-up due 27 March.</div>
+                <div class="opp-detail">Brazil's largest investment bank. Tom ran a live demo of our pitchbook automation POC and the Loom recording was shared alongside the commercial proposal on 20 March. The use case is automating ~500 pitchbooks per month with estimated ongoing costs of $400-800/month. Bernardo is leading the relationship alongside the broader team. Awaiting their response — follow-up due 27 March.</div>
             </div>
 
         </div>
 
-        <!-- Stats -->
         <div class="stats-bar">
             <div class="stat-card">
                 <div class="stat-value">42</div>
@@ -665,7 +635,7 @@
             </div>
             <div class="stat-card">
                 <div class="stat-value">7</div>
-                <div class="stat-label">In Motion This Month</div>
+                <div class="stat-label">In Motion</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value">3</div>
@@ -692,7 +662,6 @@
 </div>
 
 <script>
-// Scroll navigation
 const sections = ['cover', 'team', 'optimisations', 'pipeline', 'closing'];
 const dots = document.querySelectorAll('.scroll-dot');
 
@@ -716,7 +685,7 @@ function updateScrollNav() {
 window.addEventListener('scroll', updateScrollNav);
 window.addEventListener('load', updateScrollNav);
 
-// Fade-in animation on scroll
+// Subtle fade-in
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -728,8 +697,8 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.section, .closing').forEach(el => {
     el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    el.style.transform = 'translateY(16px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     observer.observe(el);
 });
 </script>
