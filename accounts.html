@@ -128,11 +128,16 @@
             border-radius: var(--radius);
             padding: 20px;
             transition: all 0.3s ease;
-        }
+            cursor: pointer;}
 
         .stat-card:hover {
             border-color: var(--accent);
             box-shadow: 0 0 20px rgba(55, 165, 132, 0.15);
+        }
+
+        .stat-card.active {
+            border-color: var(--accent);
+            background-color: rgba(55, 165, 132, 0.08);
         }
 
         .stat-label {
@@ -491,7 +496,37 @@
         }
 
         .details-panel.expanded {
-            max-height: 1000px;
+            max-height: 1500px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--pop);
+        }
+        .detail-grid-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .detail-grid-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--icons);
+        }
+        .detail-grid-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--white);
+        }
+        @media (max-width: 767px) {
+            .detail-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .details-content {
@@ -648,7 +683,7 @@
 
             .stat-card {
                 padding: 16px;
-            }
+            cursor: pointer;}
 
             .stat-value {
                 font-size: 24px;
@@ -696,7 +731,6 @@
             <div class="filter-group">
                 <label class="filter-label">Stage</label>
                 <div class="filter-pills" id="stageFilters">
-                    <button class="pill active" data-filter="stage" data-value="all">All</button>
                     <button class="pill" data-filter="stage" data-value="01">01 Intro</button>
                     <button class="pill" data-filter="stage" data-value="02">02 Discovery</button>
                     <button class="pill" data-filter="stage" data-value="03">03 POC</button>
@@ -764,9 +798,9 @@
                 { name: 'Gibraltar / Prospiant', project: 'POC complete — proposal stage', region: 'UK', status: 'active', value: 'TBC', champion: 'Board advisor (Atley)', lastActivity: '18 Mar', source: 'Call transcript', note: 'Conflict of interest being resolved. NDA clear. Similar to SNC Electric POC.', timeline: ['18 Mar — POC complete. Proposal stage. Conflict of interest being resolved.'] },
                 { name: 'Itaú BBA', project: 'Pitch book + research use cases', region: 'Brazil', status: 'active', value: '£300K+', champion: 'Carolina (internal)', lastActivity: '24 Mar', source: 'Intel', note: 'Full commercial proposal sent to Philipe Oliveira and Daniel Milani today with cost overview and POC visual. Pablo Otero also copied. Price at £300K, negotiable to £200-250K. Second project (research) still needs discovery + POC. Ball in their court.', timeline: ['20 Mar — Commercial proposal + technical cost overview emailed to Philipe, Daniel, Pablo.', '19 Mar — Bolaji joined Itaú call at short notice via Carolina WhatsApp.', '18 Mar — Pricing reworked upward from £200K. Multiple use cases.'] },
                 { name: 'Royal Free', project: 'AI platform — finance review stage', region: 'UK', status: 'active', value: '£70K', champion: 'Pav (board member)', lastActivity: '24 Mar', source: 'Intel', note: 'Expected April close. Board review happening. Pav championing internally. £70K deal value confirmed.', timeline: ['20 Mar — Board review today. Pav attending.', '18 Mar — Finance review stage. Expected April close.'] },
-                { name: 'Press Box PR', project: 'Phase 2 SOW — 5 workstreams, contract target end of March', region: 'UK', status: 'active', champion: 'John Pettit / Danny Ward', value: 'TBC', lastActivity: '25 Mar', source: 'Email', note: 'In-person meeting confirmed: Wed 25 Mar 12:30-1:30pm at Press Box offices. John Pettit asked Megan Perfect to set up with video included. Full team invited (John, Jack, Katie, Tom, Bolaji, Danny). Phase 2 SOW finalised with 5 workstreams. Danny chased Tom urgently 22 Mar for pricing. Target: contract signed and invoice before end of March. Active Phase 1 client with expanding scope.', timeline: ['23 Mar — John Pettit scheduled in-person meeting Wed 25 Mar 12:30-1:30pm at Press Box offices with video.', '22 Mar — Danny sent urgent reminder to Tom: need pricing for SOW before Monday meeting.', '20 Mar — Katie set up Google Group. Jack added content context (Marco Materazzi interview).', '19 Mar — Danny sent revised Phase 2 SOW to Tom as final commercial document. 5 workstreams.', '19 Mar — John Pettit sent meeting actions from internal session.', '16 Mar — Danny drafted full Phase 2 proposal with 4 workstreams + data migration.'] },
+                { name: 'Press Box PR', project: 'Phase 2 SOW — 5 workstreams, contract target end of March', region: 'UK', status: 'active', champion: 'John Pettit / Danny Ward', value: '~£160K', lastActivity: '25 Mar', source: 'Email', note: 'In-person meeting confirmed: Wed 25 Mar 12:30-1:30pm at Press Box offices. John Pettit asked Megan Perfect to set up with video included. Full team invited (John, Jack, Katie, Tom, Bolaji, Danny). Phase 2 SOW finalised with 5 workstreams. Danny chased Tom urgently 22 Mar for pricing. Target: contract signed and invoice before end of March. Active Phase 1 client with expanding scope.', timeline: ['23 Mar — John Pettit scheduled in-person meeting Wed 25 Mar 12:30-1:30pm at Press Box offices with video.', '22 Mar — Danny sent urgent reminder to Tom: need pricing for SOW before Monday meeting.', '20 Mar — Katie set up Google Group. Jack added content context (Marco Materazzi interview).', '19 Mar — Danny sent revised Phase 2 SOW to Tom as final commercial document. 5 workstreams.', '19 Mar — John Pettit sent meeting actions from internal session.', '16 Mar — Danny drafted full Phase 2 proposal with 4 workstreams + data migration.'] },
                 { name: 'Lumanity', project: 'Knowledge FRaiME — 10-week MVP pilot', region: 'UK', status: 'at-risk', value: '£137K', champion: 'Anthony Guethert (CTO)', lastActivity: '18 Mar', source: 'Intel', note: 'Proposal: Knowledge FRaiME MVP — Expert Directed AI evidence synthesis platform. Extends Lumanity\'s existing DIEGO platform from clinical literature to broader corpora (market research, competitive intel, internal knowledge). Deployed inside GAIL (Lumanity\'s ISO 42001 GenAI environment). Pilot use case: Insights Fact Book synthesis from 50-doc corpus. Key capabilities: multimodal ingestion (PDF/DOCX/PPTX/Excel), hybrid RAG retrieval (Reciprocal Rank Fusion), confidence + conflict scoring, evidence table + heatmap, Word/PPT export to Lumanity templates. 4-person team (Delivery Lead, AI Engineer, Platform Engineer, Frontend Engineer). At-risk delivery model — payment on successful acceptance. 4 phases beyond pilot mapped out. Anthony hasn\'t replied since 18 Mar delivery. Neil Cooper (Dir. Process Automation) and Jon Harvey also engaged.', timeline: ['18 Mar — Luke sent full Phase 1 package (proposal £137K + market intel + user journey) to Anthony.', '12 Mar — Dale built branded Market Intelligence doc. Tom reviewed, Bolaji approved.', '10 Mar — Neil Cooper sent FRaiME summary slides. Jon Harvey in loop.', '9 Mar — Alignment doc review (internal).', '7 Mar — On-site meeting. Anthony stayed on, Bolaji showed POC live. Very positive.'] },
-                { name: 'Goodman Properties', project: 'All 3 POCs approved — formal engagement', region: 'US', status: 'active', champion: 'Adam Goodman', value: 'TBC', lastActivity: '24 Mar', source: 'Email', note: '23 Mar meeting: Adam confirmed all 3 POCs complete, wants formal agreement/engagement letter. Dept structure: leasing (Lauren), finance (John+Barbara), maintenance (Ian), construction (John Buckley). Goodman to map subcategories internally before Conquer builds. Mobile-first critical for field teams. Teams integration confirmed. Technical documentation sent to Frank Ricciardi (Carisma) 24 Mar. chased for outstanding docs from 13 Mar session. Nauris confirmed docs would be shared. Platform vision: AI companion with role-based access control. Mobile access critical. Teams integration preferred.', timeline: ['24 Mar — Bolaji sent technical documentation to Dale for Frank Ricciardi (Carisma). Covers all 3 POC areas.', '23 Mar — Frank Ricciardi (Carisma) chased for outstanding docs from 13 Mar meeting. Nauris confirmed delivery.', '23 Mar — Final POC call with Adam Goodman. All 3 POCs approved. Moving to formal engagement.', '20 Mar — David, Bolaji & Luke catchup on Goodman status.', '13 Mar — Tech Support Breakout Session.', '12 Mar — Deep maintenance discovery. POC dashboard demoed. Ian very enthusiastic.', '11 Mar — Accounts Team session. Leasing/finance discovery with John and Barbara.'] },
+                { name: 'Goodman Properties', project: 'All 3 POCs approved — formal engagement', region: 'US', status: 'active', champion: 'Adam Goodman', value: 'TBC', lastActivity: '24 Mar', source: 'Email', note: '23 Mar meeting: Adam confirmed all 3 POCs complete, wants formal agreement/engagement letter. Dept structure: leasing (Lauren), finance (John+Barbara), maintenance (Ian), construction (John Buckley). Goodman to map subcategories internally before Conquer builds. Mobile-first critical for field teams. Teams integration confirmed. Technical documentation sent to Frank Ricciardi (Carisma) 24 Mar. chased for outstanding docs from 13 Mar session. Nauris confirmed docs would be shared. Platform vision: AI companion with role-based access control. Mobile access critical. Teams integration preferred. Unified proposal due 27 Mar.', timeline: ['24 Mar — Bolaji sent technical documentation to Dale for Frank Ricciardi (Carisma). Covers all 3 POC areas.', '23 Mar — Frank Ricciardi (Carisma) chased for outstanding docs from 13 Mar meeting. Nauris confirmed delivery.', '23 Mar — Final POC call with Adam Goodman. All 3 POCs approved. Moving to formal engagement.', '20 Mar — David, Bolaji & Luke catchup on Goodman status.', '13 Mar — Tech Support Breakout Session.', '12 Mar — Deep maintenance discovery. POC dashboard demoed. Ian very enthusiastic.', '11 Mar — Accounts Team session. Leasing/finance discovery with John and Barbara.'] },
             ],
             '03': [
                 { name: 'Ares Management', project: 'Investment narrative automation — POC development', region: 'UK', status: 'active', champion: 'Alex Davies / Megan de Jager', value: 'TBC', lastActivity: '23 Mar', source: 'Intel', note: 'Re-engagement after 2-month AI strategy reset. Investment narrative automation POC (deal intake to IC-ready paper). NDA signed. Ares has new CIO building internal engineering capability. Benchmark exercise: Conquer output vs internal single-developer build. Want cost transparency and user-editable configuration. SharePoint integration needed for 70+ file drops. Charts/graphs in IC papers critical.', timeline: ['23 Mar — Next Steps call. NDA signed. Ares to share real deal materials. Conquer to send alignment doc with pricing.', '23 Mar — Benchmark agreed: Conquer POC vs Ares internal build on Megan\'s live deal.', '23 Mar — Conquer to share client engagement portal this week.'] },
@@ -790,7 +824,7 @@
                 { name: 'Rumo', project: 'Taking work away from McKinsey', region: 'Brazil', status: 'active', champion: 'Renato', value: 'TBC', lastActivity: '20 Mar', source: 'WhatsApp', note: 'Engaging via WhatsApp. Document sent to Renato. Bernardo introduced as support in WhatsApp group. Client wants Conquer to take work away from McKinsey — promising signal.', timeline: ['20 Mar — Bernardo introduced in WhatsApp group. Next meeting being scheduled.', '18 Mar — Renato replied. Document sent via WhatsApp.'] },
                 { name: 'Globo', project: 'Asset management AI transformation — risk & portfolio automation', region: 'Brazil', status: 'at-risk', champion: 'Luis Laura', value: 'TBC', lastActivity: '20 Mar', source: 'Intel', note: 'Globo Ventures 5-person asset management team. Luis wants AI-first operations — reduce Excel, automate risk management, investment analysis, reporting. Considering ditching Bloomberg terminals. Wants whiteboarding session but needs internal alignment first. Follow-up overdue since 6 Mar. 7 contacts in Intel. Tom presented obligation tracking case study (20-30 min process reduced to <5 min).', timeline: ['20 Mar — Follow-up still overdue. Bolaji to send email to Luis Laura urgently.', '6 Mar — 10-day follow-up deadline expired.', '24 Feb — Deep discovery with Luis & Tom. Asset management AI transformation. Open to reimagining processes. Notion integration preferred.', '9 Feb — Revised proposal and technical approach prepared.'] },
                                 { name: 'Marks & Spencer', project: '150+ AI use cases — CoPilot optimization & overflow capacity', region: 'UK', status: 'active', champion: 'Di Mayze (Chief Data & AI Officer)', value: 'TBC', lastActivity: '23 Mar', source: 'Intel', note: 'Intro call with M&S AI leadership. M&S recovering from major cyber incident that forced 5-year data platform rebuild. 150+ AI use cases identified. About to release 11,000 CoPilot Pro licences. Internal capacity for 600-800 use cases/year — seeking external partners for overflow. Deeply embedded in Microsoft ecosystem. Di Mayze values efficiency, wants clear understanding of Conquer role. Full executive committee bought in. Introduced by Heather Savory.', timeline: ['23 Mar — Intro call with Di Mayze (Chief Data & AI Officer) and Lynsey Marshall (AI Adoption Lead).', '23 Mar — Presented Apollo + FTSE 250 case studies. M&S to review Conquer capabilities against evolving roadmap.'] },
-            { name: 'Baxter', project: 'KPI tracking system — phased engagement', region: 'US', status: 'active', champion: 'Olga Selina / Laura Egglestone', value: 'TBC', lastActivity: '24 Mar', source: 'Email', note: 'Laura Egglestone offered Wed 25 Mar availability: 1pm UK (8am CT), 1:30pm UK (8:30am CT), or 3:30pm UK (10:30am CT). Out Thu & Fri, flexible next week. Call being locked in. Custom KPI tracking system — manual inputs + Power BI integration. Role-based access critical. No internal dev capacity. Wants phased engagement.', timeline: ['24 Mar — Laura offered Wed 25 availability (1pm/1:30pm/3:30pm UK). Out Thu & Fri.', '23 Mar — Luke replied to Laura, proposing Wednesday+ for discussion.', '20 Mar — Laura Egglestone (D&A leader) replied, wants to discuss next week.', '18 Feb — KPI use case session. Phased engagement agreed. Alignment doc to be delivered.', '18 Feb — AI board training session.', '16 Feb — Tom / Laura / Bolaji / Luke Baxter prep call.'] }
+            { name: 'Baxter', project: 'KPI tracking system — phased engagement', region: 'US', status: 'active', champion: 'Olga Selina / Laura Egglestone', value: 'TBC', lastActivity: '24 Mar', source: 'Email', note: 'Laura Egglestone offered Wed 25 Mar availability: 1pm UK (8am CT), 1:30pm UK (8:30am CT), or 3:30pm UK (10:30am CT). Out Thu & Fri, flexible next week. Call being locked in. Custom KPI tracking system — manual inputs + Power BI integration. Role-based access critical. No internal dev capacity. Wants phased engagement.', timeline: ['24 Mar — Laura offered Wed 25 availability (1pm/1:30pm/3:30pm UK). Out Thu & Fri.', '23 Mar — Luke replied to Laura, proposing Wednesday+ for discussion.', '20 Mar — Laura Egglestone (D&A leader) replied, wants to discuss next week.', '18 Feb — KPI use case session. Phased engagement agreed. Alignment doc to be delivered.', '18 Feb — AI board training session.', '16 Feb — Tom / Laura / Bolaji / Luke Baxter prep call.'] },                { name: 'Bank of Hawaii (BOH)', project: 'Wealth management & commercial banking AI — discovery stage', region: 'US', status: 'active', value: 'TBC', champion: 'Ayca Yuksel / Stefan Pampulov', lastActivity: '25 Mar', source: 'Email', note: 'Long-running engagement since Feb 2026. Luke sent alignment doc covering wealth management (discovery intelligence, institutional memory, content assembly) and commercial banking (credit administration). Ayca synced internally and handed off to Stefan Pampulov for next steps. Bolaji replied 25 Mar welcoming Stefan. Key contacts: Ayca Yuksel, Stefan Pampulov, Donna Ramirez, Jim Polk, Marco Abbruzzese.', timeline: ['25 Mar — Ayca handed off to Stefan Pampulov. Bolaji replied welcoming Stefan.', '25 Mar — Ayca confirmed internal sync complete. Stefan to drive next steps.', '5 Feb — Luke sent alignment doc and next steps to full BOH team (Ayca, Donna, Jim, Marco).'] }
             ],
             '01': [
                 { name: 'Shell', project: 'Customer operations AI — B2B process automation', region: 'UK', status: 'active', champion: 'Sumita Dutta (ITT Manager)', value: 'TBC', lastActivity: '23 Mar', source: 'Intel', note: 'Introduction via Craig Walker to Shell Customer Operations (all downstream marketing businesses — lubricants, mobility, low carbon). Sumita manages IT end-to-end across customer engagement layer. Current challenge: fragmented back-end processes, customer agents spend more time outside IT systems. B2C automation going live Apr/May 2026 but B2B processes (lubricants, fleet) much more complex. SAP harmonisation across 70-80 countries is key challenge. Interested in agentic AI but hasn\'t explored yet. Requested tailored materials on customer ops, marketing content, pricing, contract management.', timeline: ['23 Mar — Intro call with Sumita Dutta (ITT Manager). Materials requested for distribution to IT managers and AI squads.', '23 Mar — Introduced by Craig Walker. Shell interested in agentic AI for complex B2B processes.'] },
@@ -813,7 +847,8 @@
 
         let filteredAccounts = JSON.parse(JSON.stringify(allAccounts));
         let currentSort = { column: null, asc: true };
-        let activeStageFilter = 'all';
+        let activeStageFilters = new Set();
+        let atRiskFilter = false;
         let activeRegionFilter = 'all';
         let searchTerm = '';
 
@@ -836,7 +871,7 @@
 
             Object.keys(filteredAccounts).forEach(stage => {
                 filteredAccounts[stage] = filteredAccounts[stage].filter(account => {
-                    const matchesStage = activeStageFilter === 'all' || (activeStageFilter === 'dead' ? ['dead', ''].includes(stage) : stage === activeStageFilter);
+                    const matchesStage = activeStageFilters.size === 0 || activeStageFilters.has(stage);
                     const matchesRegion = activeRegionFilter === 'all' || account.region === activeRegionFilter;
                     const matchesSearch = searchTerm === '' ||
                         account.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -926,6 +961,32 @@
                         <td colspan="7">
                             <div class="details-panel">
                                 <div class="details-content">
+                                    <div class="detail-grid">
+                                        <div class="detail-grid-item">
+                                            <div class="detail-grid-label">Champion / Advisor</div>
+                                            <div class="detail-grid-value">${account.champion}</div>
+                                        </div>
+                                        <div class="detail-grid-item">
+                                            <div class="detail-grid-label">Region</div>
+                                            <div class="detail-grid-value">${account.region || '—'}</div>
+                                        </div>
+                                        <div class="detail-grid-item">
+                                            <div class="detail-grid-label">Deal Value</div>
+                                            <div class="detail-grid-value">${account.value}</div>
+                                        </div>
+                                        <div class="detail-grid-item">
+                                            <div class="detail-grid-label">Source</div>
+                                            <div class="detail-grid-value">${account.source}</div>
+                                        </div>
+                                        <div class="detail-grid-item">
+                                            <div class="detail-grid-label">Last Activity</div>
+                                            <div class="detail-grid-value">${account.lastActivity}</div>
+                                        </div>
+                                        <div class="detail-grid-item">
+                                            <div class="detail-grid-label">Status</div>
+                                            <div class="detail-grid-value"><span class="status-dot ${getStatusClass(account.status)}"></span>${account.status.charAt(0).toUpperCase() + account.status.slice(1)}</div>
+                                        </div>
+                                    </div>
                                     <div class="detail-note">
                                         <div class="detail-label">Note</div>
                                         <div class="detail-text">${account.note}</div>
@@ -1011,6 +1072,33 @@
             document.getElementById('otherCount').textContent = `(${otherAccounts.length})`;
         }
 
+        document.getElementById('otherToggle').addEventListener
+
+        function updatePillStates() {
+            document.querySelectorAll('[data-filter="stage"]').forEach(btn => {
+                const value = btn.dataset.value;
+                if (activeStageFilters.has(value)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        function clearStatCards() {
+            document.querySelectorAll('.stat-card').forEach(card => {
+                card.classList.remove('active');
+            });
+        }
+
+        function setStatCardActive(index) {
+            clearStatCards();
+            const cards = document.querySelectorAll('.stat-card');
+            if (cards[index]) {
+                cards[index].classList.add('active');
+            }
+        }
+
         document.getElementById('otherToggle').addEventListener('click', () => {
             const pills = document.getElementById('otherPills');
             const arrow = document.getElementById('otherArrow');
@@ -1020,9 +1108,15 @@
 
         document.querySelectorAll('[data-filter="stage"]').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                document.querySelectorAll('[data-filter="stage"]').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                activeStageFilter = e.target.dataset.value;
+                e.preventDefault();
+                const value = e.target.dataset.value;
+                if (e.target.classList.contains('active')) {
+                    e.target.classList.remove('active');
+                    activeStageFilters.delete(value);
+                } else {
+                    e.target.classList.add('active');
+                    activeStageFilters.add(value);
+                }
                 applyFilters();
             });
         });
@@ -1034,6 +1128,62 @@
                 activeRegionFilter = e.target.dataset.value;
                 applyFilters();
             });
+        // Stat card click handlers
+        document.querySelector('.stats-bar').addEventListener('click', (e) => {
+            const card = e.target.closest('.stat-card');
+            if (!card) return;
+            
+            const cards = document.querySelectorAll('.stat-card');
+            const index = Array.from(cards).indexOf(card);
+            
+            if (index === 0) {
+                // Total Active - clear filters
+                activeStageFilters.clear();
+                atRiskFilter = false;
+                clearStatCards();
+                setStatCardActive(0);
+                updatePillStates();
+                applyFilters();
+            } else if (index === 1) {
+                // Pre-Commercial
+                activeStageFilters.clear();
+                activeStageFilters.add('01');
+                activeStageFilters.add('02');
+                activeStageFilters.add('03');
+                atRiskFilter = false;
+                setStatCardActive(1);
+                updatePillStates();
+                applyFilters();
+            } else if (index === 2) {
+                // Commercial
+                activeStageFilters.clear();
+                activeStageFilters.add('04');
+                activeStageFilters.add('05');
+                atRiskFilter = false;
+                setStatCardActive(2);
+                updatePillStates();
+                applyFilters();
+            } else if (index === 3) {
+                // At Risk
+                activeStageFilters.clear();
+                atRiskFilter = !atRiskFilter;
+                if (atRiskFilter) {
+                    setStatCardActive(3);
+                } else {
+                    clearStatCards();
+                }
+                updatePillStates();
+                applyFilters();
+            } else if (index === 4) {
+                // Stalled/Dead
+                activeStageFilters.clear();
+                activeStageFilters.add('dead');
+                atRiskFilter = false;
+                setStatCardActive(4);
+                updatePillStates();
+                applyFilters();
+            }
+        });
         });
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
